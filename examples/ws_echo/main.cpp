@@ -4,7 +4,7 @@
 int main() {
     wspp::ws_client c;
 
-    c.connect("ws://websockets.chilkat.io/wsChilkatEcho.ashx");
+    c.connect("ws://ws.vi-server.org/mirror");
 
     c.on_text([&](std::string_view msg) {
         std::cout << msg << "\n";
