@@ -569,7 +569,7 @@ namespace wspp {
             return frame_result::frame_ready;
         }
 
-        frame_result try_read_frame_payload(read_buffer& rb, ws_state& ws,
+        inline frame_result try_read_frame_payload(read_buffer& rb, ws_state& ws,
             std::vector<char>& out_payload) {
             if ((uint64_t)rb.size() < ws.payload_len)
                 return frame_result::need_more;
@@ -669,7 +669,7 @@ namespace wspp {
             }
         }
 
-        std::string base64_encode(const uint8_t* data, size_t len) {
+        inline std::string base64_encode(const uint8_t* data, size_t len) {
             static const char table[] =
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -701,7 +701,7 @@ namespace wspp {
             return out;
         }
 
-        int base64_value(char c) {
+        inline int base64_value(char c) {
             if (c >= 'A' && c <= 'Z') return c - 'A';
             if (c >= 'a' && c <= 'z') return c - 'a' + 26;
             if (c >= '0' && c <= '9') return c - '0' + 52;
@@ -710,7 +710,7 @@ namespace wspp {
             return -1;
         }
 
-        bool base64_decode(const std::string& in, std::vector<uint8_t>& out) {
+        inline bool base64_decode(std::string_view in, std::vector<uint8_t>& out) {
             if (in.size() % 4 != 0)
                 return false;
 
@@ -720,22 +720,33 @@ namespace wspp {
             for (size_t i = 0; i < in.size(); i += 4) {
                 uint32_t v = 0;
                 int pad = 0;
+                bool padding_started = false;
 
                 for (int j = 0; j < 4; ++j) {
                     char c = in[i + j];
+
                     if (c == '=') {
-                        v <<= 6;
+                        padding_started = true;
                         ++pad;
+                        v <<= 6;
                     }
                     else {
+                        if (padding_started)
+                            return false; // non-padding after '='
+
                         int x = base64_value(c);
-                        if (x < 0) return false;
+                        if (x < 0)
+                            return false;
+
                         v = (v << 6) | x;
                     }
                 }
 
+                if (pad > 2)
+                    return false;
+
                 for (int j = 0; j < 3 - pad; ++j)
-                    out.push_back((v >> (16 - j * 8)) & 0xFF);
+                    out.push_back(static_cast<uint8_t>((v >> (16 - j * 8)) & 0xFF));
             }
 
             return true;
@@ -748,11 +759,11 @@ namespace wspp {
             size_t buf_len;
         };
 
-        uint32_t rol(uint32_t x, uint32_t n) {
+        inline uint32_t rol(uint32_t x, uint32_t n) {
             return (x << n) | (x >> (32 - n));
         }
 
-        void sha1_init(sha1_ctx& ctx) {
+        inline void sha1_init(sha1_ctx& ctx) {
             ctx.h[0] = 0x67452301;
             ctx.h[1] = 0xEFCDAB89;
             ctx.h[2] = 0x98BADCFE;
@@ -762,8 +773,7 @@ namespace wspp {
             ctx.buf_len = 0;
         }
 
-
-        void sha1_process_block(sha1_ctx& ctx, const uint8_t block[64]) {
+        inline void sha1_process_block(sha1_ctx& ctx, const uint8_t block[64]) {
             uint32_t w[80];
 
             for (int i = 0; i < 16; ++i) {
@@ -818,7 +828,7 @@ namespace wspp {
             ctx.h[4] += e;
         }
 
-        void sha1_update(sha1_ctx& ctx, const uint8_t* data, size_t len) {
+        inline void sha1_update(sha1_ctx& ctx, const uint8_t* data, size_t len) {
             ctx.len_bits += uint64_t(len) * 8;
 
             while (len > 0) {
@@ -835,7 +845,7 @@ namespace wspp {
             }
         }
 
-        void sha1_final(sha1_ctx& ctx, uint8_t out[20]) {
+        inline void sha1_final(sha1_ctx& ctx, uint8_t out[20]) {
             ctx.buf[ctx.buf_len++] = 0x80;
 
             if (ctx.buf_len > 56) {
@@ -861,7 +871,7 @@ namespace wspp {
             }
         }
 
-        std::array<uint8_t, 20> sha1_digest(const uint8_t* data, size_t len) {
+        inline std::array<uint8_t, 20> sha1_digest(const uint8_t* data, size_t len) {
             sha1_ctx ctx{};
             sha1_init(ctx);
             sha1_update(ctx, data, len);
@@ -871,7 +881,7 @@ namespace wspp {
             return out;
         }
 
-        bool validate_accept(const std::string& key,
+        inline bool validate_accept(const std::string& key,
             const std::string& accept)
         {
             static const char guid[] =
@@ -908,7 +918,7 @@ namespace wspp {
             return *key == 0;
         }
 
-        bool parse_http_handshake(read_buffer& rb, http_handshake& out)
+        inline bool parse_http_handshake(read_buffer& rb, http_handshake& out)
         {
             const char* buf = rb.data();
             int len = rb.size();
@@ -946,7 +956,7 @@ namespace wspp {
             std::vector<char> data;
         };
 
-        bool is_valid_utf8(const std::vector<char>& data) {
+        inline bool is_valid_utf8(const std::vector<char>& data) {
             const uint8_t* s = (const uint8_t*)data.data();
             size_t i = 0, n = data.size();
 
@@ -1010,7 +1020,7 @@ namespace wspp {
             ws_send_frame<ByteStream, Role>(stream, ws_opcode::close, &be, 2);
         }
 
-        bool handle_close_payload(const std::vector<char>& payload) {
+        inline bool handle_close_payload(const std::vector<char>& payload) {
             if (payload.empty())
                 return true;
 
@@ -1351,7 +1361,7 @@ namespace wspp {
             }
         };
 
-        std::string generate_ws_key() {
+        inline std::string generate_ws_key() {
             uint8_t bytes[16];
             static std::random_device rd;
             static std::mt19937 gen(rd());
@@ -1488,7 +1498,8 @@ namespace wspp {
                     });
             }
         };
-        bool supports_wss() {
+
+        inline bool supports_wss() {
 #ifdef WSPP_USE_OPENSSL
             return true;
 #else

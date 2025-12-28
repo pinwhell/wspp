@@ -15,7 +15,6 @@ struct UrlCase {
     std::string_view path;
 };
 
-
 TEST_CASE("parse_ws_url parses valid websocket urls") {
     const UrlCase cases[] = {
         // ---- basic ----
