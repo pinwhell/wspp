@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cctype>
 #include <mutex>
+#include <span>
 
 
 #ifdef WSPP_USE_OPENSSL
@@ -41,6 +42,9 @@
 
 namespace wspp {
     namespace detail {
+
+        using binary_view = std::span<const std::uint8_t>;
+
 
 #ifdef _WIN32
         using socket_t = SOCKET;
@@ -573,7 +577,7 @@ namespace wspp {
             uint8_t mask_key[4]{};
 
             ws_opcode msg_opcode = ws_opcode::continuation;    // 🔑 opcode real
-            std::vector<char> msg_buffer;        // 🔑 acumulador
+            std::vector<std::uint8_t> msg_buffer;        // 🔑 acumulador
             utf8_validator utf8;
         };
 
@@ -643,7 +647,7 @@ namespace wspp {
         }
 
         inline frame_result try_read_frame_payload(read_buffer& rb, ws_state& ws,
-            std::vector<char>& out_payload) {
+            std::vector<std::uint8_t>& out_payload) {
             if ((uint64_t)rb.size() < ws.payload_len)
                 return frame_result::need_more;
 
@@ -1026,7 +1030,8 @@ namespace wspp {
         }
 
         struct pending_msg {
-            std::vector<char> data;
+            bool is_text = false;
+            std::vector<std::uint8_t> data;
         };
 
         inline bool is_valid_utf8(const std::vector<char>& data) {
@@ -1041,6 +1046,23 @@ namespace wspp {
             ws_send_frame<ByteStream, Role>(stream, ws_opcode::close, &be, 2);
         }
 
+        template<typename T>
+        inline bool is_valid_close_code(T code_)
+        {
+            std::uint16_t code = (std::uint16_t)code_;
+            if (code < 1000 ||
+                code == 1004 || code == 1005 || code == 1006 ||
+                (code >= 1016 && code <= 2999))
+                return false;
+            return true;
+        }
+
+        template<typename T>
+        ws_close_code normalize_close_code(T code, ws_close_code def = ws_close_code::normal)
+        {
+            return is_valid_close_code<T>(code) ? ws_close_code(code) : def;
+        }
+
         inline bool handle_close_payload(const std::vector<char>& payload) {
             if (payload.empty())
                 return true;
@@ -1052,9 +1074,7 @@ namespace wspp {
                 (uint8_t(payload[0]) << 8) |
                 uint8_t(payload[1]);
 
-            if (code < 1000 ||
-                code == 1004 || code == 1005 || code == 1006 ||
-                (code >= 1016 && code <= 2999))
+            if (!is_valid_close_code(code)) 
                 return false;
 
             if (payload.size() > 2) {
@@ -1076,7 +1096,7 @@ namespace wspp {
             ws_state ws;
             ws_client_state state = ws_client_state::handshake;
             std::vector<pending_msg> outbox;
-            std::vector<char> message;
+            std::vector<std::uint8_t> message;
             ws_opcode message_opcode = ws_opcode::continuation;
             std::chrono::steady_clock::time_point last_rx;
             std::chrono::steady_clock::time_point last_ping;
@@ -1112,9 +1132,7 @@ namespace wspp {
                     flush_outbox();
 
                 if (now - last_rx > std::chrono::seconds(30)) {
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::going_away);
-                    close_sent_at = now;
-                    state = ws_client_state::closing;
+                    send_close(ws_close_code::going_away);
                     return;
                 }
 
@@ -1125,14 +1143,21 @@ namespace wspp {
             }
 
             void send_text(std::string_view msg) {
-                pending_msg m;
+                pending_msg m{ .is_text = true };
                 m.data.assign(msg.data(), msg.data() + msg.size());
+                outbox.push_back(std::move(m));
+            }
+
+            void send_binary(binary_view b) {
+                pending_msg m{ .is_text = false };
+                m.data.assign(b.data(), b.data() + b.size());
                 outbox.push_back(std::move(m));
             }
 
             void flush_outbox() {
                 for (auto& m : outbox)
-                    ws_send_frame<byte_stream_t, ws_client_role>(stream, ws_opcode::text,
+                    ws_send_frame<byte_stream_t, ws_client_role>(stream, 
+                        m.is_text ? ws_opcode::text : ws_opcode::binary,
                         m.data.data(), m.data.size());
                 outbox.clear();
             }
@@ -1144,13 +1169,13 @@ namespace wspp {
                 auto fr = try_parse_frame_header<ws_client_role>(rb, ws);
 
                 if (fr == frame_result::too_big) {
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::message_too_big);
+                    send_close(ws_close_code::message_too_big);
                     state = ws_client_state::closed;
                     return ws_step::closed;
                 }
 
                 if (fr == frame_result::protocol_error) {
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::protocol_error);
+                    send_close(ws_close_code::protocol_error);
                     state = ws_client_state::closed;
                     return ws_step::closed;
                 }
@@ -1162,14 +1187,14 @@ namespace wspp {
                 if (ws.phase != ws_phase::frame_payload)
                     return ws_step::idle;
 
-                std::vector<char> payload;
+                std::vector<std::uint8_t> payload;
                 if (try_read_frame_payload(rb, ws, payload) != frame_result::frame_ready)
                     return ws_step::idle;
 
                 return handle_frame(payload);
             }
 
-            ws_step handle_frame(std::vector<char>& payload) {
+            ws_step handle_frame(std::vector<std::uint8_t>& payload) {
                 last_rx = std::chrono::steady_clock::now();
                 bool is_known =
                     ws.opcode == ws_opcode::continuation ||
@@ -1181,7 +1206,7 @@ namespace wspp {
 
                 if (!is_known) {
                     // Opcode reservado o desconocido → 1002 Protocol error
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::protocol_error);
+                    send_close(ws_close_code::protocol_error);
                     state = ws_client_state::closed;
                     return ws_step::closed;
                 }
@@ -1190,7 +1215,7 @@ namespace wspp {
                     ws.opcode == ws_opcode::pong ||
                     ws.opcode == ws_opcode::close) && !ws.fin) {
                     // Control frames MUST NOT be fragmented
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::protocol_error);
+                    send_close(ws_close_code::protocol_error);
                     state = ws_client_state::closed;
                     return ws_step::closed;
                 }
@@ -1206,8 +1231,8 @@ namespace wspp {
                 case ws_opcode::close: {
                     if (payload.size() >= 2) {
                         close_code =
-                            ws_close_code((uint8_t(payload[0]) << 8) |
-                                uint8_t(payload[1]));
+                            ws_close_code((payload[0] << 8) |
+                                payload[1]);
                     }
                     else {
                         close_code = ws_close_code::normal;
@@ -1223,10 +1248,10 @@ namespace wspp {
                 }
             }
 
-            ws_step assemble_message(std::vector<char>& payload) {
+            ws_step assemble_message(std::vector<std::uint8_t>& payload) {
                 if ((ws.opcode == ws_opcode::continuation && !ws.fragmented) ||
                     (ws.opcode != ws_opcode::continuation && ws.fragmented)) {
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::protocol_error);
+                    send_close(ws_close_code::protocol_error);
                     state = ws_client_state::closed;
                     return ws_step::closed;
                 }
@@ -1256,8 +1281,7 @@ namespace wspp {
                 if (ws.msg_opcode == ws_opcode::text &&
                     !ws.utf8.feed((const uint8_t*)payload.data(),
                         payload.size())) {
-                    ws_send_close<byte_stream_t, ws_client_role>(
-                        stream, ws_close_code::invalid_payload);
+                    send_close(ws_close_code::invalid_payload);
                     state = ws_client_state::closed;
                     return ws_step::closed;
                 }
@@ -1267,8 +1291,7 @@ namespace wspp {
 
                 if (ws.msg_opcode == ws_opcode::text) {
                     if (!ws.utf8.finished()) {
-                        ws_send_close<byte_stream_t, ws_client_role>(
-                            stream, ws_close_code::invalid_payload);
+                        send_close(ws_close_code::invalid_payload);
                         state = ws_client_state::closed;
                         return ws_step::closed;
                     }
@@ -1310,7 +1333,7 @@ namespace wspp {
                 }
 
                 if (ws.phase == ws_phase::frame_payload) {
-                    std::vector<char> payload;
+                    std::vector<std::uint8_t> payload;
                     if (try_read_frame_payload(rb, ws, payload) != frame_result::frame_ready)
                         return ws_step::idle;
 
@@ -1320,15 +1343,15 @@ namespace wspp {
                 return ws_step::idle;
             }
 
-            void send_close() {
+            void send_close(ws_close_code code = ws_close_code::normal) {
                 if (state == ws_client_state::open) {
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::normal);
+                    ws_send_close<byte_stream_t, ws_client_role>(stream, code);
                     close_sent_at = std::chrono::steady_clock::now();
                     state = ws_client_state::closing;
                 }
             }
 
-            void send_pong(const std::vector<char>& payload) {
+            void send_pong(const std::vector<std::uint8_t>& payload) {
                 ws_send_frame<byte_stream_t, ws_client_role>(stream, ws_opcode::pong,
                     payload.data(), payload.size());
             }
@@ -1560,6 +1583,32 @@ namespace wspp {
             transport_error,    // TCP/TLS connect failed
         };
 
+        struct message_view {
+            bool is_text_;
+            binary_view data_view;
+
+            bool is_text() const {
+                return is_text_;
+            }
+
+            bool is_binary() const {
+                return !is_text_;
+            }
+
+            std::string_view text() const {
+                return is_text()
+                    ? std::string_view((const char*)data_view.data(), 
+                        data_view.size())
+                    : std::string_view{};
+            }
+
+            binary_view binary() const {
+                return is_binary()
+                    ? data_view
+                    : binary_view{};
+            }
+        };
+
         template <class Transport>
         struct basic_client {
             using byte_stream_t = byte_stream<Transport>;
@@ -1568,7 +1617,7 @@ namespace wspp {
             ws_client<Transport> impl{ stream, generate_ws_key() };
             reactor<byte_stream_t> r;
 
-            std::function<void(std::string_view)> on_text_cb;
+            std::function<void(message_view)> on_message_cb;
             std::function<void(ws_close_code)> on_close_cb;
 
             ws_connect_result connect(std::string_view url) {
@@ -1602,7 +1651,28 @@ namespace wspp {
                 impl.send_text(s);
             }
 
-            void on_text(auto cb) { on_text_cb = cb; }
+            void send(binary_view b) {
+                impl.send_binary(b);
+            }
+
+            void close()
+            {
+                impl.send_close();
+            }
+
+            void close(ws_close_code code)
+            {
+                impl.send_close(normalize_close_code(code));
+            }
+
+            void send(message_view msg) {
+                if (msg.is_text())
+                    impl.send_text(msg.text());
+                else
+                    impl.send_binary(msg.binary());
+            }
+
+            void on_message(auto cb) { on_message_cb = cb; }
             void on_close(auto cb) { on_close_cb = cb; }
 
             wspp_event poll() {
@@ -1633,10 +1703,13 @@ namespace wspp {
                         ws_step st = impl.consume();
                         if (st == ws_step::idle) break;
 
-                        if (st == ws_step::message &&
-                            impl.message_opcode == ws_opcode::text) {
-                            if (on_text_cb)
-                                on_text_cb({ impl.message.data(), impl.message.size() });
+                        if (st == ws_step::message) {
+                            if (on_message_cb) {
+                                on_message_cb(message_view{
+                                    impl.message_opcode == ws_opcode::text,
+                                    binary_view{ impl.message }
+                                    });
+                            }
                         }
 
                         if (st == ws_step::closed) {
@@ -1664,6 +1737,12 @@ namespace wspp {
                 return ev;
             }
 
+            /* Hard Close requested by the user */
+            void abort()
+            {
+                // TO IMPLEMENT
+            }
+
             void run() {
                 while (true) {
                     auto e = poll();
@@ -1675,6 +1754,8 @@ namespace wspp {
         };
     }
 
+    using message_view = detail::message_view;
+    using binary_view = detail::binary_view;
     using ws_close_code = detail::ws_close_code;
     using ws_client = detail::basic_client<detail::tcp_stream>;
 #ifdef WSPP_USE_OPENSSL

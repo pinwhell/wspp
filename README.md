@@ -28,8 +28,8 @@ int main() {
     wspp::ws_client c;
     c.connect("ws://ws.vi-server.org/mirror");
 
-    c.on_text([](std::string_view msg) {
-        std::cout << "Received: " << msg << "\n";
+    c.on_message([](wspp::message_view msg) {
+        std::cout << "Received: " << msg.text() << "\n";
         c.impl.send_close();
     });
 

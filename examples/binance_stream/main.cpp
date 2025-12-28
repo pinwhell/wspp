@@ -10,8 +10,9 @@ int main() {
 
     c.connect("wss://stream.binance.com:9443/ws/btcusdt@trade");
 
-    c.on_text([](std::string_view msg) {
-        std::cout << msg << "\n";
+    c.on_message([&](wspp::message_view msg) {
+        if (msg.is_text())
+            std::cout << msg.text() << '\n';
         });
 
     c.on_close([](wspp::ws_close_code code) {
