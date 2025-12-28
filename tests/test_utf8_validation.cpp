@@ -1,15 +1,10 @@
-﻿// TODO.. THIS IS GOOD ENOUGH FOR 
-// NOW BUT IN THE FUTURE WE SUPPOSED TO DEAL 
-// WITH UTF8 VALIDATION ON THE FLY AS DATA ARRIVE
-// THAT MIGHT LOOK LIKE AN STRUCT INSTEAD 
-// THAT PROGRESSES AS MORE 'UTF8' FRAME BYTES ARRIVE
-
-#include <catch2/catch_test_macros.hpp>
+﻿#include <catch2/catch_test_macros.hpp>
 #include <vector>
 #include <string>
 
 #include <wspp/wspp.h>
 
+// Backed by utf8_validator (So Indirectly tested)
 using wspp::detail::is_valid_utf8;
 
 struct Utf8Case {

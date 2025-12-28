@@ -85,7 +85,9 @@ namespace wspp {
         }
 #endif
 
-        constexpr auto MAX_FRAME_SIZE = 64 * 1024 * 1024;
+        // Should come with policy in the future
+        constexpr size_t MAX_FRAME_SIZE = 32 * 1024; // 32 KB
+        constexpr size_t MAX_MESSAGE_SIZE = 9 * 1024 * 1024; // 9 MB
 
         enum class io_result : int {
             fatal = -1,
@@ -492,6 +494,76 @@ namespace wspp {
             closed
         };
 
+        struct utf8_validator {
+            uint32_t codepoint = 0;
+            uint8_t  remaining = 0;
+            uint8_t expected = 0;
+
+            bool feed(const uint8_t* data, size_t n) {
+                for (size_t i = 0; i < n; ++i) {
+                    if (!feed_byte(data[i]))
+                        return false;
+                }
+                return true;
+            }
+
+            bool feed_byte(uint8_t b) {
+                if (remaining == 0) {
+                    if (b <= 0x7F) {
+                        return true;
+                    }
+                    else if ((b & 0xE0) == 0xC0) {
+                        if (b < 0xC2) return false; // overlong
+                        codepoint = b & 0x1F;
+                        remaining = 1;
+                        expected = 2;
+                    }
+                    else if ((b & 0xF0) == 0xE0) {
+                        codepoint = b & 0x0F;
+                        remaining = 2;
+                        expected = 3;
+                    }
+                    else if ((b & 0xF8) == 0xF0) {
+                        if (b > 0xF4) return false; // > U+10FFFF
+                        codepoint = b & 0x07;
+                        remaining = 3;
+                        expected = 4;
+                    }
+                    else {
+                        return false;
+                    }
+                    return true;
+                }
+
+                // continuation byte
+                if ((b & 0xC0) != 0x80)
+                    return false;
+
+                codepoint = (codepoint << 6) | (b & 0x3F);
+                remaining--;
+
+                if (remaining == 0) {
+                    if ((expected == 2 && codepoint < 0x80) ||
+                        (expected == 3 && codepoint < 0x800) ||
+                        (expected == 4 && codepoint < 0x10000) ||
+                        (codepoint >= 0xD800 && codepoint <= 0xDFFF) ||
+                        (codepoint > 0x10FFFF))
+                        return false;
+                }
+
+                return true;
+            }
+
+            bool finished() const {
+                return remaining == 0;
+            }
+
+            void reset() {
+                codepoint = 0;
+                remaining = 0;
+            }
+        };
+
         struct ws_state {
             ws_phase phase = ws_phase::frame_header;
             ws_opcode opcode = ws_opcode::continuation;
@@ -502,6 +574,7 @@ namespace wspp {
 
             ws_opcode msg_opcode = ws_opcode::continuation;    // 🔑 opcode real
             std::vector<char> msg_buffer;        // 🔑 acumulador
+            utf8_validator utf8;
         };
 
         template <typename Role>
@@ -957,61 +1030,9 @@ namespace wspp {
         };
 
         inline bool is_valid_utf8(const std::vector<char>& data) {
-            const uint8_t* s = (const uint8_t*)data.data();
-            size_t i = 0, n = data.size();
-
-            while (i < n) {
-                uint8_t c = s[i];
-
-                if (c <= 0x7F) {
-                    i++;
-                }
-                else if ((c & 0xE0) == 0xC0) {
-                    if (i + 1 >= n) return false;
-                    if (c < 0xC2) return false;
-                    if ((s[i + 1] & 0xC0) != 0x80) return false;
-                    i += 2;
-                }
-                else if ((c & 0xF0) == 0xE0) {
-                    if (i + 2 >= n) return false;
-                    if ((s[i + 1] & 0xC0) != 0x80 ||
-                        (s[i + 2] & 0xC0) != 0x80)
-                        return false;
-
-                    uint32_t cp =
-                        ((c & 0x0F) << 12) |
-                        ((s[i + 1] & 0x3F) << 6) |
-                        (s[i + 2] & 0x3F);
-
-                    if (cp < 0x800) return false;
-                    if (cp >= 0xD800 && cp <= 0xDFFF) return false;
-
-                    i += 3;
-                }
-                else if ((c & 0xF8) == 0xF0) {
-                    if (i + 3 >= n) return false;
-                    if ((s[i + 1] & 0xC0) != 0x80 ||
-                        (s[i + 2] & 0xC0) != 0x80 ||
-                        (s[i + 3] & 0xC0) != 0x80)
-                        return false;
-
-                    uint32_t cp =
-                        ((c & 0x07) << 18) |
-                        ((s[i + 1] & 0x3F) << 12) |
-                        ((s[i + 2] & 0x3F) << 6) |
-                        (s[i + 3] & 0x3F);
-
-                    if (cp < 0x10000 || cp > 0x10FFFF)
-                        return false;
-
-                    i += 4;
-                }
-                else {
-                    return false;
-                }
-            }
-
-            return true;
+            utf8_validator utf8;
+            return utf8.feed((const uint8_t*)data.data(), 
+                data.size()) && utf8.finished();
         }
 
         template <typename ByteStream, typename Role>
@@ -1216,17 +1237,42 @@ namespace wspp {
                     ws.fragmented = !ws.fin;
                 }
 
+                // Message limit validation before 
+                // we even allocate memory.. so we
+                // gurantee it wont past the limit
+                if (ws.msg_buffer.size() + payload.size() > MAX_MESSAGE_SIZE)
+                {
+                    // At this point limit violated.. 
+                    // closing the connection
+                    ws_send_close<byte_stream_t, ws_client_role>(
+                        stream, ws_close_code::message_too_big);
+                    state = ws_client_state::closed;
+                    return ws_step::closed;
+                }
+
                 ws.msg_buffer.insert(ws.msg_buffer.end(),
                     payload.begin(), payload.end());
+
+                if (ws.msg_opcode == ws_opcode::text &&
+                    !ws.utf8.feed((const uint8_t*)payload.data(),
+                        payload.size())) {
+                    ws_send_close<byte_stream_t, ws_client_role>(
+                        stream, ws_close_code::invalid_payload);
+                    state = ws_client_state::closed;
+                    return ws_step::closed;
+                }
 
                 if (!ws.fin)
                     return ws_step::idle;
 
-                if (ws.msg_opcode == ws_opcode::text
-                    && !is_valid_utf8(ws.msg_buffer)) {
-                    ws_send_close<byte_stream_t, ws_client_role>(stream, ws_close_code::invalid_payload);
-                    state = ws_client_state::closed;
-                    return ws_step::closed;
+                if (ws.msg_opcode == ws_opcode::text) {
+                    if (!ws.utf8.finished()) {
+                        ws_send_close<byte_stream_t, ws_client_role>(
+                            stream, ws_close_code::invalid_payload);
+                        state = ws_client_state::closed;
+                        return ws_step::closed;
+                    }
+                    ws.utf8.reset();
                 }
 
                 message.swap(ws.msg_buffer);
