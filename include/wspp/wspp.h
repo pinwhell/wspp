@@ -574,8 +574,11 @@ namespace wspp {
             if ((uint64_t)rb.size() < ws.payload_len)
                 return frame_result::need_more;
 
-            out_payload.resize((size_t)ws.payload_len);
-            std::memcpy(out_payload.data(), rb.data(), (size_t)ws.payload_len);
+            if (ws.payload_len > 0) {
+                out_payload.resize(ws.payload_len);
+                if (rb.size() < ws.payload_len) return frame_result::need_more;
+                std::memcpy(out_payload.data(), rb.data(), ws.payload_len);
+            }
 
             // unmask if needed
             if (ws.mask_key[0] | ws.mask_key[1] | ws.mask_key[2] | ws.mask_key[3]) {
@@ -1365,44 +1368,91 @@ namespace wspp {
             bool ok = false;
         };
 
-        inline ws_url parse_ws_url(std::string_view u) {
+        inline ws_url parse_ws_url(std::string_view in) {
             ws_url out{};
 
-            if (u.starts_with("wss://")) {
+            auto trim = [](std::string_view& s) {
+                while (!s.empty() && std::isspace(static_cast<unsigned char>(s.front())))
+                    s.remove_prefix(1);
+                while (!s.empty() && std::isspace(static_cast<unsigned char>(s.back())))
+                    s.remove_suffix(1);
+                };
+
+            trim(in);
+            if (in.empty()) return out;
+
+            auto starts_ci = [](std::string_view s, std::string_view p) {
+                if (s.size() < p.size()) return false;
+                for (size_t i = 0; i < p.size(); ++i)
+                    if (std::tolower((unsigned char)s[i]) != std::tolower((unsigned char)p[i]))
+                        return false;
+                return true;
+                };
+
+            // ---- scheme ----
+            if (starts_ci(in, "wss://")) {
                 out.secure = true;
                 out.port = "443";
-                u.remove_prefix(6);
+                in.remove_prefix(6);
             }
-            else if (u.starts_with("ws://")) {
+            else if (starts_ci(in, "ws://")) {
                 out.secure = false;
                 out.port = "80";
-                u.remove_prefix(5);
+                in.remove_prefix(5);
             }
             else {
-                return out; // ok == false
+                return out;
             }
 
-            if (u.empty())
+            if (in.empty()) return out;
+
+            // ---- split path/query/fragment ----
+            auto path_pos = in.find_first_of("/?#");
+            std::string_view authority = in.substr(0, path_pos);
+            out.path = (path_pos == std::string_view::npos)
+                ? "/"
+                : std::string(in.substr(path_pos));
+
+            if (authority.empty()) return out;
+
+            // ---- userinfo explicitly rejected ----
+            if (authority.find('@') != std::string_view::npos)
                 return out;
 
-            auto slash = u.find('/');
-            auto hostport = u.substr(0, slash);
-            out.path = (slash == std::string_view::npos)
-                ? "/"
-                : std::string(u.substr(slash));
+            // ---- host / port ----
+            if (authority.front() == '[') {
+                // IPv6 literal
+                auto rb = authority.find(']');
+                if (rb == std::string_view::npos) return out;
 
-            auto colon = hostport.find(':');
-            if (colon != std::string_view::npos) {
-                out.host = hostport.substr(0, colon);
-                out.port = hostport.substr(colon + 1);
-                if (out.port.empty())
-                    return out;
+                out.host = std::string(authority.substr(1, rb - 1));
+
+                if (rb + 1 < authority.size()) {
+                    if (authority[rb + 1] != ':') return out;
+                    out.port = std::string(authority.substr(rb + 2));
+                }
             }
             else {
-                out.host = hostport;
+                auto colon = authority.find(':');
+                if (colon != std::string_view::npos) {
+                    out.host = std::string(authority.substr(0, colon));
+                    out.port = std::string(authority.substr(colon + 1));
+                }
+                else {
+                    out.host = std::string(authority);
+                }
             }
 
-            if (out.host.empty())
+            if (out.host.empty() || out.port.empty())
+                return out;
+
+            // ---- port validation ----
+            for (char c : out.port)
+                if (!std::isdigit((unsigned char)c))
+                    return out;
+
+            unsigned long p = std::strtoul(out.port.c_str(), nullptr, 10);
+            if (p == 0 || p > 65535)
                 return out;
 
             out.ok = true;

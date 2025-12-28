@@ -66,6 +66,7 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
     DESTINATION include)
 
 if (WSPP_BUILD_TESTS)
+    enable_testing()
     add_subdirectory(tests)
 endif()
 
