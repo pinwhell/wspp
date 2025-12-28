@@ -1,4 +1,4 @@
-find_package(Catch2 3 REQUIRED)
+find_package(Catch2 REQUIRED)
 
 add_executable(wspp_tests
     test_parse_ws_url.cpp
