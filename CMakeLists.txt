@@ -6,17 +6,9 @@ project(wspp)
 
 option(WSPP_USE_OPENSSL "Enable WSS (OpenSSL support)" ON)
 option(WSPP_INSTALL "Enable installation rules" ON)
-option(WSPP_BUILD_TESTS "Build wspp tests" OFF)
-option(WSPP_BUILD_EXAMPLES "Build wspp examples" OFF)
-option(WSPP_BUILD_PLAYGROUND "Build wspp playground (dev-only)" OFF)
-
-if (PROJECT_IS_TOP_LEVEL)
-    # Developer defaults
-    set(WSPP_BUILD_TESTS ON CACHE BOOL "" FORCE)
-    set(WSPP_BUILD_EXAMPLES ON CACHE BOOL "" FORCE)
-    set(WSPP_BUILD_PLAYGROUND ON CACHE BOOL "" FORCE)
-    set(WSPP_INSTALL ON CACHE BOOL "" FORCE)
-endif()
+option(WSPP_BUILD_TESTS "Build wspp tests" ${PROJECT_IS_TOP_LEVEL})
+option(WSPP_BUILD_EXAMPLES "Build wspp examples" ${PROJECT_IS_TOP_LEVEL})
+option(WSPP_BUILD_PLAYGROUND "Build wspp playground (dev-only)" ${PROJECT_IS_TOP_LEVEL})
 
 if (NOT WSPP_INSTALL)
     set(CBUILDKIT_NOINSTALL ON)

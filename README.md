@@ -5,7 +5,7 @@
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 
 > **Modern, header-only WebSocket library for C++20**  
-> Connect to WS & WSS servers instantly. Async, non-blocking, cross-platform, zero dependencies (except optional OpenSSL for WSS).
+> Build WebSocket clients & servers. Async, non-blocking, cross-platform, zero dependencies (optional OpenSSL for WSS).
 
 ---
 
@@ -19,7 +19,7 @@
 
 ---
 
-**Quick Example (1 minute to run):**  
+**Quick Client Example (1 minute to run):**  
 ```cpp
 #include <wspp/wspp.h>
 #include <iostream>
@@ -30,7 +30,7 @@ int main() {
 
     c.on_message([](wspp::message_view msg) {
         std::cout << "Received: " << msg.text() << "\n";
-        c.impl.send_close();
+        c.close();
     });
 
     c.send("Hello wspp!");
@@ -40,6 +40,28 @@ int main() {
 ```
 Output:
 Received: Hello wspp!
+```
+
+**Quick Server Example (1 minute to run):**  
+```cpp
+int main() {
+    wspp::ws_server ws;
+    ws.on_connection([](auto c) {
+        c->on_message([c](wspp::message_view msg) {
+            if (msg.is_text())
+                std::cout << msg.text() << '\n';
+            if (msg.is_binary())
+                std::cout << "Size: " << msg.binary().size() << '\n';
+            c->send(msg); // Echo
+            });
+
+        c->on_close([](wspp::ws_close_code code) {
+            std::cout << "client closed " << int(code) << '\n';
+            });
+        });
+    ws.listen(80);
+    ws.run();
+}
 ```
 
 ## Features
@@ -59,8 +81,10 @@ Received: Hello wspp!
   Runs on Windows and Linux without platform-specific changes.  
 
 - 🧩 **Flexible API**  
-  - `ws_client` for plain WebSockets  
-  - `wss_client` for secure WebSockets  
+  - `ws_client` for plain WebSockets Client 
+  - `ws_server` for plain WebSockets Server 
+  - `wss_client` for secure WebSockets Client
+  - `wss_server` for secure WebSockets Server 
   - Reactor pattern built-in for handling multiple streams  
 
 - 🛡 **RFC-compliant**  
