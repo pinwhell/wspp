@@ -44,6 +44,9 @@ Received: Hello wspp!
 
 **Quick Server Example (1 minute to run):**  
 ```cpp
+#include <wspp/wspp.h>
+#include <iostream>
+
 int main() {
     wspp::ws_server ws;
     ws.on_connection([](auto c) {
