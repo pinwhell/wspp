@@ -53,7 +53,6 @@ namespace wspp {
 
         using binary_view = std::span<const std::uint8_t>;
 
-
 #ifdef _WIN32
         using socket_t = SOCKET;
         constexpr socket_t invalid_socket = INVALID_SOCKET;
@@ -204,6 +203,27 @@ namespace wspp {
 #ifdef _WIN32
                 load_windows_root_certs(ctx);
 #endif
+                return ctx;
+            }
+        };
+
+        struct openssl_server_policy {
+            static SSL_CTX* create_ctx() {
+                SSL_CTX* ctx = SSL_CTX_new(TLS_server_method());
+                if (!ctx) return nullptr;
+
+                SSL_CTX_set_min_proto_version(ctx, TLS1_2_VERSION);
+
+                // Most common production settings
+                SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 |
+                    SSL_OP_NO_COMPRESSION | SSL_OP_CIPHER_SERVER_PREFERENCE);
+
+                // You MUST set certificate + private key
+                // (either here or later via custom policy)
+                // Example (you will usually do this differently):
+                // SSL_CTX_use_certificate_file(ctx, "server.crt", SSL_FILETYPE_PEM);
+                // SSL_CTX_use_PrivateKey_file(ctx, "server.key", SSL_FILETYPE_PEM);
+
                 return ctx;
             }
         };
@@ -388,7 +408,7 @@ namespace wspp {
 
 #ifdef WSPP_USE_OPENSSL
         struct tls_socket {
-            SSL_CTX* ctx = nullptr;
+            SSL_CTX* ctx = nullptr; // Optional
             SSL* ssl = nullptr;
             BIO* bio = nullptr;
             socket_t sock = invalid_socket;
@@ -423,7 +443,7 @@ namespace wspp {
             io_read read(void* data, int capacity) {
                 if (!open) return { io_result::fatal, 0 };
 
-                int ret = BIO_read(bio, data, capacity);
+                int ret = SSL_read(ssl, data, capacity);
 
                 if (ret > 0)
                     return { io_result::ok, ret };
@@ -443,12 +463,14 @@ namespace wspp {
             int write(const void* data, int size) {
                 if (!open) return -1;
 
-                int r = BIO_write(bio, data, size);
+                int r = SSL_write(ssl, data, size);
                 if (r > 0)
                     return r;
 
-                if (BIO_should_retry(bio))
-                    return 0;
+                int err = SSL_get_error(ssl, r);
+
+                if (err == SSL_ERROR_WANT_READ || err == SSL_ERROR_WANT_WRITE)
+                    return  0;
 
                 return -1;
             }
@@ -480,6 +502,74 @@ namespace wspp {
             bool is_open()  const { return open; }
             bool is_alive() const { return open; }
             socket_t handle() const { return sock; }
+        };
+
+        template<class Policy>
+        struct tls_acceptor {
+            tcp_acceptor tcp;
+            SSL_CTX* ctx = nullptr;
+            bool tls_ready = false;
+
+            tls_acceptor() : ctx(Policy::create_ctx()) {};
+            ~tls_acceptor() { close(); }
+
+            // ---- configuration ----
+            bool load_cert_and_key(const char* cert_pem, const char* key_pem) {
+                if (!cert_pem || !key_pem) return false;
+                return tls_ready = (ctx && SSL_CTX_use_certificate_file(ctx, cert_pem, SSL_FILETYPE_PEM) == 1 &&
+                    SSL_CTX_use_PrivateKey_file(ctx, key_pem, SSL_FILETYPE_PEM) == 1);
+            }
+
+            bool bind_and_listen(uint16_t port) {
+                if (!ctx || !tls_ready)
+                    return false;
+
+                return tcp.bind_and_listen(port);
+            }
+
+            std::optional<tls_socket> try_accept() {
+                auto sock_ = tcp.try_accept();
+                if (!sock_)
+                    return {};
+
+                auto& tcp_sock = sock_.value();
+                tls_socket sock;
+                sock.sock = tcp_sock.sock; tcp_sock.sock = invalid_socket;
+                sock.open = true; tcp_sock.open = false;
+
+                auto ssl = sock.ssl = SSL_new(ctx);
+                if (!ssl)
+                    return {};
+
+                auto bio = sock.bio = BIO_new(BIO_s_socket());
+                BIO_set_fd(bio, sock.handle(), BIO_NOCLOSE);
+
+                SSL_set_bio(ssl, bio, bio);
+                // TODO ASYNC
+                SSL_set_accept_state(ssl);
+                BIO_set_nbio(bio, 0);
+
+                int r;
+                while ((r = SSL_accept(ssl)) <= 0) {
+                    int err = SSL_get_error(ssl, r);
+                    if (err == SSL_ERROR_WANT_READ ||
+                        err == SSL_ERROR_WANT_WRITE) continue;
+                    return {};
+                }
+                BIO_set_nbio(bio, 1);
+
+                return sock;
+            }
+
+            void close() {
+                tcp.close();
+                if (ctx) {
+                    SSL_CTX_free(ctx);
+                    ctx = nullptr;
+                }
+            }
+
+            socket_t handle() const { return tcp.handle(); }
         };
 
         template<class Policy>
@@ -2171,6 +2261,11 @@ namespace wspp {
                     poll();
             }
         };
+
+        struct wss_sv_config {
+            const char* cert = nullptr;
+            const char* key = nullptr;
+        };
     }
 
     using message_view = detail::message_view;
@@ -2180,7 +2275,24 @@ namespace wspp {
     using ws_server = detail::basic_server<detail::tcp_acceptor, detail::tcp_socket>;
 #ifdef WSPP_USE_OPENSSL
     using wss_client = detail::basic_client<detail::tls_connector<detail::openssl_client_policy>, detail::tls_socket>;
-    // TODO
-    // using wss_server = ...;
+    template<
+        typename Acceptor = detail::tls_acceptor<detail::openssl_server_policy>,
+        typename Transport = detail::tls_socket,
+        typename Role = detail::ws_server_role,
+        typename HandshakePolicy = detail::server_handshake
+    >
+    struct wss_server : detail::basic_server<Acceptor, Transport, Role, HandshakePolicy>
+    {
+        explicit wss_server(detail::wss_sv_config cfg) {
+            if (!cfg.cert || !cfg.key)
+                return;
+
+            load_cert_and_key(cfg.cert, cfg.key);
+        }
+
+        bool load_cert_and_key(const char* cert_pem, const char* key_pem) {
+            return this->acceptor.load_cert_and_key(cert_pem, key_pem);
+        }
+    };
 #endif
 }

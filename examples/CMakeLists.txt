@@ -1,4 +1,5 @@
 add_subdirectory(ws_client_echo)
 add_subdirectory(ws_server_echo)
 add_subdirectory(wss_client_echo)
+add_subdirectory(wss_server_echo)
 add_subdirectory(binance_stream)
