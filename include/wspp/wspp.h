@@ -15,6 +15,10 @@
 #include <span>
 #include <optional>
 
+#ifndef WSPP_UNUSED
+#define WSPP_UNUSED(x) (void)(x)
+#endif
+
 #ifdef WSPP_USE_OPENSSL
 #include <openssl/ssl.h>
 #include <openssl/err.h>
@@ -22,7 +26,9 @@
 
 #ifdef _WIN32
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wincrypt.h>
@@ -519,7 +525,7 @@ namespace wspp {
         template<class Transport>
         struct byte_stream {
             Transport& t;
-            std::vector<char> out;
+            std::vector<char> out = {};
 
             socket_t handle() const { return t.handle(); }
             bool is_open() const { return t.is_open(); }
@@ -550,13 +556,13 @@ namespace wspp {
             }
         };
         struct read_buffer {
-            std::vector<char> buf;
+            std::vector<char> buf{};
 
-            void append(const char* data, int n) {
+            void append(const char* data, size_t n) {
                 buf.insert(buf.end(), data, data + n);
             }
 
-            int find(const char* seq, int len) const {
+            int find(const char* seq, size_t len) const {
                 for (size_t i = 0; i + len <= buf.size(); ++i) {
                     if (std::memcmp(buf.data() + i, seq, len) == 0)
                         return (int)i;
@@ -564,12 +570,12 @@ namespace wspp {
                 return -1;
             }
 
-            void consume(int n) {
+            void consume(size_t n) {
                 buf.erase(buf.begin(), buf.begin() + n);
             }
 
             const char* data() const { return buf.data(); }
-            int size() const { return (int)buf.size(); }
+            size_t size() const { return buf.size(); }
         };
 
         enum class ws_phase {
@@ -653,7 +659,7 @@ namespace wspp {
             ws_opcode opcode = ws_opcode::continuation;
             bool fin = false;
             bool fragmented = false;
-            uint64_t payload_len = 0;
+            size_t payload_len = 0;
             uint8_t mask_key[4]{};
 
             ws_opcode msg_opcode = ws_opcode::continuation;    // 🔑 opcode real
@@ -694,7 +700,7 @@ namespace wspp {
 
             ws.payload_len = p[1] & 0x7F;
 
-            int header_size = 2;
+            size_t header_size = 2;
 
             if (ws.payload_len == 126) {
                 if (rb.size() < 4) return frame_result::need_more;
@@ -1103,7 +1109,6 @@ namespace wspp {
         inline bool parse_http_handshake(read_buffer& rb, http_handshake& out)
         {
             const char* buf = rb.data();
-            int len = rb.size();
 
             // find end of headers
             int end = rb.find("\r\n\r\n", 4);
@@ -1139,7 +1144,6 @@ namespace wspp {
             ws_server_handshake& hs)
         {
             const char* buf = rb.data();
-            int len = rb.size();
 
             int end = rb.find("\r\n\r\n", 4);
             if (end < 0)
@@ -1172,7 +1176,7 @@ namespace wspp {
 
         struct pending_msg {
             bool is_text = false;
-            std::vector<std::uint8_t> data;
+            std::vector<std::uint8_t> data{};
         };
 
         inline bool is_valid_utf8(const std::vector<char>& data) {
@@ -1236,6 +1240,8 @@ namespace wspp {
 
             bool try_consume(read_buffer& rb, ws_state& ws_state, ws_connection_state& conn_state)
             {
+                WSPP_UNUSED(ws_state);
+
                 if (!parse_ws_server_handshake(rb, hs))
                     return false;
 
