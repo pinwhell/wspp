@@ -32,8 +32,10 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wincrypt.h>
+#ifdef _MSC_VER
 #pragma comment(lib, "Crypt32.lib")
 #pragma comment(lib, "ws2_32.lib")
+#endif
 #else
 #include <unistd.h>
 #include <fcntl.h>
