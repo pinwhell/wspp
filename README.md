@@ -25,21 +25,37 @@
 #include <iostream>
 
 int main() {
-    wspp::ws_client c;
-    c.connect("ws://ws.vi-server.org/mirror");
+    wspp::wss_client c;
+    // or wspp::ws_client for ws://
+    c.connect("wss://echo.websocket.org/");
 
     c.on_message([](wspp::message_view msg) {
         std::cout << "Received: " << msg.text() << "\n";
         c.close();
     });
 
-    c.send("Hello wspp!");
+    c.on_close([](auto) {
+        std::cout << "ws closed\n";
+    });
+
+    // or 
+    // c.on_close([](wspp::close_event e) {
+    //    // e.reason: aborted, normal, remote
+    //    if (e.code)
+    //        std::cout << "closed " << int(*e.code) << "\n";
+    // });
+
+    c.on_open([&c] {
+        c.send("Hello wspp!");
+    });
+    
     c.run();
 }
 ```
 ```
 Output:
 Received: Hello wspp!
+ws closed
 ```
 
 **Quick Server Example (1 minute to run):**  
@@ -48,8 +64,9 @@ Received: Hello wspp!
 #include <iostream>
 
 int main() {
-    wspp::ws_server ws;
-    ws.on_connection([](auto c) {
+    wspp::wss_server ws({ .cert = "server.crt", .key = "server.key" });
+    // or wspp::ws_server for ws://
+    ws.on_connection([](/*wspp::wss_server<>::connection_ptr or*/ auto c) {
         c->on_message([c](wspp::message_view msg) {
             if (msg.is_text())
                 std::cout << msg.text() << '\n';
@@ -58,8 +75,12 @@ int main() {
             c->send(msg); // Echo
             });
 
-        c->on_close([](wspp::ws_close_code code) {
-            std::cout << "client closed " << int(code) << '\n';
+        c->on_close([](/*wspp::close_event or*/ auto e) {
+            // e.reason: aborted, normal, remote
+            std::cout << "client closed";
+            if (e.code)
+                std::cout << " with code " << int(*e.code);
+            std::cout << '\n';
             });
         });
     ws.listen(80);

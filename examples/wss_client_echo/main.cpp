@@ -22,13 +22,20 @@ int main() {
         }
         });
 
-    c.on_close([](wspp::ws_close_code code) {
-        std::cout << "closed " << (uint16_t)code << "\n";
+    c.on_close([](wspp::close_event e) {
+        // e.reason: aborted, normal, remote
+        std::cout << "client closed";
+        if (e.code)
+            std::cout << " with code " << int(*e.code);
+        std::cout << '\n';
         });
 
-    c.send("hello from wss_echo");
-    c.send(std::vector<std::uint8_t>
-    {/*Not so text*/ 0x00, 0x01, 0x02});
+    c.on_open([&] {
+        c.send("hello from wss_echo");
+        c.send(std::vector<std::uint8_t>
+        {/*Not so text*/ 0x00, 0x01, 0x02});
+        });
+
     c.run();
 #endif
 }

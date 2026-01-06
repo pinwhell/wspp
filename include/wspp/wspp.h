@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <iostream>
 #include <vector>
 #include <cstring>
 #include <cstdlib>
@@ -14,6 +13,7 @@
 #include <mutex>
 #include <span>
 #include <optional>
+#include <utility>
 
 #ifndef WSPP_UNUSED
 #define WSPP_UNUSED(x) (void)(x)
@@ -47,7 +47,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #endif
-
 namespace wspp {
     namespace detail {
 
@@ -62,6 +61,9 @@ namespace wspp {
         inline void set_non_blocking(socket_t s) {
             u_long mode = 1;
             ioctlsocket(s, FIONBIO, &mode);
+        }
+        inline void socket_shutdown(socket_t sock, bool half_close) {
+            shutdown(sock, half_close ? SD_SEND : SD_BOTH);
         }
 
 #ifdef WSPP_USE_OPENSSL
@@ -88,19 +90,34 @@ namespace wspp {
         using socket_t = int;
         constexpr socket_t invalid_socket = -1;
         inline int last_error() { return errno; }
-        inline bool would_block(int e) { return e == EWOULDBLOCK || e == EAGAIN; }
+        inline bool would_block(int e) { return e == EWOULDBLOCK || e == EAGAIN || e == EINPROGRESS; }
         inline void socket_close(socket_t s) { ::close(s); }
         inline void set_non_blocking(socket_t s) {
             int flags = fcntl(s, F_GETFL, 0);
             fcntl(s, F_SETFL, flags | O_NONBLOCK);
         }
+        inline void socket_shutdown(socket_t sock, bool half_close) {
+            shutdown(sock, half_close ? SHUT_WR : SHUT_RDWR);
+        }
 #endif
+
+        inline std::optional<int> socket_err(socket_t sock)
+        {
+            int err = 0;
+            socklen_t len = sizeof(err);
+
+            if (getsockopt(sock, SOL_SOCKET, SO_ERROR, (char*)&err, &len) != 0)
+                return {};
+
+            return err;
+        }
 
         // Should come with policy in the future
         constexpr size_t MAX_FRAME_SIZE = 32 * 1024; // 32 KB
         constexpr size_t MAX_MESSAGE_SIZE = 9 * 1024 * 1024; // 9 MB
 
         enum class io_result : int {
+            eof = -2,
             fatal = -1,
             no_data = 0,
             ok = 1
@@ -147,11 +164,13 @@ namespace wspp {
         enum class tcp_state {
             connecting,
             connected,
+            error,
             closed
         };
 
         enum class ws_step {
             idle,        // no progress
+            handshake,   // handshake completed 
             message,     // message ready (message + message_opcode)
             closed,      // clean close
             error        // protocol or IO error
@@ -162,6 +181,21 @@ namespace wspp {
             message,
             closed,
             error
+        };
+
+        enum class transport_lifecycle : uint8_t {
+            idle,
+            connecting,
+            connected,
+            closing,
+            closed,
+            error
+        };
+
+        enum class close_reason {
+            normal,   // graceful close() handshake completed
+            remote,   // peer closed
+            aborted   // local abort(), no handshake
         };
 
         struct ws_client_role {};
@@ -227,6 +261,23 @@ namespace wspp {
                 return ctx;
             }
         };
+
+        inline socket_t openssl_bio_get_fd(BIO* bio)
+        {
+            std::int64_t fd = 0;
+            BIO_get_fd(bio, &fd);
+            return (socket_t)fd;
+        }
+
+        template<typename T>
+        bool openssl_would_block(SSL* ssl, T ret_code)
+        {
+            int err = SSL_get_error(ssl, int(ret_code));
+
+            return err == SSL_ERROR_WANT_READ 
+                || err == SSL_ERROR_WANT_WRITE
+                || err == SSL_ERROR_WANT_CONNECT;
+        }
 #endif
 
         struct io_read {
@@ -234,37 +285,60 @@ namespace wspp {
             int bytes;
         };
 
-        struct tcp_socket {
+        template<class Transport>
+        concept StatefulTransport = requires(Transport t) {
+            { std::as_const(t).handle() } -> std::same_as<socket_t>;
+            { std::as_const(t).current_state() } -> std::same_as<transport_lifecycle>;
+            { std::as_const(t).is_usable_for_io() } -> std::convertible_to<bool>;
+            { std::as_const(t).wants_read() } -> std::convertible_to<bool>;
+            { std::as_const(t).wants_write() } -> std::convertible_to<bool>;
+            { t.on_readable() } -> std::convertible_to<void>;
+            { t.on_writable() } -> std::convertible_to<void>;
+            { t.read(nullptr, 0) } -> std::same_as<io_read>;
+            { t.write(nullptr, 0) } -> std::same_as<int>;
+            { t.close(false) } -> std::same_as<void>;
+            { t.abort(transport_lifecycle::idle) } -> std::same_as<void>;
+        };
+
+        struct tcp_transport {
             socket_t sock = invalid_socket;
-            bool open = false;
+            transport_lifecycle state = transport_lifecycle::idle;
 
-            tcp_socket() = default;
+            tcp_transport() = default;
 
-            explicit tcp_socket(socket_t s)
-                : sock(s), open(s != invalid_socket) {
+            explicit tcp_transport(socket_t s)
+                : sock(s), state(s != invalid_socket 
+                    ? transport_lifecycle::connected 
+                    : transport_lifecycle::idle) {}
+
+            ~tcp_transport() { abort(); }
+
+            tcp_transport(const tcp_transport&) = delete;
+            tcp_transport& operator=(const tcp_transport&) = delete;
+
+            tcp_transport(tcp_transport&& o) noexcept {
+                *this = std::move(o);
             }
 
-            ~tcp_socket() { close(); }
-
-            tcp_socket(const tcp_socket&) = delete;
-            tcp_socket& operator=(const tcp_socket&) = delete;
-
-            tcp_socket(tcp_socket&& o) noexcept {
-                sock = o.sock;
-                open = o.open;
-                o.sock = invalid_socket;
-                o.open = false;
-            }
-
-            tcp_socket& operator=(tcp_socket&& o) noexcept {
+            tcp_transport& operator=(tcp_transport&& o) noexcept {
                 if (this != &o) {
-                    close();
+                    abort();
                     sock = o.sock;
-                    open = o.open;
+                    state = o.state;
                     o.sock = invalid_socket;
-                    o.open = false;
+                    o.state = transport_lifecycle::idle;
                 }
                 return *this;
+            }
+
+            transport_lifecycle current_state() const {
+                return state;
+            }
+
+            bool is_usable_for_io() const {
+                return state != transport_lifecycle::idle
+                    && state != transport_lifecycle::closed
+                    && state != transport_lifecycle::error;
             }
 
             io_read read(void* data, int capacity) {
@@ -275,7 +349,11 @@ namespace wspp {
                     return { io_result::fatal, 0 };
                 }
                 if (n == 0)
-                    return { io_result::fatal, 0 };
+                {
+                    state = transport_lifecycle::closed;
+                    sock = invalid_socket;
+                    return { io_result::eof, 0 };
+                }
                 return { io_result::ok, n };
             }
 
@@ -283,39 +361,69 @@ namespace wspp {
                 return (int)::send(sock, (const char*)data, size, 0);
             }
 
+            void on_readable()
+            {
+                if (socket_err(sock).value_or(-1) < 0) {
+                    abort(transport_lifecycle::error);
+                    return;
+                }
+
+                if (state == transport_lifecycle::connecting) {
+                    state = transport_lifecycle::connected;
+                }
+            }
+
             void on_writable() {
-                // no-op: already connected
+                if (socket_err(sock).value_or(-1) < 0) {
+                    abort(transport_lifecycle::error);
+                    return;
+                }
+
+                if (state == transport_lifecycle::connecting) {
+                    state = transport_lifecycle::connected;
+                }
+                // TODO Drive disconneciton
+            }
+
+            bool wants_read() const {
+                return state == transport_lifecycle::connected ||
+                    state == transport_lifecycle::closing;
             }
 
             bool wants_write() const {
-                return false;
-            }
-
-            bool is_open() const {
-                return open;
-            }
-
-            bool is_alive() const {
-                return open;
+                return state == transport_lifecycle::connecting ||
+                    state == transport_lifecycle::closing;
             }
 
             socket_t handle() const {
                 return sock;
             }
 
-            void close() {
+            void close(bool bidirectional = true) {
+                if (!bidirectional) abort();
+                // TODO DRIVE CLOSING
+                if (sock != invalid_socket) {
+                    socket_shutdown(sock, true);
+                    state = transport_lifecycle::closing;
+                }
+                else state = transport_lifecycle::closed;
+            }
+
+            void abort(transport_lifecycle with_state = transport_lifecycle::closed) {
                 if (sock != invalid_socket) {
                     socket_close(sock);
                     sock = invalid_socket;
                 }
-                open = false;
+                state = with_state;
             }
         };
 
-        struct tcp_connector {
-            using transport_t = tcp_socket;
-            tcp_connector() = default;
-            std::optional<transport_t> connect(const char* host, const char* port) {
+        static_assert(StatefulTransport<tcp_transport>);
+
+        struct async_tcp_connector {
+            async_tcp_connector() = default;
+
+            std::optional<tcp_transport> start_connect(const char* host, const char* port) {
                 addrinfo hints{};
                 hints.ai_family = AF_UNSPEC;
                 hints.ai_socktype = SOCK_STREAM;
@@ -324,33 +432,41 @@ namespace wspp {
                 addrinfo* res = nullptr;
                 if (::getaddrinfo(host, port, &hints, &res) != 0)
                     return {};
+                auto conn = start_connect(res);
+                ::freeaddrinfo(res);
+                return conn;
+            }
 
-                transport_t sock{ ::socket(res->ai_family, res->ai_socktype, res->ai_protocol) };
-                if (sock.handle() == invalid_socket) {
-                    ::freeaddrinfo(res);
+            std::optional<tcp_transport> start_connect(addrinfo* addr) {
+                tcp_transport transp{};
+                transp.state = transport_lifecycle::connecting;
+                if ((transp.sock = ::socket(
+                    addr->ai_family, 
+                    addr->ai_socktype, 
+                    addr->ai_protocol)) == invalid_socket) {
                     return {};
                 }
 
-                // BLOCKING CONNECT: TODO NON-BLOCKING
-                int r = ::connect(sock.handle(), res->ai_addr, (int)res->ai_addrlen);
+                set_non_blocking(transp.handle());
 
-                set_non_blocking(sock.handle());
-                ::freeaddrinfo(res);
-
+                int r = ::connect(transp.handle(), addr->ai_addr, (int)addr->ai_addrlen);
+                if (r == 0) {
+                    transp.state = transport_lifecycle::connected;
+                    return transp;
+                }
                 if (r != 0 && !would_block(last_error())) {
                     return {};
                 }
-
-                return sock;
+                return transp;
             }
         };
 
-        struct tcp_acceptor {
+        struct async_tcp_acceptor {
             socket_t listen_fd = invalid_socket;
             bool open = false;
 
-            tcp_acceptor() = default;
-            ~tcp_acceptor() { close(); }
+            async_tcp_acceptor() = default;
+            ~async_tcp_acceptor() { close(); }
 
             bool bind_and_listen(uint16_t port) {
                 listen_fd = ::socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
@@ -377,21 +493,18 @@ namespace wspp {
                 return true;
             }
 
-            std::optional<tcp_socket> try_accept() {
+            std::optional<tcp_transport> try_accept() {
                 if (!open) return {};
 
                 sockaddr_storage ss{};
                 socklen_t len = sizeof(ss);
 
                 socket_t c = ::accept(listen_fd, (sockaddr*)&ss, &len);
-                if (c == invalid_socket) {
-                    if (would_block(last_error()))
-                        return {};
-                    return {}; // hard error → ignore or close listener
-                }
+                if (c == invalid_socket) 
+                    return {};
 
                 set_non_blocking(c);
-                return tcp_socket{ c };
+                return tcp_transport{ c };
             }
 
             socket_t handle() const { return listen_fd; }
@@ -407,41 +520,191 @@ namespace wspp {
         };
 
 #ifdef WSPP_USE_OPENSSL
-        struct tls_socket {
-            SSL_CTX* ctx = nullptr; // Optional
+
+        template<class H>
+        concept OpenSSLHandshakePolicy =
+            requires(
+            H h,
+            SSL * ssl,
+            BIO * bio,
+            transport_lifecycle & state,
+            socket_t & sock
+            ) {
+                { h.start(ssl, bio, state, sock) } -> std::same_as<void>;
+                { h.on_readable(ssl, bio, state, sock) } -> std::same_as<void>;
+                { h.on_writable(ssl, bio, state, sock) } -> std::same_as<void>;
+                { h.wants_read(state) } -> std::convertible_to<bool>;
+                { h.wants_write(state) } -> std::convertible_to<bool>;
+        };
+
+        struct openssl_client_handshake {
+            std::optional<transport_lifecycle> aborted_with_state = std::nullopt;
+            int want = 0; // SSL_ERROR_WANT_READ or SSL_ERROR_WANT_WRITE
+
+            void drive_connect(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock) {
+                int ret = SSL_connect(ssl);
+                sock = openssl_bio_get_fd(bio);
+                if (ret > 0) {
+                    state = transport_lifecycle::connected;
+                    want = 0;
+                    return;
+                }
+
+                int err = SSL_get_error(ssl, ret);
+
+                if (err == SSL_ERROR_WANT_CONNECT ||
+                    err == SSL_ERROR_WANT_READ ||
+                    err == SSL_ERROR_WANT_WRITE)
+                {
+                    want = (err == SSL_ERROR_WANT_CONNECT)
+                        ? SSL_ERROR_WANT_WRITE   // connect == wait for writable
+                        : err;
+                    return;
+                }
+
+                aborted_with_state = transport_lifecycle::error;
+            }
+
+            void on_readable(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock)
+            {
+                if (state == transport_lifecycle::connecting
+                    && want == SSL_ERROR_WANT_READ)
+                    drive_connect(ssl, bio, state, sock);
+            }
+
+            void on_writable(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock)
+            {
+                if (state == transport_lifecycle::connecting
+                    && want == SSL_ERROR_WANT_WRITE)
+                    drive_connect(ssl, bio, state, sock);
+            }
+
+            bool wants_read(transport_lifecycle state) const {
+                return (state == transport_lifecycle::connecting && want == SSL_ERROR_WANT_READ);
+            }
+
+            bool wants_write(transport_lifecycle state) const {
+                return (state == transport_lifecycle::connecting && want == SSL_ERROR_WANT_WRITE);
+            }
+
+            void start(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock)
+            {
+                drive_connect(ssl, bio, state, sock);
+            }
+        };
+
+        struct openssl_server_handshake {
+            std::optional<transport_lifecycle> aborted_with_state = std::nullopt;
+            int want = 0; // SSL_ERROR_WANT_READ or SSL_ERROR_WANT_WRITE
+
+            void drive_accept(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock) {
+                int ret = SSL_accept(ssl);
+                sock = openssl_bio_get_fd(bio);
+
+                if (ret > 0) {
+                    state = transport_lifecycle::connected;
+                    want = 0;
+                    return;
+                }
+
+                int err = SSL_get_error(ssl, ret);
+
+                if (err == SSL_ERROR_WANT_READ ||
+                    err == SSL_ERROR_WANT_WRITE)
+                {
+                    want = err;
+                    return;
+                }
+
+                aborted_with_state = transport_lifecycle::error;
+            }
+
+            void on_readable(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock)
+            {
+                if (state == transport_lifecycle::connecting
+                    && want == SSL_ERROR_WANT_READ)
+                    drive_accept(ssl, bio, state, sock);
+            }
+
+            void on_writable(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock)
+            {
+                if (state == transport_lifecycle::connecting
+                    && want == SSL_ERROR_WANT_WRITE)
+                    drive_accept(ssl, bio, state, sock);
+            }
+
+            bool wants_read(transport_lifecycle state) const {
+                return state == transport_lifecycle::connecting
+                    && want == SSL_ERROR_WANT_READ;
+            }
+
+            bool wants_write(transport_lifecycle state) const {
+                return state == transport_lifecycle::connecting
+                    && want == SSL_ERROR_WANT_WRITE;
+            }
+
+            void start(SSL* ssl, BIO* bio, transport_lifecycle& state, socket_t& sock)
+            {
+                drive_accept(ssl, bio, state, sock);
+            }
+        };
+
+        static_assert(OpenSSLHandshakePolicy<openssl_client_handshake>);
+        static_assert(OpenSSLHandshakePolicy<openssl_server_handshake>);
+
+        template<OpenSSLHandshakePolicy Handshake>
+        struct tls_transport {
+            transport_lifecycle state = transport_lifecycle::idle;
+            int shutdown_want = 0;
+            SSL_CTX* ctx = nullptr;
             SSL* ssl = nullptr;
             BIO* bio = nullptr;
             socket_t sock = invalid_socket;
-            bool     open = false;
+            Handshake handshake;
 
-            tls_socket() = default;
-            ~tls_socket() { reset(); }
+            tls_transport() = default;
+            ~tls_transport() { abort(); }
 
-            tls_socket(const tls_socket&) = delete;
-            tls_socket& operator=(const tls_socket&) = delete;
+            tls_transport(const tls_transport&) = delete;
+            tls_transport& operator=(const tls_transport&) = delete;
 
-            tls_socket(tls_socket&& o) noexcept { *this = std::move(o); }
+            tls_transport(tls_transport&& o) noexcept { *this = std::move(o); }
 
-            tls_socket& operator=(tls_socket&& o) noexcept {
+            tls_transport& operator=(tls_transport&& o) noexcept {
                 if (this != &o) {
-                    reset();
+                    abort();
                     ctx = o.ctx;
                     ssl = o.ssl;
                     bio = o.bio;
                     sock = o.sock;
-                    open = o.open;
+                    state = o.state;
+                    handshake = std::move(o.handshake);
+                    shutdown_want = o.shutdown_want;
 
                     o.ctx = nullptr;
                     o.ssl = nullptr;
                     o.bio = nullptr;
                     o.sock = invalid_socket;
-                    o.open = false;
+                    o.state = transport_lifecycle::idle;
+                    o.handshake = Handshake{};
+                    o.shutdown_want = 0;
                 }
                 return *this;
             }
+            
+            transport_lifecycle current_state() const {
+                return state;
+            }
+
+            bool is_usable_for_io() const {
+                return state != transport_lifecycle::idle
+                    && state != transport_lifecycle::closed
+                    && state != transport_lifecycle::error;
+            }
 
             io_read read(void* data, int capacity) {
-                if (!open) return { io_result::fatal, 0 };
+                if (state != transport_lifecycle::connected) 
+                    return { io_result::fatal, 0 };
 
                 int ret = SSL_read(ssl, data, capacity);
 
@@ -449,19 +712,21 @@ namespace wspp {
                     return { io_result::ok, ret };
 
                 if (ret == 0)
-                    return { io_result::fatal, 0 }; // clean shutdown
+                {
+                    sock = invalid_socket;
+                    state = transport_lifecycle::closed;
+                    return { io_result::eof, 0 }; // clean shutdown
+                }
 
                 // ret < 0 → check SSL state
-                int err = SSL_get_error(ssl, ret);
-
-                if (err == SSL_ERROR_WANT_READ || err == SSL_ERROR_WANT_WRITE)
+                if(openssl_would_block(ssl, ret))
                     return { io_result::no_data, 0 };
 
                 return { io_result::fatal, 0 };
             }
 
             int write(const void* data, int size) {
-                if (!open) return -1;
+                if (state != transport_lifecycle::connected)  return -1;
 
                 int r = SSL_write(ssl, data, size);
                 if (r > 0)
@@ -475,43 +740,110 @@ namespace wspp {
                 return -1;
             }
 
+            void drive_shutdown() {
+                int r = SSL_shutdown(ssl);
+
+                if (r == 1) {
+                    // close_notify sent AND received
+                    abort();
+                    return;
+                }
+
+                int err = SSL_get_error(ssl, r);
+
+                if (err == SSL_ERROR_WANT_READ 
+                    || err == SSL_ERROR_WANT_WRITE
+                    || (err == SSL_ERROR_SYSCALL && ((r < 0) == false)) /*Misleading Failure*/) {
+                    shutdown_want = err == SSL_ERROR_SYSCALL 
+                        ? SSL_ERROR_WANT_WRITE : err;
+                    return;
+                }
+
+                abort(transport_lifecycle::error);
+            }
+
+            void on_readable() {
+                handshake.on_readable(ssl, bio, state, sock);
+
+                if (handshake.aborted_with_state)
+                {
+                    abort(*handshake.aborted_with_state);
+                    return;
+                }
+
+                if (state == transport_lifecycle::closing &&
+                    shutdown_want == SSL_ERROR_WANT_READ)
+                    drive_shutdown();
+            }
+
             void on_writable() {
-                // no-op: already connected
+                handshake.on_writable(ssl, bio, state, sock);
+
+                if (handshake.aborted_with_state)
+                {
+                    abort(*handshake.aborted_with_state);
+                    return;
+                }
+
+                if (state == transport_lifecycle::closing 
+                    && shutdown_want == SSL_ERROR_WANT_WRITE)
+                    drive_shutdown();
+            }
+
+            bool wants_read() const {
+                return handshake.wants_read(state) ||
+                    (state == transport_lifecycle::closing && shutdown_want == SSL_ERROR_WANT_READ);
             }
 
             bool wants_write() const {
-                return false;
+                return handshake.wants_write(state) ||
+                    (state == transport_lifecycle::closing && shutdown_want == SSL_ERROR_WANT_WRITE);
             }
 
-            void reset() {
+            void abort(transport_lifecycle with_state = transport_lifecycle::closed) {
                 if (bio) {
                     BIO_free_all(bio);
                     bio = nullptr;
                 }
-                if (ctx) {
-                    SSL_CTX_free(ctx);
-                    ctx = nullptr;
-                }
+
                 ssl = nullptr;
+                ctx = nullptr;
                 sock = invalid_socket;
-                open = false;
+                state = with_state;
             }
 
-            void close() { reset(); }
+            void close(bool bidirectional = true) {
+                if (!ssl || state != transport_lifecycle::connected) {
+                    state = transport_lifecycle::closed;
+                    return;
+                }
 
-            bool is_open()  const { return open; }
-            bool is_alive() const { return open; }
+                if (!bidirectional) abort();
+
+                drive_shutdown();
+            }
+
+            void upgrade_from(tcp_transport&& t, transport_lifecycle new_state = transport_lifecycle::connecting)
+            {
+                t.state = transport_lifecycle::idle;
+                std::swap(sock, t.sock);
+                state = new_state;
+            }
+
             socket_t handle() const { return sock; }
         };
 
+        static_assert(StatefulTransport<tls_transport<openssl_client_handshake>>);
+
         template<class Policy>
-        struct tls_acceptor {
-            tcp_acceptor tcp;
+        struct async_tls_acceptor {
+            using tls_transport_t = tls_transport<openssl_server_handshake>;
+            async_tcp_acceptor acceptor;
             SSL_CTX* ctx = nullptr;
             bool tls_ready = false;
 
-            tls_acceptor() : ctx(Policy::create_ctx()) {};
-            ~tls_acceptor() { close(); }
+            async_tls_acceptor() : ctx(Policy::create_ctx()) {};
+            ~async_tls_acceptor() { close(); }
 
             // ---- configuration ----
             bool load_cert_and_key(const char* cert_pem, const char* key_pem) {
@@ -524,115 +856,103 @@ namespace wspp {
                 if (!ctx || !tls_ready)
                     return false;
 
-                return tcp.bind_and_listen(port);
+                return acceptor.bind_and_listen(port);
             }
 
-            std::optional<tls_socket> try_accept() {
-                auto sock_ = tcp.try_accept();
-                if (!sock_)
+            std::optional<tls_transport_t> try_accept() {
+                auto tcp_trasnp_ = acceptor.try_accept();
+                if (!tcp_trasnp_)
                     return {};
 
-                auto& tcp_sock = sock_.value();
-                tls_socket sock;
-                sock.sock = tcp_sock.sock; tcp_sock.sock = invalid_socket;
-                sock.open = true; tcp_sock.open = false;
+                tls_transport_t trasp; trasp.upgrade_from(std::move(*tcp_trasnp_));
 
-                auto ssl = sock.ssl = SSL_new(ctx);
+                auto ssl = trasp.ssl = SSL_new(ctx);
                 if (!ssl)
                     return {};
 
-                auto bio = sock.bio = BIO_new(BIO_s_socket());
-                BIO_set_fd(bio, sock.handle(), BIO_NOCLOSE);
+                auto bio = trasp.bio = BIO_new_socket(trasp.handle(), BIO_NOCLOSE);
 
                 SSL_set_bio(ssl, bio, bio);
-                // TODO ASYNC
                 SSL_set_accept_state(ssl);
-                BIO_set_nbio(bio, 0);
-
-                int r;
-                while ((r = SSL_accept(ssl)) <= 0) {
-                    int err = SSL_get_error(ssl, r);
-                    if (err == SSL_ERROR_WANT_READ ||
-                        err == SSL_ERROR_WANT_WRITE) continue;
-                    return {};
-                }
                 BIO_set_nbio(bio, 1);
 
-                return sock;
+                trasp.handshake.start(ssl, bio, trasp.state, trasp.sock);
+
+                if (trasp.handshake.aborted_with_state)
+                {
+                    trasp.abort(*trasp.handshake.aborted_with_state);
+                    return {};
+                }
+
+                if (!trasp.is_usable_for_io())
+                    return {};
+
+                return trasp;
             }
 
             void close() {
-                tcp.close();
+                acceptor.close();
                 if (ctx) {
                     SSL_CTX_free(ctx);
                     ctx = nullptr;
                 }
             }
 
-            socket_t handle() const { return tcp.handle(); }
+            socket_t handle() const { return acceptor.handle(); }
         };
 
         template<class Policy>
-        struct tls_connector {
-            std::optional<tls_socket> connect(const char* host, const char* port) {
-                tls_socket sock{};
-                sock.ctx = Policy::create_ctx();
-                if (!sock.ctx) return {};
+        struct async_tls_connector {
+            using tls_transport_t = tls_transport<openssl_client_handshake>;
+            std::optional<tls_transport_t> start_connect(const char* host, const char* port) {
+                tls_transport_t trasp{};
+                auto* ctx = trasp.ctx = Policy::create_ctx();
+                trasp.state = transport_lifecycle::connecting;
+                if (!ctx) return {};
 
-                sock.bio = BIO_new_ssl_connect(sock.ctx);
-                if (!sock.bio) return {};
+                auto* bio = trasp.bio = BIO_new_ssl_connect(ctx);
+                if (!bio) return {};
 
-                BIO_get_ssl(sock.bio, &sock.ssl);
-                if (!sock.ssl) return {};
+                BIO_set_nbio(bio, 1);
 
-                SSL_set_tlsext_host_name(sock.ssl, host);
+                BIO_get_ssl(bio, &trasp.ssl); auto* ssl = trasp.ssl;
+                if (!ssl) return {};
+
+                SSL_set_tlsext_host_name(ssl, host);
 
                 std::string target = std::string(host) + ":" + port;
-                BIO_set_conn_hostname(sock.bio, target.c_str());
+                BIO_set_conn_hostname(bio, target.c_str());
 
-                // ---- BLOCKING CONNECT + HANDSHAKE ----
-                // TODO NON-BLOCKING
-                BIO_set_nbio(sock.bio, 0);
+                trasp.handshake.start(ssl, bio, trasp.state, trasp.sock);
 
-                if (BIO_do_connect(sock.bio) <= 0)
-                    return {};
+                if (trasp.state != transport_lifecycle::error) 
+                    return trasp;
 
-                if (BIO_do_handshake(sock.bio) <= 0)
-                    return {};
-
-                // Extract underlying socket
-                int fd = -1;
-                BIO_get_fd(sock.bio, &fd);
-                sock.sock = (socket_t)fd;
-
-                set_non_blocking(sock.sock);
-                BIO_set_nbio(sock.bio, 1);
-
-                sock.open = true;
-                return sock;
+                // hard failure
+                return {};
             }
         };
 #endif
 
-        template<class Transport>
+        template<StatefulTransport Transport>
         struct byte_stream {
-            Transport& t;
+            Transport* t = nullptr;
             std::vector<char> out = {};
 
-            socket_t handle() const { return t.handle(); }
-            bool is_open() const { return t.is_open(); }
+            socket_t handle() const { return t->handle(); }
+            bool is_usable_for_io() const { return t->is_usable_for_io(); }
 
             bool wants_write() const {
-                return !out.empty() || t.wants_write();
+                return !out.empty() || t->wants_write();
             }
 
             void on_writable() {
-                t.on_writable();   // TCP connect o TLS handshake
+                t->on_writable();   // TCP connect o TLS handshake
                 flush();
             }
 
             io_read read(void* b, int n) {
-                return t.read(b, n);
+                return t->read(b, n);
             }
 
             int write(const void* b, int n) {
@@ -642,22 +962,23 @@ namespace wspp {
 
             void flush() {
                 if (out.empty()) return;
-                int n = t.write(out.data(), (int)out.size());
+                int n = t->write(out.data(), (int)out.size());
                 if (n > 0)
                     out.erase(out.begin(), out.begin() + n);
             }
         };
-        struct read_buffer {
-            std::vector<char> buf{};
 
-            void append(const char* data, size_t n) {
+        struct read_buffer {
+            std::vector<std::uint8_t> buf{};
+
+            void append(const std::uint8_t* data, size_t n) {
                 buf.insert(buf.end(), data, data + n);
             }
 
-            int find(const char* seq, size_t len) const {
+            std::int64_t find(const char* seq, size_t len) const {
                 for (size_t i = 0; i + len <= buf.size(); ++i) {
                     if (std::memcmp(buf.data() + i, seq, len) == 0)
-                        return (int)i;
+                        return (std::int64_t)i;
                 }
                 return -1;
             }
@@ -666,7 +987,7 @@ namespace wspp {
                 buf.erase(buf.begin(), buf.begin() + n);
             }
 
-            const char* data() const { return buf.data(); }
+            const std::uint8_t* data() const { return buf.data(); }
             size_t size() const { return buf.size(); }
         };
 
@@ -911,16 +1232,21 @@ namespace wspp {
 
             stream.write(header, int(header_len));
 
-            if constexpr (MASK) {
-                std::vector<uint8_t> masked(size);
-                const uint8_t* p = (const uint8_t*)data;
-                for (size_t i = 0; i < size; ++i)
-                    masked[i] = p[i] ^ mask[i % 4];
+            if (size > 0)
+            {
+                if constexpr (MASK) {
+                
+                        std::vector<uint8_t> masked(size);
+                        const uint8_t* p = (const uint8_t*)data;
+                        for (size_t i = 0; i < size; ++i)
+                            masked[i] = p[i] ^ mask[i % 4];
 
-                stream.write(masked.data(), int(masked.size()));
-            }
-            else {
-                stream.write(data, int(size));
+                        stream.write(masked.data(), int(masked.size()));
+                
+                }
+                else {
+                    stream.write(data, int(size));
+                }
             }
         }
 
@@ -1200,7 +1526,7 @@ namespace wspp {
 
         inline bool parse_http_handshake(read_buffer& rb, http_handshake& out)
         {
-            const char* buf = rb.data();
+            const char* buf = (const char*)rb.data();
 
             // find end of headers
             int end = rb.find("\r\n\r\n", 4);
@@ -1235,7 +1561,7 @@ namespace wspp {
             wspp::detail::read_buffer& rb,
             ws_server_handshake& hs)
         {
-            const char* buf = rb.data();
+            const char* buf = (const char*)rb.data();
 
             int end = rb.find("\r\n\r\n", 4);
             if (end < 0)
@@ -1266,10 +1592,11 @@ namespace wspp {
             return true;
         }
 
-        struct pending_msg {
+        // Maybe Optional in the Future
+        /*struct pending_msg {
             bool is_text = false;
             std::vector<std::uint8_t> data{};
-        };
+        };*/
 
         inline bool is_valid_utf8(const std::vector<char>& data) {
             utf8_validator utf8;
@@ -1393,20 +1720,20 @@ namespace wspp {
         };
 
         template<
-            typename Transport, 
+            StatefulTransport Transport, 
             typename Role, 
             typename HandshakePolicy>
         struct ws_endpoint {
             using byte_stream_t = byte_stream<Transport>;
             Transport transport;
-            byte_stream_t stream{ transport };
+            byte_stream_t stream{ &transport };
             read_buffer rb;
             ws_state ws;
             ws_connection_state state = ws_connection_state::handshake;
-            std::vector<pending_msg> outbox;
+            //std::vector<pending_msg> outbox;
             std::vector<std::uint8_t> message;
             ws_opcode message_opcode = ws_opcode::continuation;
-            ws_close_code close_code = ws_close_code::normal;
+            std::optional<ws_close_code> close_code = std::nullopt;
             HandshakePolicy handshake;
             //std::chrono::steady_clock::time_point last_rx;
             //std::chrono::steady_clock::time_point last_ping;
@@ -1424,19 +1751,20 @@ namespace wspp {
             ws_endpoint& operator=(ws_endpoint&& o) noexcept {
                 if (this != &o) {
                     transport = std::move(o.transport);
-                    stream = byte_stream_t{ transport };
+                    stream = std::move(o.stream);
+                    stream.t = &transport;
 
                     rb = std::move(o.rb);
                     ws = std::move(o.ws);
-                    outbox = std::move(o.outbox);
+                    //outbox = std::move(o.outbox);
                     message = std::move(o.message);
                     handshake = std::move(o.handshake);
 
                     state = o.state;
                     message_opcode = o.message_opcode;
-                    close_code = o.close_code;
+                    close_code = std::move(o.close_code);
 
-                    o.stream = byte_stream_t{ o.transport };
+                    o.stream = byte_stream_t{ &o.transport };
                     o.state = ws_connection_state::closed;
                 }
                 return *this;
@@ -1471,8 +1799,8 @@ namespace wspp {
                 if (state != ws_connection_state::open)
                     return;
 
-                if (!outbox.empty())
-                    flush_outbox();
+                /*if (!outbox.empty())
+                    flush_outbox();*/
 
                 /*if (now - last_rx > std::chrono::seconds(30)) {
                     send_close(ws_close_code::going_away);
@@ -1485,25 +1813,26 @@ namespace wspp {
                 }*/
             }
 
+            // This is a HotPath.. Checks defered to caller
             void send_text(std::string_view msg) {
-                pending_msg m{ .is_text = true };
-                m.data.assign(msg.data(), msg.data() + msg.size());
-                outbox.push_back(std::move(m));
+                ws_send_frame<byte_stream_t, Role>(stream, ws_opcode::text,
+                    msg.data(), msg.size());
             }
 
+            // This is a HotPath..Checks defered to caller
             void send_binary(binary_view b) {
-                pending_msg m{ .is_text = false };
-                m.data.assign(b.data(), b.data() + b.size());
-                outbox.push_back(std::move(m));
+                ws_send_frame<byte_stream_t, Role>(stream, ws_opcode::binary,
+                    b.data(), b.size());
             }
 
-            void flush_outbox() {
+            // No more Outbox.. use wscli.on_open() or wssv.on_connection()
+            /*void flush_outbox() {
                 for (auto& m : outbox)
                     ws_send_frame<byte_stream_t, Role>(stream,
                         m.is_text ? ws_opcode::text : ws_opcode::binary,
                         m.data.data(), m.data.size());
                 outbox.clear();
-            }
+            }*/
 
             ws_step step_frame_header() {
                 if (ws.phase != ws_phase::frame_header)
@@ -1578,7 +1907,7 @@ namespace wspp {
                                 payload[1]);
                     }
                     else {
-                        close_code = ws_close_code::normal;
+                        close_code = std::nullopt;
                     }
 
                     send_close();
@@ -1649,8 +1978,8 @@ namespace wspp {
                 return ws_step::message;
             }
 
-            void on_bytes(const char* data, size_t n) {
-                rb.append(data, (int)n);
+            void on_bytes(const std::uint8_t* data, size_t n) {
+                rb.append(data, n);
             }
 
             ws_step consume() {
@@ -1666,7 +1995,8 @@ namespace wspp {
                                 resposne.data(), resposne.size());
                         }
 
-                        flush_outbox();
+                        //flush_outbox();
+                        return ws_step::handshake;
                     }
                 }
 
@@ -1695,7 +2025,12 @@ namespace wspp {
                 }
             }
 
-            void send_pong(const std::vector<std::uint8_t>& payload) {
+            void send_ping(const std::vector<std::uint8_t>& payload = {}) {
+                ws_send_frame<byte_stream_t, Role>(stream, ws_opcode::ping,
+                    payload.data(), payload.size());
+            }
+
+            void send_pong(const std::vector<std::uint8_t>& payload = {}) {
                 ws_send_frame<byte_stream_t, Role>(stream, ws_opcode::pong,
                     payload.data(), payload.size());
             }
@@ -1778,12 +2113,16 @@ namespace wspp {
             bool writable;
         };
 
-        inline poll_rw poll_fd(socket_t fd, bool want_write = false) {
+        inline poll_rw poll_fd(socket_t fd, bool want_read = true, bool want_write = false) {
+            if (!want_read && !want_write) return {};
+
             fd_set rfds, wfds;
             FD_ZERO(&rfds);
             FD_ZERO(&wfds);
 
-            FD_SET(fd, &rfds);
+            if(want_read)
+                FD_SET(fd, &rfds);
+
             if (want_write)
                 FD_SET(fd, &wfds);
 
@@ -1799,7 +2138,7 @@ namespace wspp {
                 return { false, false };
 
             return {
-                (bool)FD_ISSET(fd, &rfds),
+                want_read && FD_ISSET(fd, &rfds),
                 want_write && FD_ISSET(fd, &wfds)
             };
         }
@@ -1980,19 +2319,36 @@ namespace wspp {
             }
         };
 
+        struct close_event {
+            close_reason reason;
+            std::optional<ws_close_code> code;
+        };
+
         template <
             typename Connector, 
-            typename Transport,
+            StatefulTransport Transport,
             typename Role = ws_client_role, 
             typename HandshakePolicy = client_handshake>
         struct basic_client {
             ws_endpoint<Transport, Role, HandshakePolicy> impl{ };
 
             Connector connector;
+            std::function<void()> on_open_cb;
             std::function<void(message_view)> on_message_cb;
-            std::function<void(ws_close_code)> on_close_cb;
+            std::function<void(close_event)> on_close_cb;
+            std::once_flag close_flag;
+            bool aborted = false;
+
+            void dispatch_close(const close_event& why)
+            {
+                if(on_close_cb) std::call_once(close_flag, [this, &why] {
+                    on_close_cb(why);
+                    });
+            }
 
             ws_connect_result connect(std::string_view url) {
+                wspp_runtime::ensure();
+
                 auto u = parse_ws_url(url);
 
                 if (!u.ok)
@@ -2001,17 +2357,16 @@ namespace wspp {
                 if (u.secure && !supports_wss())
                     return ws_connect_result::tls_not_supported;
 
-                auto sock = connector.connect(u.host.c_str(), u.port.c_str());
-                if (!sock.has_value())
+                auto conn = connector.start_connect(u.host.c_str(), u.port.c_str());
+                if (!conn.has_value())
                     return ws_connect_result::connector_error;
-                impl.transport = std::move(sock.value());
+                impl.transport = std::move(conn.value());
+                // Setting up handshake fields 
+                // for later in case we got connected
                 auto& hsk = impl.handshake;
-                hsk.host = !u.has_default_port() ? (u.host + ":" + u.port) 
+                hsk.host = !u.has_default_port() ? (u.host + ":" + u.port)
                     : u.host;
                 hsk.path = u.path;
-                impl.tick(); 
-                // FIX ASYNC
-                impl.stream.flush(); // Early Flushing Handshake
                 return ws_connect_result::ok;
             }
 
@@ -2041,18 +2396,55 @@ namespace wspp {
                     impl.send_binary(msg.binary());
             }
 
+            void on_open(auto cb) { on_open_cb = cb; }
             void on_message(auto cb) { on_message_cb = cb; }
             void on_close(auto cb) { on_close_cb = cb; }
 
             wspp_event poll() {
+                auto& transp = impl.transport;
                 auto& strm = impl.stream;
+                if (aborted || !transp.is_usable_for_io())
+                {
+                    // Guard close
+                    dispatch_close({
+                        .reason = aborted ? close_reason::aborted : close_reason::normal,
+                        .code = impl.close_code // Automatic Optional (Just in the rare
+                                                // case its not yet reported)
+                        });
+
+                    switch (transp.current_state())
+                    {
+                    case transport_lifecycle::error:
+                        return wspp_event::error;
+                    default:
+                        return wspp_event::closed;
+                    };
+                } 
+
+                auto is = poll_fd(transp.handle(), 
+                    true,
+                    transp.wants_write());
+
+                if (transp.wants_write() && is.writable)
+                    transp.on_writable();
+
+                if (transp.wants_read() && is.readable)
+                    transp.on_readable();
+
+                if (transp.current_state() != transport_lifecycle::connected)
+                {
+                    // We either connecting or disconnectign
+                    return wspp_event::idle;
+                }
+
+                // At this point we are connected!
+                // Upper layers can proceed
 
                 impl.tick();
 
-                if (poll_fd(strm.handle()).readable)
-                {
+                if (is.readable) {
                     // READ
-                    char buf[2048];
+                    std::uint8_t buf[8 * 1024 /*8KB*/];
                     auto r = strm.read(buf, sizeof(buf));
                     if (r.result == io_result::ok)
                         impl.on_bytes(buf, r.bytes);
@@ -2061,6 +2453,15 @@ namespace wspp {
                     while (true) {
                         ws_step st = impl.consume();
                         if (st == ws_step::idle) break;
+
+                        if (st == ws_step::handshake)
+                        {
+                            // Handshake completed
+
+                            if (on_open_cb)
+                                on_open_cb();
+                            continue;
+                        }
 
                         if (st == ws_step::message) {
                             if (on_message_cb) {
@@ -2073,8 +2474,10 @@ namespace wspp {
 
                         if (st == ws_step::closed || 
                             st == ws_step::error) {
-                            if (on_close_cb)
-                                on_close_cb(impl.close_code);
+                            dispatch_close({
+                                .reason = st == ws_step::error ? close_reason::aborted : close_reason::remote,
+                                .code = st == ws_step::closed ? impl.close_code : std::nullopt
+                                });
 
                             if (st == ws_step::error) 
                                 return wspp_event::error;
@@ -2092,7 +2495,7 @@ namespace wspp {
             /* Hard Close requested by the user */
             void abort()
             {
-                // TO IMPLEMENT
+                aborted = true;
             }
 
             void run() {
@@ -2107,7 +2510,7 @@ namespace wspp {
 
         template<
             typename Acceptor,
-            typename Transport,
+            StatefulTransport Transport,
             typename Role = ws_server_role,
             typename HandshakePolicy = server_handshake
         >
@@ -2125,7 +2528,10 @@ namespace wspp {
                 endpoint_t ep;
 
                 std::function<void(message_view)> on_message_cb;
-                std::function<void(ws_close_code)> on_close_cb;
+                std::function<void(close_event)> on_close_cb;
+
+                std::once_flag close_flag;
+                bool aborted = false;
 
                 // ---- user API (mirrors basic_client) ----
                 void send(message_view msg) {
@@ -2151,6 +2557,11 @@ namespace wspp {
                     ep.send_close(code);
                 }
 
+                void abort()
+                {
+                    aborted = true;
+                }
+
                 void on_message(auto cb) { on_message_cb = cb; }
                 void on_close(auto cb) { on_close_cb = cb; }
 
@@ -2164,14 +2575,15 @@ namespace wspp {
                     }
                 }
 
-                void dispatch_close() {
-                    if (on_close_cb)
-                        on_close_cb(ep.close_code);
+                void dispatch_close(const close_event& why)
+                {
+                    if (on_close_cb) std::call_once(close_flag, [this, &why] {
+                        on_close_cb(why);
+                        });
                 }
 
                 bool is_alive() const {
-                    // TODO
-                    return true; //ep.is_alive();
+                    return ep.transport.is_usable_for_io() && !aborted;
                 }
             };
 
@@ -2184,6 +2596,8 @@ namespace wspp {
             std::vector<connection_ptr> connections;
 
             std::function<void(connection_ptr)> on_connection_cb;
+            bool aborted = false;
+            std::once_flag close_flag;
 
             // =========================
             // API
@@ -2201,58 +2615,94 @@ namespace wspp {
             // event loop
             // =========================
             void poll() {
+
                 // 1) accept
                 while (auto sock = acceptor.try_accept()) {
                     auto conn = std::make_shared<connection>();
                     conn->ep.transport = std::move(*sock);
 
                     connections.push_back(conn);
-
-                    if (on_connection_cb)
-                        on_connection_cb(conn);
                 }
 
-                // 2) protocol produce
-                for (auto& c : connections)
-                    c->ep.tick();
-
-                // 3) IO + consume
+                // 3) protocol produce + IO + consume
                 for (auto& c : connections) {
+
                     auto& ep = c->ep;
                     auto& s = ep.stream;
+                    auto& tsp = ep.transport;
 
                     // TODO.. Reactor for parallel polling with reactor
-                    if (!poll_fd(s.handle()).readable)
+                    auto is = poll_fd(tsp.handle(),
+                        true,
+                        tsp.wants_write());
+
+                    if (tsp.wants_write() && is.writable)
+                        tsp.on_writable();
+
+                    if (tsp.wants_read() && is.readable)
+                        tsp.on_readable();
+
+                    if (tsp.current_state() != transport_lifecycle::connected)
+                    {
+                        // We either connecting or disconnectign
                         continue;
+                    }
 
-                    char buf[2048];
-                    auto r = s.read(buf, sizeof(buf));
-                    if (r.result == io_result::ok)
-                        ep.on_bytes(buf, r.bytes);
+                    ep.tick();
 
-                    while (true) {
-                        ws_step st = ep.consume();
-                        if (st == ws_step::idle)
-                            break;
+                    if (is.readable)
+                    {
+                        std::uint8_t buf[8 * 1024 /*8KB*/];
+                        auto r = s.read(buf, sizeof(buf));
+                        if (r.result == io_result::ok)
+                            ep.on_bytes(buf, r.bytes);
 
-                        if (st == ws_step::message)
-                            c->dispatch_message();
+                        while (true) {
+                            ws_step st = ep.consume();
 
-                        if (st == ws_step::closed || st == ws_step::error) {
-                            c->dispatch_close();
-                            break;
+                            if (st == ws_step::idle)
+                                break;
+
+                            if (st == ws_step::handshake)
+                            {
+                                // Handshake completed
+                                if (on_connection_cb)
+                                    on_connection_cb(c);
+                                continue;
+                            }
+
+                            if (st == ws_step::message)
+                                c->dispatch_message();
+
+                            if (st == ws_step::closed || st == ws_step::error) {
+                                c->dispatch_close({
+                                    .reason = st == ws_step::error ? close_reason::aborted : close_reason::remote,
+                                    .code = st == ws_step::closed ? ep.close_code : std::nullopt
+                                    });;
+                                break;
+                            }
                         }
                     }
-                }
 
-                // 4) flush
-                for (auto& c : connections)
-                    c->ep.stream.flush();
+                    s.flush();
+                }
 
                 // 5) cleanup
                 std::erase_if(connections,
                     [](const connection_ptr& c) {
-                        return !c->is_alive();
+                        auto is_dead = !c->is_alive();
+                        if (is_dead)
+                        {
+                            c->dispatch_close({
+                                .reason = c->aborted ? close_reason::aborted : close_reason::normal,
+                                .code = !c->aborted ? c->ep.close_code : std::nullopt
+                                });
+
+                            // Avoid Self Referencing
+                            c->on_message_cb = 0;
+                            c->on_close_cb = 0;
+                        }
+                        return is_dead;
                     });
             }
 
@@ -2268,16 +2718,17 @@ namespace wspp {
         };
     }
 
+    using close_event = detail::close_event;
     using message_view = detail::message_view;
     using binary_view = detail::binary_view;
     using ws_close_code = detail::ws_close_code;
-    using ws_client = detail::basic_client<detail::tcp_connector, detail::tcp_socket>;
-    using ws_server = detail::basic_server<detail::tcp_acceptor, detail::tcp_socket>;
+    using ws_client = detail::basic_client<detail::async_tcp_connector, detail::tcp_transport>;
+    using ws_server = detail::basic_server<detail::async_tcp_acceptor, detail::tcp_transport>;
 #ifdef WSPP_USE_OPENSSL
-    using wss_client = detail::basic_client<detail::tls_connector<detail::openssl_client_policy>, detail::tls_socket>;
+    using wss_client = detail::basic_client<detail::async_tls_connector<detail::openssl_client_policy>, detail::tls_transport<detail::openssl_client_handshake>>;
     template<
-        typename Acceptor = detail::tls_acceptor<detail::openssl_server_policy>,
-        typename Transport = detail::tls_socket,
+        typename Acceptor = detail::async_tls_acceptor<detail::openssl_server_policy>,
+        detail::StatefulTransport Transport = detail::tls_transport<detail::openssl_server_handshake>,
         typename Role = detail::ws_server_role,
         typename HandshakePolicy = detail::server_handshake
     >

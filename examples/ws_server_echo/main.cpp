@@ -1,4 +1,5 @@
 #include <wspp/wspp.h>
+#include <iostream>
 
 int main() {
     wspp::ws_server ws;
@@ -11,8 +12,12 @@ int main() {
             c->send(msg);
             });
 
-        c->on_close([](wspp::ws_close_code code) {
-            std::cout << "client closed " << int(code) << '\n';
+        c->on_close([](wspp::close_event e) {
+            // e.reason: aborted, normal, remote
+            std::cout << "client closed";
+            if (e.code)
+                std::cout << " with code " << int(*e.code);
+            std::cout << '\n';
             });
         });
     ws.listen(80);

@@ -15,8 +15,12 @@ int main() {
             std::cout << msg.text() << '\n';
         });
 
-    c.on_close([](wspp::ws_close_code code) {
-        std::cout << "closed " << (uint16_t)code << "\n";
+    c.on_close([](wspp::close_event e) {
+        // e.reason: aborted, normal, remote
+        std::cout << "client closed";
+        if (e.code)
+            std::cout << " with code " << int(*e.code);
+        std::cout << '\n';
         });
 
     c.run();
