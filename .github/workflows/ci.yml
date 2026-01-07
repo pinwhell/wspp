@@ -37,7 +37,7 @@ jobs:
 
       - name: Start Autobahn echo server
         run: |
-          ./build/autobahn_basic_echosv &
+          ./build/tests/autobahn_basic_echosv &
           echo $! > server.pid
 
       - name: Wait for server
