@@ -113,13 +113,14 @@ namespace wspp {
         }
 
         // Should come with policy in the future
-        constexpr size_t MAX_FRAME_SIZE = 32 * 1024; // 32 KB
-        constexpr size_t MAX_MESSAGE_SIZE = 9 * 1024 * 1024; // 9 MB
+        constexpr size_t MAX_FRAME_SIZE = 256 * 1024 * 1024; //32 * 1024; // 32 KB
+        constexpr size_t MAX_MESSAGE_SIZE = 256 * 1024 * 1024; //9 * 1024 * 1024; // 9 MB
 
         enum class io_result : int {
             eof = -2,
             fatal = -1,
             no_data = 0,
+            try_later = 0,
             ok = 1
         };
 
@@ -170,6 +171,7 @@ namespace wspp {
 
         enum class ws_step {
             idle,        // no progress
+            next,        // peek more
             handshake,   // handshake completed 
             message,     // message ready (message + message_opcode)
             closed,      // clean close
@@ -280,7 +282,7 @@ namespace wspp {
         }
 #endif
 
-        struct io_read {
+        struct io_res {
             io_result result;
             int bytes;
         };
@@ -294,8 +296,8 @@ namespace wspp {
             { std::as_const(t).wants_write() } -> std::convertible_to<bool>;
             { t.on_readable() } -> std::convertible_to<void>;
             { t.on_writable() } -> std::convertible_to<void>;
-            { t.read(nullptr, 0) } -> std::same_as<io_read>;
-            { t.write(nullptr, 0) } -> std::same_as<int>;
+            { t.read(nullptr, 0) } -> std::same_as<io_res>;
+            { t.write(nullptr, 0) } -> std::same_as<io_res>;
             { t.close(false) } -> std::same_as<void>;
             { t.abort(transport_lifecycle::idle) } -> std::same_as<void>;
         };
@@ -341,10 +343,11 @@ namespace wspp {
                     && state != transport_lifecycle::error;
             }
 
-            io_read read(void* data, int capacity) {
+            io_res read(void* data, int capacity) {
                 int n = (int)::recv(sock, (char*)data, capacity, 0);
                 if (n < 0) {
-                    if (would_block(last_error()))
+                    auto last_err = last_error();
+                    if (would_block(last_err))
                         return { io_result::no_data, 0 };
                     return { io_result::fatal, 0 };
                 }
@@ -357,8 +360,15 @@ namespace wspp {
                 return { io_result::ok, n };
             }
 
-            int write(const void* data, int size) {
-                return (int)::send(sock, (const char*)data, size, 0);
+            io_res write(const void* data, int size) {
+                int n = ::send(sock, (const char*)data, size, 0);
+                if (n < 0) {
+                    auto last_err = last_error();
+                    if (would_block(last_err))
+                        return { io_result::try_later, 0 };
+                    return { io_result::fatal, 0 };
+                }
+                return { io_result::ok, n };
             }
 
             void on_readable()
@@ -702,7 +712,7 @@ namespace wspp {
                     && state != transport_lifecycle::error;
             }
 
-            io_read read(void* data, int capacity) {
+            io_res read(void* data, int capacity) {
                 if (state != transport_lifecycle::connected) 
                     return { io_result::fatal, 0 };
 
@@ -725,19 +735,20 @@ namespace wspp {
                 return { io_result::fatal, 0 };
             }
 
-            int write(const void* data, int size) {
-                if (state != transport_lifecycle::connected)  return -1;
+            io_res write(const void* data, int size) {
+                if (state != transport_lifecycle::connected)
+                    return { io_result::fatal, 0 };
 
                 int r = SSL_write(ssl, data, size);
                 if (r > 0)
-                    return r;
+                    return { io_result::ok, r };
 
                 int err = SSL_get_error(ssl, r);
 
                 if (err == SSL_ERROR_WANT_READ || err == SSL_ERROR_WANT_WRITE)
-                    return  0;
+                    return { io_result::try_later, 0 };
 
-                return -1;
+                return { io_result::fatal, 0 };
             }
 
             void drive_shutdown() {
@@ -951,20 +962,22 @@ namespace wspp {
                 flush();
             }
 
-            io_read read(void* b, int n) {
+            io_res read(void* b, int n) {
                 return t->read(b, n);
             }
 
-            int write(const void* b, int n) {
+            io_res write(const void* b, int n) {
                 out.insert(out.end(), (char*)b, (char*)b + n);
-                return n;
+                return { io_result::ok, n };
             }
 
-            void flush() {
-                if (out.empty()) return;
-                int n = t->write(out.data(), (int)out.size());
-                if (n > 0)
-                    out.erase(out.begin(), out.begin() + n);
+            io_res flush() {
+                if (out.empty()) return { io_result::ok, 0 };
+                auto res = t->write(out.data(), (int)out.size());
+                if (res.result != io_result::ok) return res;
+                if (res.bytes > 0)
+                    out.erase(out.begin(), out.begin() + res.bytes);
+                return res;
             }
         };
 
@@ -1008,6 +1021,10 @@ namespace wspp {
                         return false;
                 }
                 return true;
+            }
+
+            bool feed(binary_view view) {
+                return feed(view.data(), view.size());
             }
 
             bool feed_byte(uint8_t b) {
@@ -1598,16 +1615,32 @@ namespace wspp {
             std::vector<std::uint8_t> data{};
         };*/
 
-        inline bool is_valid_utf8(const std::vector<char>& data) {
+        inline bool is_valid_utf8(binary_view view) {
             utf8_validator utf8;
-            return utf8.feed((const uint8_t*)data.data(), 
-                data.size()) && utf8.finished();
+            return utf8.feed(view) && utf8.finished();
+        }
+
+        inline bool is_valid_utf8(const std::vector<char>& data) {
+            return is_valid_utf8(binary_view(
+                (const std::uint8_t*)data.data(), data.size()));
         }
 
         template <typename ByteStream, typename Role>
-        void ws_send_close(ByteStream& stream, ws_close_code code) {
-            uint16_t be = htons(static_cast<uint16_t>(code));
-            ws_send_frame<ByteStream, Role>(stream, ws_opcode::close, &be, 2);
+        void ws_send_close(ByteStream& stream, ws_close_code code, std::optional<std::string_view> reason = std::nullopt) {
+            uint16_t be_code = htons(static_cast<uint16_t>(code));
+
+            if (!reason || reason->empty()) {
+                // Hot path: just 2-byte status code (most common case)
+                ws_send_frame<ByteStream, Role>(stream, ws_opcode::close, &be_code, 2);
+            }
+            else {
+                // Reason present → append after code
+                std::vector<uint8_t> payload(2 + reason->size());
+                std::memcpy(payload.data(), &be_code, 2);
+                std::memcpy(payload.data() + 2, reason->data(), reason->size());
+
+                ws_send_frame<ByteStream, Role>(stream, ws_opcode::close, payload.data(), payload.size());
+            }
         }
 
         template<typename T>
@@ -1625,29 +1658,6 @@ namespace wspp {
         ws_close_code normalize_close_code(T code, ws_close_code def = ws_close_code::normal)
         {
             return is_valid_close_code<T>(code) ? ws_close_code(code) : def;
-        }
-
-        inline bool handle_close_payload(const std::vector<char>& payload) {
-            if (payload.empty())
-                return true;
-
-            if (payload.size() == 1)
-                return false; // RFC: invalid
-
-            uint16_t code =
-                (uint8_t(payload[0]) << 8) |
-                uint8_t(payload[1]);
-
-            if (!is_valid_close_code(code)) 
-                return false;
-
-            if (payload.size() > 2) {
-                std::vector<char> reason(payload.begin() + 2, payload.end());
-                if (!is_valid_utf8(reason))
-                    return false;
-            }
-
-            return true;
         }
 
         struct server_handshake {
@@ -1734,6 +1744,7 @@ namespace wspp {
             std::vector<std::uint8_t> message;
             ws_opcode message_opcode = ws_opcode::continuation;
             std::optional<ws_close_code> close_code = std::nullopt;
+            std::optional<std::vector<std::uint8_t>> close_payload = std::nullopt;
             HandshakePolicy handshake;
             //std::chrono::steady_clock::time_point last_rx;
             //std::chrono::steady_clock::time_point last_ping;
@@ -1763,6 +1774,7 @@ namespace wspp {
                     state = o.state;
                     message_opcode = o.message_opcode;
                     close_code = std::move(o.close_code);
+                    close_payload = std::move(o.close_payload);
 
                     o.stream = byte_stream_t{ &o.transport };
                     o.state = ws_connection_state::closed;
@@ -1849,7 +1861,7 @@ namespace wspp {
                 if (fr == frame_result::protocol_error) {
                     send_close(ws_close_code::protocol_error);
                     state = ws_connection_state::closed;
-                    return ws_step::closed;
+                    return ws_step::error;
                 }
 
                 return ws_step::idle;
@@ -1895,16 +1907,47 @@ namespace wspp {
                 switch (ws.opcode) {
                 case ws_opcode::ping:
                     send_pong(payload);
-                    return ws_step::idle;
+                    return ws_step::next;
 
                 case ws_opcode::pong:
-                    return ws_step::idle;
+                    return ws_step::next;
 
                 case ws_opcode::close: {
+                    auto psz = payload.size();
+                    if (psz == 1u) // 1 byte
+                    {
+                        send_close(ws_close_code::protocol_error);
+                        state = ws_connection_state::closed;
+                        return ws_step::error;
+                    }
+
                     if (payload.size() >= 2) {
-                        close_code =
-                            ws_close_code((payload[0] << 8) |
+                        close_code = ws_close_code((payload[0] << 8) |
                                 payload[1]);
+
+                        if (!is_valid_close_code(*close_code))
+                        {
+                            send_close(ws_close_code::protocol_error);
+                            state = ws_connection_state::closed;
+                            return ws_step::error;
+                        }
+
+                        if (payload.size() > 2)
+                        {
+                            close_payload = std::move(payload);
+
+                            if (!is_valid_utf8(binary_view{
+                                    close_payload->data() + 2,
+                                    close_payload->size() - 2 }))
+
+                            {
+                                // Fail here
+
+                                send_close(ws_close_code::invalid_payload);
+                                state = ws_connection_state::closed;
+                                return ws_step::error;
+                            }
+                        }
                     }
                     else {
                         close_code = std::nullopt;
@@ -1959,7 +2002,7 @@ namespace wspp {
                 }
 
                 if (!ws.fin)
-                    return ws_step::idle;
+                    return ws_step::next;
 
                 if (ws.msg_opcode == ws_opcode::text) {
                     if (!ws.utf8.finished()) {
@@ -2002,7 +2045,11 @@ namespace wspp {
 
                 if (ws.phase == ws_phase::frame_header) {
                     auto r = try_parse_frame_header<Role>(rb, ws);
-                    if (r == frame_result::protocol_error) return ws_step::error;
+                    if (r == frame_result::protocol_error) {
+                        send_close(ws_close_code::protocol_error);
+                        state = ws_connection_state::closed;
+                        return ws_step::error;
+                    }
                     if (r != frame_result::frame_ready) return ws_step::idle;
                 }
 
@@ -2017,9 +2064,9 @@ namespace wspp {
                 return ws_step::idle;
             }
 
-            void send_close(ws_close_code code = ws_close_code::normal) {
+            void send_close(ws_close_code code = ws_close_code::normal, std::optional<std::string_view> reason = std::nullopt) {
                 if (state == ws_connection_state::open) {
-                    ws_send_close<byte_stream_t, Role>(stream, code);
+                    ws_send_close<byte_stream_t, Role>(stream, code, reason);
                     //close_sent_at = std::chrono::steady_clock::now();
                     state = ws_connection_state::closing;
                 }
@@ -2322,6 +2369,20 @@ namespace wspp {
         struct close_event {
             close_reason reason;
             std::optional<ws_close_code> code;
+            std::optional<binary_view> body;
+            
+            bool has_text() const
+            {
+                return body.has_value()
+                    && body->size() > 2;
+            }
+
+            std::string_view text() const {
+                if (!has_text()) return {};
+                return std::string_view{ 
+                    (const char*)body->data() + 2,
+                    body->size() - 2 };
+            }
         };
 
         template <
@@ -2408,8 +2469,9 @@ namespace wspp {
                     // Guard close
                     dispatch_close({
                         .reason = aborted ? close_reason::aborted : close_reason::normal,
-                        .code = impl.close_code // Automatic Optional (Just in the rare
-                                                // case its not yet reported)
+                        .code = impl.close_code, // Automatic Optional (Just in the rare
+                                                 // case its not yet reported)
+                        .body = (!aborted && impl.close_payload) ? binary_view { *impl.close_payload } : std::optional<binary_view>{std::nullopt}
                         });
 
                     switch (transp.current_state())
@@ -2476,7 +2538,8 @@ namespace wspp {
                             st == ws_step::error) {
                             dispatch_close({
                                 .reason = st == ws_step::error ? close_reason::aborted : close_reason::remote,
-                                .code = st == ws_step::closed ? impl.close_code : std::nullopt
+                                .code = st == ws_step::closed ? impl.close_code : std::nullopt,
+                                .body = (st != ws_step::error && impl.close_payload) ? binary_view{ *impl.close_payload } : std::optional<binary_view>{std::nullopt}
                                 });
 
                             if (st == ws_step::error) 
@@ -2487,7 +2550,9 @@ namespace wspp {
                     }
                 }
 
-                strm.flush();
+                auto res = strm.flush();
+                if (res.result == io_result::fatal)
+                    abort();
 
                 return wspp_event::idle;
             }
@@ -2583,7 +2648,9 @@ namespace wspp {
                 }
 
                 bool is_alive() const {
-                    return ep.transport.is_usable_for_io() && !aborted;
+                    return !aborted
+                        && ep.state != ws_connection_state::closed
+                        && ep.transport.is_usable_for_io();
                 }
             };
 
@@ -2652,16 +2719,22 @@ namespace wspp {
 
                     if (is.readable)
                     {
-                        std::uint8_t buf[8 * 1024 /*8KB*/];
+                        std::uint8_t buf[256 * 1024 /*256KB*/];
                         auto r = s.read(buf, sizeof(buf));
+
+                        if (r.result == io_result::fatal)
+                        {
+                            c->abort();
+                            continue;
+                        }
+
                         if (r.result == io_result::ok)
                             ep.on_bytes(buf, r.bytes);
 
                         while (true) {
                             ws_step st = ep.consume();
-
-                            if (st == ws_step::idle)
-                                break;
+                            if (st == ws_step::idle) break;
+                            if (st == ws_step::next) continue;
 
                             if (st == ws_step::handshake)
                             {
@@ -2672,19 +2745,25 @@ namespace wspp {
                             }
 
                             if (st == ws_step::message)
+                            {
                                 c->dispatch_message();
+                                continue;
+                            }
 
                             if (st == ws_step::closed || st == ws_step::error) {
                                 c->dispatch_close({
                                     .reason = st == ws_step::error ? close_reason::aborted : close_reason::remote,
-                                    .code = st == ws_step::closed ? ep.close_code : std::nullopt
+                                    .code = st == ws_step::closed ? ep.close_code : std::nullopt,
+                                    .body = (st == ws_step::closed && ep.close_payload) ? binary_view{ *ep.close_payload } : std::optional<binary_view>{ std::nullopt }
                                     });;
                                 break;
                             }
                         }
                     }
 
-                    s.flush();
+                    auto res = s.flush();
+                    if (res.result == io_result::fatal)
+                        c->abort();
                 }
 
                 // 5) cleanup
@@ -2695,7 +2774,8 @@ namespace wspp {
                         {
                             c->dispatch_close({
                                 .reason = c->aborted ? close_reason::aborted : close_reason::normal,
-                                .code = !c->aborted ? c->ep.close_code : std::nullopt
+                                .code = !c->aborted ? c->ep.close_code : std::nullopt,
+                                .body = (!c->aborted && c->ep.close_payload) ? binary_view{*c->ep.close_payload} : std::optional<binary_view>{std::nullopt}
                                 });
 
                             // Avoid Self Referencing

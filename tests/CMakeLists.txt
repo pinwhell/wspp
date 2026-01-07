@@ -7,6 +7,9 @@ add_executable(wspp_tests
     test_utf8_validation.cpp 
     test_validate_accept.cpp)
 
+add_executable(autobahn_basic_echosv autobahn_basic_echosv.cpp)
+target_link_libraries(autobahn_basic_echosv wspp::wspp)
+
 target_link_libraries(wspp_tests PRIVATE
     wspp::wspp
     Catch2::Catch2WithMain

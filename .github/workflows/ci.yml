@@ -12,19 +12,54 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libssl-dev catch2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev catch2
 
       - name: Configure
         run: >
           cmake -S . -B build
           -DCMAKE_BUILD_TYPE=Release
           -DWSPP_BUILD_TESTS=ON
-          -DWSPP_BUILD_EXAMPLES=OFF
+          -DWSPP_BUILD_EXAMPLES=ON
           -DWSPP_BUILD_PLAYGROUND=OFF
           -DWSPP_INSTALL=OFF
 
       - name: Build
-        run: cmake --build build --config Release
+        run: cmake --build build -j
 
-      - name: Test
+      - name: Run unit tests
         run: ctest --test-dir build --output-on-failure
+
+      # =========================
+      # AUTOBahn
+      # =========================
+
+      - name: Start Autobahn echo server
+        run: |
+          ./build/autobahn_basic_echosv &
+          echo $! > server.pid
+
+      - name: Wait for server
+        run: sleep 2
+
+      - name: Run Autobahn TestSuite
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            --network host \
+            crossbario/autobahn-testsuite \
+            wstest -m fuzzingclient \
+                   -s /workspace/test/autobahn/fuzzingclient.json
+
+      - name: Stop Autobahn server
+        if: always()
+        run: |
+          kill $(cat server.pid) || true
+
+      - name: Upload Autobahn reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autobahn-wspp-reports
+          path: reports/

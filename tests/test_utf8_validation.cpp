@@ -28,7 +28,17 @@ TEST_CASE("is_valid_utf8 accepts valid UTF-8 sequences (RFC 3629)") {
         // ---- 4-byte ----
         { { char(0xF0), char(0x9F), char(0x92), char(0xA9) }, true }, // 💩
         { { char(0xF4), char(0x8F), char(0xBF), char(0xBF) }, true }, // max Unicode
-
+        
+        // ---- Auto-bahn ----
+        { 
+            { 
+                char(0xce), char(0xba), char(0xe1), char(0xbd), char(0xb9), char(0xcf), char(0x83), 
+                char(0xce), char(0xbc), char(0xce), char(0xb5), /*Second Part */char(0xf4),
+                char(0x90), char(0x80), char(0x80), char(0x65), char(0x64), char(0x69), char(0x74), 
+                char (0x65), char(0x64)
+            }, 
+        false 
+        },
         // ---- mixed ----
         {
             {
