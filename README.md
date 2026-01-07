@@ -3,6 +3,7 @@
 ![C++20](https://img.shields.io/badge/cpp-20-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Autobahn](https://img.shields.io/badge/autobahn-passing-brightgreen)
 
 > **Modern, header-only WebSocket library for C++20**  
 > Build WebSocket clients & servers. Async, non-blocking, cross-platform, zero dependencies (optional OpenSSL for WSS).
@@ -12,7 +13,8 @@
 **Why wspp?**  
 
 - ✅ Header-only → drop-in, no linking hassle  
-- ✅ Supports WS & WSS → secure and standard-compliant  
+- ✅ Supports WS & WSS → secure
+- ✅ RFC 6455 Compliant → Passing all Autobahn tests
 - ✅ Fully async/reactor → handle multiple connections efficiently  
 - ✅ Cross-platform → Windows & Linux  
 - ✅ Minimal and modern → C++20 clean API  
@@ -84,6 +86,36 @@ int main() {
             });
         });
     ws.listen(80);
+    ws.run();
+}
+```
+
+**Mini Chat Server Example:**
+```cpp
+#include <wspp/wspp.h>
+#include <iostream>
+#include <format>
+
+int main() {
+    wspp::ws_server ws;
+    // or wspp::wss_server for wss://
+    ws.on_connection([&ws](auto c) {
+        ws.broadcast_except(c, 
+            std::format("{}:: joined.", c->id()));
+
+        c->on_message([&ws, c](wspp::message_view msg) {
+            if (!msg.is_text()) return;
+            ws.broadcast_except(c, 
+                std::format("{}: {}", 
+                    c->id(), msg.text()));
+            });
+
+        c->on_close([c, &ws](wspp::close_event e) {
+            ws.broadcast_except(c, std::format(
+                "{}:: left.", c->id()));
+            });
+        });
+    ws.listen(81);
     ws.run();
 }
 ```

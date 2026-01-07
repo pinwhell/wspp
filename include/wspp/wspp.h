@@ -14,6 +14,7 @@
 #include <span>
 #include <optional>
 #include <utility>
+#include <atomic>
 
 #ifndef WSPP_UNUSED
 #define WSPP_UNUSED(x) (void)(x)
@@ -2573,6 +2574,8 @@ namespace wspp {
             }
         };
 
+        using client_id = std::uint64_t;
+
         template<
             typename Acceptor,
             StatefulTransport Transport,
@@ -2590,6 +2593,7 @@ namespace wspp {
             // connection (user-facing)
             // =========================
             struct connection {
+                client_id id_;
                 endpoint_t ep;
 
                 std::function<void(message_view)> on_message_cb;
@@ -2599,6 +2603,12 @@ namespace wspp {
                 bool aborted = false;
 
                 // ---- user API (mirrors basic_client) ----
+
+                client_id id() const
+                {
+                    return id_;
+                }
+
                 void send(message_view msg) {
                     if (msg.is_text())
                         ep.send_text(msg.text());
@@ -2665,10 +2675,28 @@ namespace wspp {
             std::function<void(connection_ptr)> on_connection_cb;
             bool aborted = false;
             std::once_flag close_flag;
+            std::atomic_uint64_t id_ = 1u;
 
             // =========================
             // API
             // =========================
+
+            template<typename TView>
+            void broadcast(TView view)
+            {
+                for (auto& conn : connections)
+                    conn->send(view);
+            }
+
+            // Maybe later scale this to a ->client_id()
+            template<typename TConn, typename TView>
+            void broadcast_except(const TConn& conn_, TView view)
+            {
+                for (auto& conn : connections)
+                    if(conn != conn_)
+                        conn->send(view);
+            }
+
             bool listen(uint16_t port) {
                 wspp_runtime::ensure();
                 return acceptor.bind_and_listen(port);
@@ -2738,6 +2766,7 @@ namespace wspp {
 
                             if (st == ws_step::handshake)
                             {
+                                c->id_ = id_.fetch_add(1, std::memory_order_relaxed);
                                 // Handshake completed
                                 if (on_connection_cb)
                                     on_connection_cb(c);
@@ -2798,6 +2827,7 @@ namespace wspp {
         };
     }
 
+    using client_id = detail::client_id;
     using close_event = detail::close_event;
     using message_view = detail::message_view;
     using binary_view = detail::binary_view;
