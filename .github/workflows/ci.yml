@@ -50,7 +50,7 @@ jobs:
             --network host \
             crossbario/autobahn-testsuite \
             wstest -m fuzzingclient \
-                   -s /workspace/test/autobahn/fuzzingclient.json
+                   -s /workspace/tests/autobahn/fuzzingclient.json
 
       - name: Stop Autobahn server
         if: always()
