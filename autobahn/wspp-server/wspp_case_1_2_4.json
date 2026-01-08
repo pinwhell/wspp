@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: F5SQZ3BdCai/zqD5dRdCRg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: mRe+ADwW75ZotGeHjk+26zalDYI=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: qFFgO6lT82OdJfkk1fR56w==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: VMbmn5xqwy/IBwNnsHv5y4IbRn0=\r\n\r\n",
    "id": "1.2.4",
    "isServer": false,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "129": 1,
       "131": 1
    },
-   "started": "2026-01-08T15:33:36.826Z",
+   "started": "2026-01-08T15:53:18.598Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -96,7 +96,7 @@
          2,
          true,
          0,
-         "0473115d",
+         "ae4040f7",
          null,
          null,
          false
@@ -105,7 +105,7 @@
          "TO",
          [
             135,
-            "82fe007f0473115dfa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3fa8defa3 ..."
+            "82fe007fae4040f750bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe0950bebe09 ..."
          ],
          false
       ],
@@ -141,7 +141,7 @@
          8,
          true,
          0,
-         "aa27ab8d",
+         "17cea769",
          null,
          null,
          false
@@ -150,7 +150,7 @@
          "TO",
          [
             8,
-            "8882aa27ab8da9cf"
+            "888217cea7691426"
          ],
          false
       ],

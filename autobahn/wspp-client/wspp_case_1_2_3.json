@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=11&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: PoigJvzt6BCl+boQ3XDb3A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 29Lz9lysAb7EJh0jAm58eDLylHY=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=11&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 1LR+1jXvz6Z5uIV/8JV6NQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: //O35dqGlFnb7yPtg3mshAJu7jo=\r\n\r\n",
    "id": "1.2.3",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "134": 1,
       "179": 1
    },
-   "started": "2026-01-08T15:33:53.924Z",
+   "started": "2026-01-08T15:53:36.133Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             134,
-            "82fe007edb4cac4825b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b625b252b6 ..."
+            "82fe007ed24ffa4d2cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b32cb104b3 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "db4cac48"
+         "d24ffa4d"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882d5ee4dc2d606"
+            "88823cb694293f5e"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "d5ee4dc2"
+         "3cb69429"
       ]
    ]
 }

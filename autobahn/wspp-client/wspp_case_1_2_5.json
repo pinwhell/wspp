@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=13&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: rhFlRwV3FaRJFnB1bz6Vwg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: oBz4K7mYHoq7ttbCyOdyXL7tKt8=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=13&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: U1Uj7045PXdwNdhIrgcH1A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ux3Ug4NDBxKfIA7VxHlBzuiXeJs=\r\n\r\n",
    "id": "1.2.5",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "136": 1,
       "179": 1
    },
-   "started": "2026-01-08T15:33:53.927Z",
+   "started": "2026-01-08T15:53:36.136Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             136,
-            "82fe0080ac8933875277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd795277cd79 ..."
+            "82fe0080912dce176fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e96fd330e9 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "ac893387"
+         "912dce17"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882788867b27b60"
+            "888253ba78c75052"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "788867b2"
+         "53ba78c7"
       ]
    ]
 }

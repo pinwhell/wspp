@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=4&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: jNFEIbXKcq3FFlkSMu7xVQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: Cm6FeNkxsfVlFMJiJAl6QQHBlzI=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=4&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: ra9Bz0clz+hNM274oJkUqA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: Y8ggDiVw5pIcpWfGfiwe2S7mPxw=\r\n\r\n",
    "id": "1.1.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "135": 1,
       "178": 1
    },
-   "started": "2026-01-08T15:33:53.900Z",
+   "started": "2026-01-08T15:53:36.111Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             135,
-            "81fe007fe6b1e339cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913cc9bc913 ..."
+            "81fe007f5be5b59f71cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb571cf9fb5 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "e6b1e339"
+         "5be5b59f"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882060e94b005e6"
+            "8882fbee4b36f806"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "060e94b0"
+         "fbee4b36"
       ]
    ]
 }

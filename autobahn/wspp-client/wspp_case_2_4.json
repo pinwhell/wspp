@@ -26,8 +26,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=20&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: vf4fD+THGiN3EplsQzblbA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: uGyeTlRc7UVJblcB6sQtnyRQQwI=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=20&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 3buQmD3cpE8mH/+1gaKO6Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: cx72tBV6QueJsy5E7e5pNuaIF7I=\r\n\r\n",
    "id": "2.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -53,7 +53,7 @@
       "131": 1,
       "179": 1
    },
-   "started": "2026-01-08T15:33:53.957Z",
+   "started": "2026-01-08T15:53:36.165Z",
    "trafficStats": null,
    "txFrameStats": {
       "8": 1,
@@ -115,7 +115,7 @@
          "RO",
          [
             131,
-            "8afd7b36384785c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8c6b985c8 ..."
+            "8afddb42673a25bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc99c425bc ..."
          ]
       ],
       [
@@ -128,7 +128,7 @@
          true,
          0,
          true,
-         "7b363847"
+         "db42673a"
       ],
       [
          "TF",
@@ -156,7 +156,7 @@
          "RO",
          [
             8,
-            "8882b3fe2044b016"
+            "8882bd8d63a6be65"
          ]
       ],
       [
@@ -169,7 +169,7 @@
          true,
          0,
          true,
-         "b3fe2044"
+         "bd8d63a6"
       ]
    ]
 }
