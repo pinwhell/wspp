@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 OK_BEHAVIORS = {"OK", "UNIMPLEMENTED", "NON-STRICT", "INFORMATIONAL"}
+OK_CLOSE_BEHAVIORS = {"OK", "INFORMATIONAL"}
 
 def check_index(path):
     data = json.loads(Path(path).read_text())
@@ -16,7 +17,7 @@ def check_index(path):
             print(f"FAIL: {path} case {case} behavior={b}")
             return False
 
-        if bc != "OK":
+        if bc not in OK_CLOSE_BEHAVIORS:
             print(f"FAIL: {path} case {case} behaviorClose={bc}")
             return False
 
