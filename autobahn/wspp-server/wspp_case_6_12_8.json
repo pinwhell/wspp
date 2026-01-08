@@ -22,8 +22,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: s0rOp6nrEmWICMZoh+6mUw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: fDyG+MnugTBFxMqEKlj8DfV34Pw=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: KPeOvxstfwXy/BywTJGHqg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: SUkDJPEddvI/0TGCbR7VG11ZpVU=\r\n\r\n",
    "id": "6.12.8",
    "isServer": false,
    "localCloseCode": 1000,
@@ -42,7 +42,7 @@
       "4": 1,
       "129": 1
    },
-   "started": "2026-01-08T15:53:27.888Z",
+   "started": "2026-01-08T16:10:28.223Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -83,7 +83,7 @@
          1,
          true,
          0,
-         "df10c889",
+         "25fc7597",
          null,
          null,
          false
@@ -92,7 +92,7 @@
          "TO",
          [
             69,
-            "81bfdf10c8895f914a0a5b954e0e57994202539d46064f815a1a4b855e1e47895212438d56167fb16a2a7bb56e2e77b9622273bd66266fa17a3a6ba57e3e67a9 ..."
+            "81bf25fc7597a57df714a179f310ad75ff1ca971fb18b56de704b169e300bd65ef0cb961eb08855dd7348159d3308d55df3c8951db38954dc7249149c3209d45 ..."
          ],
          false
       ],
@@ -128,7 +128,7 @@
          8,
          true,
          0,
-         "0b1bbc0e",
+         "fac31350",
          null,
          null,
          false
@@ -137,7 +137,7 @@
          "TO",
          [
             8,
-            "88820b1bbc0e08f3"
+            "8882fac31350f92b"
          ],
          false
       ]

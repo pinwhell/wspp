@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Same as Case 6.4.2, but we send message not in 3 frames, but in 3 chops of the same message frame.\n<br><br>MESSAGE PARTS:<br>\nPART1 = cebae1bdb9cf83cebcceb5f4<br>\nPART2 = 90<br>\nPART3 = <br>\n",
    "droppedByMe": true,
-   "duration": 2003,
+   "duration": 2002,
    "expectation": "The first chop is accepted, we expect to timeout on the first wait. The 2nd chop should be rejected immediately (fail fast on UTF-8). If we timeout, we expect the connection is failed at least then, since the complete message payload is not valid UTF-8.",
    "expected": {
       "NON-STRICT": [
@@ -37,8 +37,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=77&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: nJKJZRnuGqZKM796f7m4Ag==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: rEUJBiq9qmjFEhYzD4Bxm7elE3w=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=77&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: wUM+135Hs1wILHIQPUCpPw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: P73SsrPcecbXg1ZFUCkJrddP0v8=\r\n\r\n",
    "id": "6.4.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -66,7 +66,7 @@
       "8": 1,
       "179": 1
    },
-   "started": "2026-01-08T15:53:43.324Z",
+   "started": "2026-01-08T16:10:43.590Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 1,
@@ -181,7 +181,7 @@
          "RO",
          [
             8,
-            "88829200518a91ef"
+            "8882a7b1a71fa45e"
          ]
       ],
       [
@@ -194,7 +194,7 @@
          true,
          0,
          true,
-         "9200518a"
+         "a7b1a71f"
       ],
       [
          "TF",

@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send small text message with <b>RSV = 1</b>.",
    "droppedByMe": false,
-   "duration": 0,
+   "duration": 1,
    "expectation": "The connection is failed immediately (1002/protocol error), since RSV must be 0, when no extension defining RSV meaning has been negotiated.",
    "expected": {
       "OK": []
@@ -21,8 +21,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: WT58O8p2M+2CFQpJFvltpA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: K/hRIpJ0CRGahD1wyPgEj7CUe8M=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: OItIXQOStYghiNH8EIBdlA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: DYI9o4ipdH0YjONmZD7mEGMve2Q=\r\n\r\n",
    "id": "3.1",
    "isServer": false,
    "localCloseCode": 1000,
@@ -41,7 +41,7 @@
       "4": 1,
       "129": 1
    },
-   "started": "2026-01-08T15:53:18.678Z",
+   "started": "2026-01-08T16:10:18.977Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -82,7 +82,7 @@
          1,
          true,
          1,
-         "7026e02d",
+         "c0dd9356",
          null,
          null,
          false
@@ -91,7 +91,7 @@
          "TO",
          [
             19,
-            "918d7026e02d38438c411f0ac05a1f548c4951"
+            "918dc0dd935688b8ff3aaff1b321afafff32e1"
          ],
          false
       ],
@@ -127,7 +127,7 @@
          8,
          true,
          0,
-         "12027249",
+         "2aaacb84",
          null,
          null,
          false
@@ -136,7 +136,7 @@
          "TO",
          [
             8,
-            "88821202724911ea"
+            "88822aaacb842942"
          ],
          false
       ]

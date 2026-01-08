@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send a text message with payload which is valid UTF-8 in one fragment.<br><br>Payload: 0xf29fbfbf",
    "droppedByMe": true,
-   "duration": 5,
+   "duration": 1,
    "expectation": "The message is echo'ed back to us.",
    "expected": {
       "OK": [
@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=188&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 9b9WRreL6Zwal72SvFrJ9A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: YBAvG3as8y7+WIfm14KN5g0nHVA=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=188&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: NTVQEuM3a+FNRuJ2ayqtBQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: Aohz7T104tcObbZru2Cn6ipZFpk=\r\n\r\n",
    "id": "6.22.20",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "10": 1,
       "180": 1
    },
-   "started": "2026-01-08T15:53:45.514Z",
+   "started": "2026-01-08T16:10:45.780Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             10,
-            "81849537e8d667a85769"
+            "8184819fadb973001206"
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "9537e8d6"
+         "819fadb9"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "88821f0d37d11ce5"
+            "8882ff6d4f8bfc85"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "1f0d37d1"
+         "ff6d4f8b"
       ]
    ]
 }

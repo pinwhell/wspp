@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send text Message fragmented into 2 fragments, one ping with payload in-between. Octets are sent in frame-wise chops.",
    "droppedByMe": false,
-   "duration": 2,
+   "duration": 3,
    "expectation": "A pong is received, then the message is echo'ed back to us.",
    "expected": {
       "OK": [
@@ -31,8 +31,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: rjE5yJ/+IXJD0evAfzWn9A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: i1Vit8n8q3mJ/n9UK0fxqkw+yZU=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: EeC6Rh2W7pb7EhKc7UQ9Xw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 1EJJSvK4AK+ZLJPGuhhWilkm0s8=\r\n\r\n",
    "id": "5.7",
    "isServer": false,
    "localCloseCode": 1000,
@@ -65,7 +65,7 @@
       "20": 1,
       "129": 1
    },
-   "started": "2026-01-08T15:53:18.732Z",
+   "started": "2026-01-08T16:10:19.047Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 1,
@@ -109,7 +109,7 @@
          1,
          false,
          0,
-         "92b22757",
+         "2778078f",
          null,
          null,
          true
@@ -118,7 +118,7 @@
          "TO",
          [
             15,
-            "018992b22757f4c04630ffd74923a3"
+            "01892778078f410a66e84a1d69fb16"
          ],
          true
       ],
@@ -131,7 +131,7 @@
          9,
          true,
          0,
-         "c37db496",
+         "f63f051e",
          null,
          null,
          true
@@ -145,7 +145,7 @@
          0,
          true,
          0,
-         "ae4e4694",
+         "6054ce0a",
          null,
          null,
          true
@@ -158,7 +158,7 @@
          "TO",
          [
             18,
-            "898cc37db496b314daf1e30dd5efaf12d5f2"
+            "898cf63f051e86566b79d64f64679a50647a"
          ],
          true
       ],
@@ -166,7 +166,7 @@
          "TO",
          [
             15,
-            "8089ae4e4694c83c27f3c32b28e09c"
+            "80896054ce0a0626af6d0d31a07e52"
          ],
          true
       ],
@@ -217,7 +217,7 @@
          8,
          true,
          0,
-         "c0fcd6eb",
+         "72fda668",
          null,
          null,
          false
@@ -226,7 +226,7 @@
          "TO",
          [
             8,
-            "8882c0fcd6ebc314"
+            "888272fda6687115"
          ],
          false
       ],

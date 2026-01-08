@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send binary message message with payload of length 65536. Sent out data in chops of 997 octets.",
    "droppedByMe": true,
-   "duration": 11,
+   "duration": 12,
    "expectation": "Receive echo'ed binary message (with payload as sent). Clean close with normal code.",
    "expected": {
       "OK": [
@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=16&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: j4BKM8R4PV52zrcb3CXKzA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: +0tZ60WtrvEL216rtOoLzDw29e4=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=16&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 8dGoxxb3DK7m/Epf1p8zuw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: c8sFf6RlFChICK0shQVTvLam0Ks=\r\n\r\n",
    "id": "1.2.8",
    "isServer": true,
    "localCloseCode": 1000,
@@ -56,7 +56,7 @@
       "179": 1,
       "65536": 1
    },
-   "started": "2026-01-08T15:53:36.149Z",
+   "started": "2026-01-08T16:10:36.403Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -639,14 +639,14 @@
          "RO",
          [
             65536,
-            "82ff00000000000100006f5c903f91a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a26ec191a2 ..."
+            "82ff00000000000100003331f45fcdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf0aa1cdcf ..."
          ]
       ],
       [
          "RO",
          [
             14,
-            "6ec191a26ec191a26ec191a26ec1"
+            "0aa1cdcf0aa1cdcf0aa1cdcf0aa1"
          ]
       ],
       [
@@ -659,7 +659,7 @@
          true,
          0,
          true,
-         "6f5c903f"
+         "3331f45f"
       ],
       [
          "TF",
@@ -687,7 +687,7 @@
          "RO",
          [
             8,
-            "8882eb873a5ce86f"
+            "8882bd14f51dbefc"
          ]
       ],
       [
@@ -700,7 +700,7 @@
          true,
          0,
          true,
-         "eb873a5c"
+         "bd14f51d"
       ]
    ]
 }

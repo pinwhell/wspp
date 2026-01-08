@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send a valid UTF-8 text message in fragments of 1 octet, resulting in frames ending on positions which are not code point ends.<br><br>MESSAGE:<br>\u03ba\u1f79\u03c3\u03bc\u03b5<br>cebae1bdb9cf83cebcceb5",
    "droppedByMe": true,
-   "duration": 2,
+   "duration": 3,
    "expectation": "The message is echo'ed back to us.",
    "expected": {
       "OK": [
@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=71&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: ptmoZ8r6pO2LpnC2vNlGlQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 285bk2k6iTyl45Ksi9tTRyATUPw=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=71&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: pk3QJkQsdoJd2VxreidZKw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: m2fUlwTBrW09rWMv7r+O/vjloZQ=\r\n\r\n",
    "id": "6.2.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "17": 1,
       "179": 1
    },
-   "started": "2026-01-08T15:53:38.310Z",
+   "started": "2026-01-08T16:10:38.575Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 11,
@@ -361,7 +361,7 @@
          "RO",
          [
             17,
-            "818b4310c8c38daa297efadf4b0dffde7d"
+            "818baaa57637641f978a136af5f9166bc3"
          ]
       ],
       [
@@ -374,7 +374,7 @@
          true,
          0,
          true,
-         "4310c8c3"
+         "aaa57637"
       ],
       [
          "TF",
@@ -402,7 +402,7 @@
          "RO",
          [
             8,
-            "888270b0fa7d7358"
+            "88823c0c52773fe4"
          ]
       ],
       [
@@ -415,7 +415,7 @@
          true,
          0,
          true,
-         "70b0fa7d"
+         "3c0c5277"
       ]
    ]
 }

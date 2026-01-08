@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send a text message with payload which is not valid UTF-8 in one fragment.<br><br>Payload: 0xefbf",
    "droppedByMe": true,
-   "duration": 0,
+   "duration": 1,
    "expectation": "The connection is failed immediately, since the payload is not valid UTF-8.",
    "expected": {
       "OK": []
@@ -22,8 +22,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=131&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: RnWTugRPLzy13WVIGNWZPQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ZsgDGK7U9H5nsTKEiytHwFk4eTw=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=131&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: Zuk7iYrwFdoFWUqyyLjYJQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 4KM6pVSxx+8077GTT75NJwNgW4o=\r\n\r\n",
    "id": "6.14.7",
    "isServer": true,
    "localCloseCode": 1000,
@@ -42,7 +42,7 @@
       "8": 1,
       "180": 1
    },
-   "started": "2026-01-08T15:53:45.416Z",
+   "started": "2026-01-08T16:10:45.675Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -103,7 +103,7 @@
          "RO",
          [
             8,
-            "88826d274e936ec8"
+            "8882c1490e3bc2a6"
          ]
       ],
       [
@@ -116,7 +116,7 @@
          true,
          0,
          true,
-         "6d274e93"
+         "c1490e3b"
       ],
       [
          "TF",

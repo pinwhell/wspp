@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send ping with binary payload of 125 octets, send in octet-wise chops.",
    "droppedByMe": true,
-   "duration": 19,
+   "duration": 20,
    "expectation": "Pong with payload echo'ed is sent in reply to Ping. Implementations must be TCP clean. Clean close with normal code.",
    "expected": {
       "OK": [
@@ -26,8 +26,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=22&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: mHau29of0TT85PdJElRPxQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: a32L8GjttAnoEwGd7tXlMQ6w9CE=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=22&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: /VfkLaOooFyoFgSKqNlQhg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: jQs8BGi2KEvHe+9kPAL0dxkAZ30=\r\n\r\n",
    "id": "2.6",
    "isServer": true,
    "localCloseCode": 1000,
@@ -53,7 +53,7 @@
       "131": 1,
       "179": 1
    },
-   "started": "2026-01-08T15:53:36.167Z",
+   "started": "2026-01-08T16:10:36.422Z",
    "trafficStats": null,
    "txFrameStats": {
       "8": 1,
@@ -1123,7 +1123,7 @@
          "RO",
          [
             131,
-            "8afde08a15961e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74eb681e74 ..."
+            "8afd391fba1fc7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e1 ..."
          ]
       ],
       [
@@ -1136,7 +1136,7 @@
          true,
          0,
          true,
-         "e08a1596"
+         "391fba1f"
       ],
       [
          "TF",
@@ -1164,7 +1164,7 @@
          "RO",
          [
             8,
-            "888225a0a6812648"
+            "88825b9be6f95873"
          ]
       ],
       [
@@ -1177,7 +1177,7 @@
          true,
          0,
          true,
-         "25a0a681"
+         "5b9be6f9"
       ]
    ]
 }

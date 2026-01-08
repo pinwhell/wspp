@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send binary message message with payload of length 65536.",
    "droppedByMe": true,
-   "duration": 6,
+   "duration": 5,
    "expectation": "Receive echo'ed binary message (with payload as sent). Clean close with normal code.",
    "expected": {
       "OK": [
@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=15&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 0F1JgzE/cthBetsMxLmRJQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 56khfnTycSmX3ZaFfE6xozJ90ZU=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=15&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: psV21tkt1JUnKMJ289kncw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: icaOhLWUwhGS7xdy5cR+BLy41JY=\r\n\r\n",
    "id": "1.2.7",
    "isServer": true,
    "localCloseCode": 1000,
@@ -56,7 +56,7 @@
       "179": 1,
       "65536": 1
    },
-   "started": "2026-01-08T15:53:36.143Z",
+   "started": "2026-01-08T16:10:36.397Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -118,14 +118,14 @@
          "RO",
          [
             65536,
-            "82ff0000000000010000ffe41b73011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011ae58d011a ..."
+            "82ff000000000001000018e0702be61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e8ed5e61e ..."
          ]
       ],
       [
          "RO",
          [
             14,
-            "e58d011ae58d011ae58d011ae58d"
+            "8ed5e61e8ed5e61e8ed5e61e8ed5"
          ]
       ],
       [
@@ -138,7 +138,7 @@
          true,
          0,
          true,
-         "ffe41b73"
+         "18e0702b"
       ],
       [
          "TF",
@@ -166,7 +166,7 @@
          "RO",
          [
             8,
-            "8882a34bf25da0a3"
+            "8882265975e525b1"
          ]
       ],
       [
@@ -179,7 +179,7 @@
          true,
          0,
          true,
-         "a34bf25d"
+         "265975e5"
       ]
    ]
 }

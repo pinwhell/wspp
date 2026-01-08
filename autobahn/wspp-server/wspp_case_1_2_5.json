@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: 9CQDs0DAQAcud7tzVSXXtQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: /dqbvIsYDoj0I6sEwCT6dflHpEg=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: mBXiTtAilL2xNDvQc6cpgw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: JudVHhJKBB5FIiChmkncFxcerck=\r\n\r\n",
    "id": "1.2.5",
    "isServer": false,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "129": 1,
       "132": 1
    },
-   "started": "2026-01-08T15:53:18.599Z",
+   "started": "2026-01-08T16:10:18.885Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -96,7 +96,7 @@
          2,
          true,
          0,
-         "9fae0cc3",
+         "64ee855d",
          null,
          null,
          false
@@ -105,7 +105,7 @@
          "TO",
          [
             136,
-            "82fe00809fae0cc36150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d6150f23d ..."
+            "82fe008064ee855d9a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba39a107ba3 ..."
          ],
          false
       ],
@@ -141,7 +141,7 @@
          8,
          true,
          0,
-         "3f011ced",
+         "63d21166",
          null,
          null,
          false
@@ -150,7 +150,7 @@
          "TO",
          [
             8,
-            "88823f011ced3ce9"
+            "888263d21166603a"
          ],
          false
       ],
