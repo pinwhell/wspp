@@ -26,8 +26,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=22&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: /VfkLaOooFyoFgSKqNlQhg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: jQs8BGi2KEvHe+9kPAL0dxkAZ30=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=22&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: h++5QA+P7UeQ58QQ8ynGig==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: pRN/opsUmvy5Dfyqjc0AUnWx10o=\r\n\r\n",
    "id": "2.6",
    "isServer": true,
    "localCloseCode": 1000,
@@ -53,7 +53,7 @@
       "131": 1,
       "179": 1
    },
-   "started": "2026-01-08T16:10:36.422Z",
+   "started": "2026-01-08T16:13:44.462Z",
    "trafficStats": null,
    "txFrameStats": {
       "8": 1,
@@ -1123,7 +1123,7 @@
          "RO",
          [
             131,
-            "8afd391fba1fc7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e144e1c7e1 ..."
+            "8afddad905cd2427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427fb332427 ..."
          ]
       ],
       [
@@ -1136,7 +1136,7 @@
          true,
          0,
          true,
-         "391fba1f"
+         "dad905cd"
       ],
       [
          "TF",
@@ -1164,7 +1164,7 @@
          "RO",
          [
             8,
-            "88825b9be6f95873"
+            "8882eed502e1ed3d"
          ]
       ],
       [
@@ -1177,7 +1177,7 @@
          true,
          0,
          true,
-         "5b9be6f9"
+         "eed502e1"
       ]
    ]
 }
