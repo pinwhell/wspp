@@ -90,6 +90,10 @@ jobs:
           name: autobahn-wspp-reports
           path: reports/
 
+      - name: Validate Autobahn JSON results
+        run: |
+          python3 tests/autobahn/check_results.py
+
       - name: Publish Autobahn reports to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
