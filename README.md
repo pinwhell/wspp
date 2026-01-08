@@ -6,7 +6,7 @@
 ![Autobahn](https://img.shields.io/badge/autobahn-passing-brightgreen)
 
 > **Modern, header-only WebSocket library for C++20**  
-> Build WebSocket clients & servers. Async, non-blocking, cross-platform, zero dependencies (optional OpenSSL for WSS).
+> Build WebSocket clients & servers. RFC Compliant, Async, non-blocking, cross-platform, zero dependencies (optional OpenSSL for WSS).
 
 ---
 
@@ -17,8 +17,14 @@
 - ✅ RFC 6455 Compliant → Passing all Autobahn tests
 - ✅ Fully async/reactor → handle multiple connections efficiently  
 - ✅ Cross-platform → Windows & Linux  
-- ✅ Minimal and modern → C++20 clean API  
+- ✅ Minimal and modern → C++20 clean API    
 
+---
+
+**Autobahn TestSuite (RFC 6455 Compliance)**
+
+- ✅ [Client](https://pinwhell.github.io/wspp/autobahn/wspp-client/)
+- ✅ [Server](https://pinwhell.github.io/wspp/autobahn/wspp-server/)
 ---
 
 **Quick Client Example (1 minute to run):**  
