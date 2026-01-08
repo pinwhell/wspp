@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=4&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: c/cV3ZodD3MADSf68gUT+w==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: DWp+3OiFX4C1F5XtY4xllw6SSBQ=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=4&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: qFeAKPsk/QMKphAC5+qQ6A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 8xCCgsqyDec6cpb+WNp1N/wjQa4=\r\n\r\n",
    "id": "1.1.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "135": 1,
       "178": 1
    },
-   "started": "2026-01-08T16:13:44.399Z",
+   "started": "2026-01-08T16:22:49.301Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             135,
-            "81fe007fb9b03c51939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b939a167b ..."
+            "81fe007fa5e663948fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be8fcc49be ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "b9b03c51"
+         "a5e66394"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882e1c831b7e220"
+            "8882c4537a33c7bb"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "e1c831b7"
+         "c4537a33"
       ]
    ]
 }

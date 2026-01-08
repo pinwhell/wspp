@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send fragmented binary message message with message payload of length 4 * 2**20 (4M). Sent out in fragments of 4M.",
    "droppedByMe": false,
-   "duration": 22,
+   "duration": 24,
    "expectation": "Receive echo'ed binary message (with payload as sent).",
    "expected": {},
    "expectedClose": {
@@ -19,8 +19,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: /+kyDKhecBAN+FKhfELK+Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: WkpZj54S+JbhZSnzwz3ByiMdzD8=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: dNXFXXZQqH3VwL4Fzw72Yw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: tSlrOoJkA6CDZE3qCWstOXtYdYc=\r\n\r\n",
    "id": "9.4.9",
    "isServer": false,
    "localCloseCode": 1000,
@@ -40,10 +40,11 @@
       "4": 1,
       "129": 1,
       "28800": 1,
-      "36746": 1,
-      "65536": 63
+      "42186": 1,
+      "60096": 1,
+      "65536": 62
    },
-   "started": "2026-01-08T16:13:38.917Z",
+   "started": "2026-01-08T16:22:43.732Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -88,7 +89,7 @@
          8,
          true,
          0,
-         "817f0868",
+         "e3d9c2cc",
          null,
          null,
          false
@@ -97,7 +98,7 @@
          "TO",
          [
             8,
-            "8882817f08688297"
+            "8882e3d9c2cce031"
          ],
          false
       ],

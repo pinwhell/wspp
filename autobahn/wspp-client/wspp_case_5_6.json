@@ -31,8 +31,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=50&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: VPdowxesd106eQRGu3Mt0Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: LwG/FuOD+2v7/UUmQ23NqrWITYA=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=50&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: Z1IlkzKCScQP8FviXHD7kQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: QlTNKGzCf+5C82K98YwauZ5akxw=\r\n\r\n",
    "id": "5.6",
    "isServer": true,
    "localCloseCode": 1000,
@@ -64,7 +64,7 @@
       "42": 1,
       "179": 1
    },
-   "started": "2026-01-08T16:13:44.557Z",
+   "started": "2026-01-08T16:22:49.460Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 1,
@@ -173,7 +173,7 @@
          "RO",
          [
             42,
-            "8a8c46e88f673681e1006698ee1e2a87ee03819262ce090404bc68630fab677053a87b6505a36c6a16fc"
+            "8a8ce75894fc9731fa9bc728f5858b37f5988192c555821aa327e37da830ec6ef433f07ba238e774b167"
          ]
       ],
       [
@@ -186,7 +186,7 @@
          true,
          0,
          true,
-         "46e88f67"
+         "e75894fc"
       ],
       [
          "RF",
@@ -198,7 +198,7 @@
          true,
          0,
          true,
-         "62ce0904"
+         "c555821a"
       ],
       [
          "TF",
@@ -226,7 +226,7 @@
          "RO",
          [
             8,
-            "8882e2ec067be104"
+            "8882697bc9876a93"
          ]
       ],
       [
@@ -239,7 +239,7 @@
          true,
          0,
          true,
-         "e2ec067b"
+         "697bc987"
       ]
    ]
 }

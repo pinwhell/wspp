@@ -26,8 +26,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=20&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: UrizY6fNiMMcrY4DCswduQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: yiyvNpMD++n4eq7cCvvBo2WOEQA=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=20&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: uD6XTBuufcpnYzZZE7W9aQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: xxPv/hZGIieLnjELJJfiUqrSozM=\r\n\r\n",
    "id": "2.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -53,7 +53,7 @@
       "131": 1,
       "179": 1
    },
-   "started": "2026-01-08T16:13:44.459Z",
+   "started": "2026-01-08T16:22:49.359Z",
    "trafficStats": null,
    "txFrameStats": {
       "8": 1,
@@ -115,7 +115,7 @@
          "RO",
          [
             131,
-            "8afdd855204d26abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326abdeb326ab ..."
+            "8afdcd862c1f3378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378d2e13378 ..."
          ]
       ],
       [
@@ -128,7 +128,7 @@
          true,
          0,
          true,
-         "d855204d"
+         "cd862c1f"
       ],
       [
          "TF",
@@ -156,7 +156,7 @@
          "RO",
          [
             8,
-            "88825d2641055ece"
+            "88820dcee1a40e26"
          ]
       ],
       [
@@ -169,7 +169,7 @@
          true,
          0,
          true,
-         "5d264105"
+         "0dcee1a4"
       ]
    ]
 }

@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: QhSfO+Gh09AJhLrRXWyb8g==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: B9uZTfQAYVTLJbGP4lgBzbaammk=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: nUlxHC4xNtWtIpHanhSDPQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: PX/nzlaPn2qxUxsbSHiC/ToF2xk=\r\n\r\n",
    "id": "1.1.7",
    "isServer": false,
    "localCloseCode": 1000,
@@ -56,7 +56,7 @@
       "129": 1,
       "65536": 1
    },
-   "started": "2026-01-08T16:13:26.910Z",
+   "started": "2026-01-08T16:22:31.807Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -97,7 +97,7 @@
          1,
          true,
          0,
-         "cb8d93af",
+         "a3031371",
          null,
          null,
          false
@@ -106,7 +106,7 @@
          "TO",
          [
             65550,
-            "81ff0000000000010000cb8d93afe1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7b985e1a7 ..."
+            "81ff0000000000010000a30313718929395b8929395b8929395b8929395b8929395b8929395b8929395b8929395b8929395b8929395b8929395b8929395b8929 ..."
          ],
          false
       ],
@@ -149,7 +149,7 @@
          8,
          true,
          0,
-         "2dd7040c",
+         "73308804",
          null,
          null,
          false
@@ -158,7 +158,7 @@
          "TO",
          [
             8,
-            "88822dd7040c2e3f"
+            "88827330880470d8"
          ],
          false
       ],

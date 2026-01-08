@@ -62,8 +62,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: zvDkyVEvF+gbqwiCF/fbPQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: stiqVgt0bVnoZk/Qv6Gvvp7wQa8=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: 5S+WF/ASya5YLCSTOjS4aA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 7EwyiW0t1cGM5j36Xee30wxy5So=\r\n\r\n",
    "id": "2.10",
    "isServer": false,
    "localCloseCode": 1000,
@@ -125,7 +125,7 @@
       "110": 1,
       "129": 1
    },
-   "started": "2026-01-08T16:13:26.992Z",
+   "started": "2026-01-08T16:22:31.888Z",
    "trafficStats": null,
    "txFrameStats": {
       "8": 1,
@@ -166,7 +166,7 @@
          9,
          true,
          0,
-         "539ac861",
+         "87ed8c6f",
          null,
          null,
          false
@@ -175,7 +175,7 @@
          "TO",
          [
             15,
-            "8989539ac86123fbb10d3cfbac4c63"
+            "898987ed8c6ff78cf503e88ce842b7"
          ],
          false
       ],
@@ -188,7 +188,7 @@
          9,
          true,
          0,
-         "1bdcd871",
+         "5f709cc3",
          null,
          null,
          false
@@ -197,7 +197,7 @@
          "TO",
          [
             15,
-            "89891bdcd8716bbda11d74bdbc5c2a"
+            "89895f709cc32f11e5af3011f8ee6e"
          ],
          false
       ],
@@ -210,7 +210,7 @@
          9,
          true,
          0,
-         "bdc1c084",
+         "4ca0a97f",
          null,
          null,
          false
@@ -219,7 +219,7 @@
          "TO",
          [
             15,
-            "8989bdc1c084cda0b9e8d2a0a4a98f"
+            "89894ca0a97f3cc1d01323c1cd527e"
          ],
          false
       ],
@@ -232,7 +232,7 @@
          9,
          true,
          0,
-         "5de76a3c",
+         "2d6a1491",
          null,
          null,
          false
@@ -241,7 +241,7 @@
          "TO",
          [
             15,
-            "89895de76a3c2d86135032860e116e"
+            "89892d6a14915d0b6dfd420b70bc1e"
          ],
          false
       ],
@@ -254,7 +254,7 @@
          9,
          true,
          0,
-         "3a33db74",
+         "cbb25dde",
          null,
          null,
          false
@@ -263,7 +263,7 @@
          "TO",
          [
             15,
-            "89893a33db744a52a2185552bf590e"
+            "8989cbb25ddebbd324b2a4d339f3ff"
          ],
          false
       ],
@@ -276,7 +276,7 @@
          9,
          true,
          0,
-         "e4f2bd69",
+         "634e2f7b",
          null,
          null,
          false
@@ -285,7 +285,7 @@
          "TO",
          [
             15,
-            "8989e4f2bd699493c4058b93d944d1"
+            "8989634e2f7b132f56170c2f4b5656"
          ],
          false
       ],
@@ -298,7 +298,7 @@
          9,
          true,
          0,
-         "fb6b4188",
+         "0b5aa6ed",
          null,
          null,
          false
@@ -307,7 +307,7 @@
          "TO",
          [
             15,
-            "8989fb6b41888b0a38e4940a25a5cd"
+            "89890b5aa6ed7b3bdf81643bc2c03d"
          ],
          false
       ],
@@ -320,7 +320,7 @@
          9,
          true,
          0,
-         "269691c5",
+         "025f00a8",
          null,
          null,
          false
@@ -329,7 +329,7 @@
          "TO",
          [
             15,
-            "8989269691c556f7e8a949f7f5e811"
+            "8989025f00a8723e79c46d3e648535"
          ],
          false
       ],
@@ -342,7 +342,7 @@
          9,
          true,
          0,
-         "6381b336",
+         "9845f2da",
          null,
          null,
          false
@@ -351,7 +351,7 @@
          "TO",
          [
             15,
-            "89896381b33613e0ca5a0ce0d71b5b"
+            "89899845f2dae8248bb6f72496f7a0"
          ],
          false
       ],
@@ -364,7 +364,7 @@
          9,
          true,
          0,
-         "d807f036",
+         "cdf6b864",
          null,
          null,
          false
@@ -373,7 +373,7 @@
          "TO",
          [
             15,
-            "8989d807f036a866895ab766941be1"
+            "8989cdf6b864bd97c108a297dc49f4"
          ],
          false
       ],
@@ -517,7 +517,7 @@
          8,
          true,
          0,
-         "eaba4863",
+         "aefba691",
          null,
          null,
          false
@@ -526,7 +526,7 @@
          "TO",
          [
             8,
-            "8882eaba4863e952"
+            "8882aefba691ad13"
          ],
          false
       ],
