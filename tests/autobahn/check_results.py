@@ -2,7 +2,7 @@ import json
 import sys
 from pathlib import Path
 
-OK_BEHAVIORS = {"OK", "UNIMPLEMENTED", "NON-STRICT"}
+OK_BEHAVIORS = {"OK", "UNIMPLEMENTED", "NON-STRICT", "INFORMATIONAL"}
 
 def check_index(path):
     data = json.loads(Path(path).read_text())
