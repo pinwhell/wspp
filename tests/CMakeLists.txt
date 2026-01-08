@@ -9,6 +9,8 @@ add_executable(wspp_tests
 
 add_executable(autobahn_basic_echosv autobahn_basic_echosv.cpp)
 target_link_libraries(autobahn_basic_echosv wspp::wspp)
+add_executable(autobahn_basic_echoclient autobahn_basic_echoclient.cpp)
+target_link_libraries(autobahn_basic_echoclient wspp::wspp)
 
 target_link_libraries(wspp_tests PRIVATE
     wspp::wspp

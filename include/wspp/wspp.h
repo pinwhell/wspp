@@ -2507,7 +2507,7 @@ namespace wspp {
 
                 if (is.readable) {
                     // READ
-                    std::uint8_t buf[8 * 1024 /*8KB*/];
+                    std::uint8_t buf[256 * 1024 /*256KB*/];
                     auto r = strm.read(buf, sizeof(buf));
                     if (r.result == io_result::ok)
                         impl.on_bytes(buf, r.bytes);
@@ -2542,6 +2542,8 @@ namespace wspp {
                                 .code = st == ws_step::closed ? impl.close_code : std::nullopt,
                                 .body = (st != ws_step::error && impl.close_payload) ? binary_view{ *impl.close_payload } : std::optional<binary_view>{std::nullopt}
                                 });
+
+                            strm.flush();
 
                             if (st == ws_step::error) 
                                 return wspp_event::error;

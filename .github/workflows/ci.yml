@@ -32,7 +32,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       # =========================
-      # AUTOBahn
+      # AUTOBahn Server
       # =========================
 
       - name: Start Autobahn echo server
@@ -43,7 +43,7 @@ jobs:
       - name: Wait for server
         run: sleep 2
 
-      - name: Run Autobahn TestSuite
+      - name: Run Autobahn Server TestSuite 
         run: |
           docker run --rm \
             -v "$PWD:/workspace" \
@@ -56,6 +56,32 @@ jobs:
         if: always()
         run: |
           kill $(cat server.pid) || true
+
+        # =========================
+        # AUTOBahn CLIENT
+        # =========================
+
+      - name: Start Autobahn fuzzing server (client tests)
+        run: |
+          docker run -d --rm \
+            --name autobahn-client \
+            --network host \
+            -v "$PWD:/workspace" \
+            crossbario/autobahn-testsuite \
+            wstest -m fuzzingserver \
+                   -s /workspace/tests/autobahn/fuzzingserver.json
+
+      - name: Wait for Autobahn server
+        run: sleep 2
+
+      - name: Run wspp Autobahn client
+        run: |
+          ./build/tests/autobahn_basic_echoclient
+
+      - name: Stop Autobahn fuzzing server
+        if: always()
+        run: |
+          docker stop autobahn-client || true
 
       - name: Upload Autobahn reports
         if: always()
