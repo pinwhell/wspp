@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send 1000 binary messages of payload size 1024 to measure implementation/network RTT (round trip time) / latency.",
    "droppedByMe": true,
-   "duration": 54,
+   "duration": 53,
    "expectation": "Receive echo'ed binary messages (with payload as sent). Timeout case after 240 secs.",
    "expected": {},
    "expectedClose": {
@@ -19,8 +19,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=299&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: LHsMw73gx3YRwDebnaYj6Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: aZUmxBz4ckeQDD+w07z08qc6bik=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=299&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: KoyjJgD2HWhCW1uNmqW6HA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: AiGsEs/9QEyncXOa+/s4DpzCV6k=\r\n\r\n",
    "id": "9.8.5",
    "isServer": true,
    "localCloseCode": 1000,
@@ -41,7 +41,7 @@
       "180": 1,
       "1032": 1000
    },
-   "started": "2026-01-10T01:28:46.987Z",
+   "started": "2026-01-10T01:31:04.233Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1000,
@@ -111,7 +111,7 @@
          "RO",
          [
             8,
-            "8882c3fef4dcc016"
+            "88824473e335479b"
          ]
       ],
       [
@@ -124,7 +124,7 @@
          true,
          0,
          true,
-         "c3fef4dc"
+         "4473e335"
       ]
    ]
 }

@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send fragmented text message message with message payload of length 4 * 2**20 (4M). Sent out in fragments of 256.",
    "droppedByMe": true,
-   "duration": 140,
+   "duration": 136,
    "expectation": "Receive echo'ed text message (with payload as sent).",
    "expected": {},
    "expectedClose": {
@@ -19,8 +19,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=260&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: pGhZfIIPSJR6dbUBbv0Zpg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: MAg7CKRDxyziU3SsNITuqVVEEEo=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=260&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: TPOx9qQbtfcmlHBI1XeRmQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: eYSwW3aj83SkBV3jwjPU9dNOpxI=\r\n\r\n",
    "id": "9.3.2",
    "isServer": true,
    "localCloseCode": 1000,
@@ -42,7 +42,7 @@
       "180": 1,
       "65536": 64
    },
-   "started": "2026-01-10T01:28:44.036Z",
+   "started": "2026-01-10T01:31:01.238Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 16384,
@@ -106,7 +106,7 @@
          "RO",
          [
             8,
-            "88822ef6318a2d1e"
+            "888259cc9ed35a24"
          ]
       ],
       [
@@ -119,7 +119,7 @@
          true,
          0,
          true,
-         "2ef6318a"
+         "59cc9ed3"
       ]
    ]
 }

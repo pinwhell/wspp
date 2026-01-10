@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=2&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: aUGzcHR4Re17HbWf74UHfw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ljfMyiAH0LzflG4FGFmGkWuAUww=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=2&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: DQTtobDthiyWnBkyA8zm9Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: A7bRGeYR/zzOb3upxdk4taLsnH8=\r\n\r\n",
    "id": "1.1.2",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "131": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:28:33.344Z",
+   "started": "2026-01-10T01:30:50.589Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             131,
-            "81fd8b17bbe2a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d91c8a13d ..."
+            "81fd8a2e6441a0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba0044e6ba004 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "8b17bbe2"
+         "8a2e6441"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "888248ed4d6b4b05"
+            "8882758533ac766d"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "48ed4d6b"
+         "758533ac"
       ]
    ]
 }

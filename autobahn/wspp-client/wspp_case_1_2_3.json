@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=11&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: +xxF6g3KMkH7rKwYs39nog==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: Q8AQXoYmyPsb11XRa1rKjERmYUA=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=11&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: YBUHWm5t/fSZ+L/VYfvPYQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: CGXVyz5fiSiNvgRXKfXsdHNqUOY=\r\n\r\n",
    "id": "1.2.3",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "134": 1,
       "179": 1
    },
-   "started": "2026-01-10T01:28:33.373Z",
+   "started": "2026-01-10T01:30:50.614Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             134,
-            "82fe007ed372f7e62d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c09182d8c0918 ..."
+            "82fe007ecaf96915340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb340797eb ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "d372f7e6"
+         "caf96915"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882f6ef4e12f507"
+            "8882f485391af76d"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "f6ef4e12"
+         "f485391a"
       ]
    ]
 }
