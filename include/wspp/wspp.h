@@ -15,6 +15,7 @@
 #include <optional>
 #include <utility>
 #include <atomic>
+#include <unordered_set>
 
 #ifndef WSPP_UNUSED
 #define WSPP_UNUSED(x) (void)(x)
@@ -2666,13 +2667,14 @@ namespace wspp {
                 }
             };
 
-            using connection_ptr = std::shared_ptr<connection>;
+            using connection_ptr = connection*;
 
             // =========================
             // server state
             // =========================
             Acceptor acceptor;
-            std::vector<connection_ptr> connections;
+            std::vector<std::unique_ptr<connection>> connections;
+            std::unordered_map<std::string, std::unordered_set<connection_ptr>> subscriptions;
 
             std::function<void(connection_ptr)> on_connection_cb;
             bool aborted = false;
@@ -2690,13 +2692,33 @@ namespace wspp {
                     conn->send(view);
             }
 
-            // Maybe later scale this to a ->client_id()
-            template<typename TConn, typename TView>
-            void broadcast_except(const TConn& conn_, TView view)
+            template<typename TView>
+            void broadcast_except(connection_ptr conn_, TView view)
             {
                 for (auto& conn : connections)
-                    if(conn != conn_)
+                    if(conn.get() != conn_)
                         conn->send(view);
+            }
+
+            void subscribe(connection_ptr conn, std::string_view topic) {
+                subscriptions[std::string(topic)].insert(conn);
+            }
+
+            bool subscribed(connection_ptr conn, std::string_view topic) const {
+                auto subit = subscriptions.find(std::string(topic));
+                if (subit == subscriptions.end()) return false;
+                return subit->second.count(conn) != 0u;
+            }
+
+            void unsubscribe(connection_ptr conn, std::string_view topic) {
+                auto it = subscriptions.find(std::string(topic));
+                if (it != subscriptions.end())
+                    it->second.erase(conn);
+            }
+
+            void unsubscribe_from_all(connection_ptr conn) {
+                for (auto& [_, subs] : subscriptions)
+                    subs.erase(conn);
             }
 
             bool listen(uint16_t port) {
@@ -2708,6 +2730,30 @@ namespace wspp {
                 on_connection_cb = cb;
             }
 
+
+            template<typename TView>
+            void publish(std::string_view topic, TView view) {
+                auto it = subscriptions.find(std::string(topic));
+                if (it == subscriptions.end()) return;
+
+                for (auto& c : connections) {
+                    if (it->second.contains(c.get()))
+                        c->send(view); // text/binary/message_view
+                }
+            }
+
+            template<typename TView>
+            void publish_except(std::string_view topic, connection_ptr except_conn, TView view) {
+                auto it = subscriptions.find(std::string(topic));
+                if (it == subscriptions.end()) return;
+
+                for (auto& c : connections) {
+                    if(except_conn != c)
+                        if (it->second.contains(c.get()))
+                            c->send(view); // text/binary/message_view
+                }
+            }
+
             // =========================
             // event loop
             // =========================
@@ -2715,10 +2761,10 @@ namespace wspp {
 
                 // 1) accept
                 while (auto sock = acceptor.try_accept()) {
-                    auto conn = std::make_shared<connection>();
+                    auto conn = std::make_unique<connection>();
                     conn->ep.transport = std::move(*sock);
 
-                    connections.push_back(conn);
+                    connections.push_back(std::move(conn));
                 }
 
                 // 3) protocol produce + IO + consume
@@ -2771,7 +2817,7 @@ namespace wspp {
                                 c->id_ = id_.fetch_add(1, std::memory_order_relaxed);
                                 // Handshake completed
                                 if (on_connection_cb)
-                                    on_connection_cb(c);
+                                    on_connection_cb(c.get());
                                 continue;
                             }
 
@@ -2782,11 +2828,12 @@ namespace wspp {
                             }
 
                             if (st == ws_step::closed || st == ws_step::error) {
+                                unsubscribe_from_all(c.get());
                                 c->dispatch_close({
                                     .reason = st == ws_step::error ? close_reason::aborted : close_reason::remote,
                                     .code = st == ws_step::closed ? ep.close_code : std::nullopt,
                                     .body = (st == ws_step::closed && ep.close_payload) ? binary_view{ *ep.close_payload } : std::optional<binary_view>{ std::nullopt }
-                                    });;
+                                    });
                                 break;
                             }
                         }
@@ -2799,19 +2846,16 @@ namespace wspp {
 
                 // 5) cleanup
                 std::erase_if(connections,
-                    [](const connection_ptr& c) {
+                    [this](const auto& c) {
                         auto is_dead = !c->is_alive();
                         if (is_dead)
                         {
+                            unsubscribe_from_all(c.get());
                             c->dispatch_close({
                                 .reason = c->aborted ? close_reason::aborted : close_reason::normal,
                                 .code = !c->aborted ? c->ep.close_code : std::nullopt,
                                 .body = (!c->aborted && c->ep.close_payload) ? binary_view{*c->ep.close_payload} : std::optional<binary_view>{std::nullopt}
                                 });
-
-                            // Avoid Self Referencing
-                            c->on_message_cb = 0;
-                            c->on_close_cb = 0;
                         }
                         return is_dead;
                     });

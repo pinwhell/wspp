@@ -1,0 +1,2 @@
+add_executable(ws_server_pubsubchat main.cpp)
+target_link_libraries(ws_server_pubsubchat wspp::wspp)

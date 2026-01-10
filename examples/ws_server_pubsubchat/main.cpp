@@ -6,10 +6,10 @@ int main()
 {
     wspp::ws_server sv;
 
-    sv.on_connection([&sv](wspp::ws_server::connection_ptr conn) {
+    sv.on_connection([&sv](auto conn) {
         conn->on_message([&sv, conn](wspp::message_view msg) {
             if (!msg.is_text()) return;
-            std::string_view text = msg.text();
+            auto text = msg.text();
 
             if (text.starts_with("/sub ")) {
                 auto room = text.substr(6);
@@ -33,6 +33,6 @@ int main()
             });
         });
 
-    sv.listen(4444);
+    sv.listen(8080);
     sv.run();
 }
