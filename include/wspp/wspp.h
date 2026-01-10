@@ -2743,7 +2743,7 @@ namespace wspp {
             }
 
             template<typename TView>
-            void publish_except(std::string_view topic, connection_ptr except_conn, TView view) {
+            void publish_except(connection_ptr except_conn, std::string_view topic, TView view) {
                 auto it = subscriptions.find(std::string(topic));
                 if (it == subscriptions.end()) return;
 

@@ -5,6 +5,16 @@
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![Autobahn](https://img.shields.io/badge/autobahn-passing-brightgreen)
 
+```
+ __      __  _____________________________ 
+/  \    /  \/   _____/\______   \______   \
+\   \/\/   /\_____  \  |     ___/|     ___/
+ \        / /        \ |    |    |    |    
+  \__/\  / /_______  / |____|    |____|    
+       \/          \/                      
+```
+
+
 > **Modern, header-only WebSocket library for C++20**  
 > Build WebSocket clients & servers. RFC Compliant, Async, non-blocking, cross-platform, zero dependencies (optional OpenSSL for WSS).
 
