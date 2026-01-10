@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=5&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: pc9j4aCy2iHa1BaW1AzmZg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: wolj5549bA2Ag9my8jLr3siqXA0=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=5&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: FclCg4yBEsW6Nyb5vBMR3w==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 14cEipueiYyssPMIsQ1+mfa38JI=\r\n\r\n",
    "id": "1.1.5",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "136": 1,
       "178": 1
    },
-   "started": "2026-01-08T16:22:49.303Z",
+   "started": "2026-01-10T01:26:55.599Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             136,
-            "81fe00805fa891d57582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff7582bbff ..."
+            "81fe0080d92fef68f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542f305c542 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "5fa891d5"
+         "d92fef68"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882dd000465dee8"
+            "8882c170544cc298"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "dd000465"
+         "c170544c"
       ]
    ]
 }

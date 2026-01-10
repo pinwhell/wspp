@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=10&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: Cz7tVKHClfcMn1jbRjtMYQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: I6x9XOAxlCo/fM9EuaaIMgPW630=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=10&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: VJb8Zdr/gnP0F52fsfON7A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: lpGNB2BrIcyEaTBt1jRmpR4fgiE=\r\n\r\n",
    "id": "1.2.2",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "131": 1,
       "179": 1
    },
-   "started": "2026-01-08T16:22:49.323Z",
+   "started": "2026-01-10T01:26:55.618Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             131,
-            "82fd3124b1fccfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda4f02cfda ..."
+            "82fdb919bd8347e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7437d47e7 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "3124b1fc"
+         "b919bd83"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "88827fabe3277c43"
+            "88822dd1d9b12e39"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "7fabe327"
+         "2dd1d9b1"
       ]
    ]
 }
