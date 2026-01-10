@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=3&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 8z8Y/5cM1TD/xwX8nwu6Kg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: eUY++g/RnBsmiBw1HTdz7CuzQKQ=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=3&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: sI450YRPsFmqQeP5RL6f6w==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: MpfT2AYgUz2cx9WOBarYy2HAJUM=\r\n\r\n",
    "id": "1.1.3",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "134": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:30:50.590Z",
+   "started": "2026-01-10T01:43:44.415Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             134,
-            "81fe007e52907f7678ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c78ba555c ..."
+            "81fe007edf5d286ef5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244f5770244 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "52907f76"
+         "df5d286e"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "888237f1e46e3419"
+            "8882b511f7ebb6f9"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "37f1e46e"
+         "b511f7eb"
       ]
    ]
 }

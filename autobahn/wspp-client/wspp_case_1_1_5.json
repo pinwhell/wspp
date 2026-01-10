@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=5&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: BA2bNDOSFNvxpog/9qcxkQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 5pyfbkq62eFlKAQkF+Njxs8gfAs=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=5&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: E8oa+qUemitAtOV8P5QlrA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: lMsuMYvhiCKsuXEEWJXEun2+fRo=\r\n\r\n",
    "id": "1.1.5",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "136": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:30:50.594Z",
+   "started": "2026-01-10T01:43:44.420Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             136,
-            "81fe0080c5490c74ef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265eef63265e ..."
+            "81fe0080e18b33b5cba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199fcba1199f ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "c5490c74"
+         "e18b33b5"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "888289efc1538a07"
+            "888279161fed7afe"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "89efc153"
+         "79161fed"
       ]
    ]
 }

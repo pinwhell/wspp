@@ -8,7 +8,7 @@
    "createWirelog": true,
    "description": "Send fragmented binary message message with message payload of length 4 * 2**20 (4M). Sent out in fragments of 256.",
    "droppedByMe": false,
-   "duration": 102,
+   "duration": 112,
    "expectation": "Receive echo'ed binary message (with payload as sent).",
    "expected": {},
    "expectedClose": {
@@ -19,8 +19,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: 31x7bJna7I1VqZhevgX2fQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: OtVDpqRsqoKw87IjH4VGhFq+F3M=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: az11GpnWRHL+HA8yplRJMg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: yba8VYK/7ynxUJVuIQ5u5q58CzQ=\r\n\r\n",
    "id": "9.4.2",
    "isServer": false,
    "localCloseCode": 1000,
@@ -38,12 +38,11 @@
    },
    "rxOctetStats": {
       "4": 1,
+      "10": 1,
       "129": 1,
-      "28800": 1,
-      "36746": 1,
-      "65536": 63
+      "65536": 64
    },
-   "started": "2026-01-10T01:30:45.045Z",
+   "started": "2026-01-10T01:43:38.779Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 16384,
@@ -90,7 +89,7 @@
          8,
          true,
          0,
-         "56cbf403",
+         "7b90c8d0",
          null,
          null,
          false
@@ -99,7 +98,7 @@
          "TO",
          [
             8,
-            "888256cbf4035523"
+            "88827b90c8d07878"
          ],
          false
       ],
