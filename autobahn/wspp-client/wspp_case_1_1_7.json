@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=7&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: bk29PL2fKThKE8otFCj7lA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: s3bvBTr5wWGf8kd+exjntV4N7+o=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=7&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: CpcD0RotyFC7aaQXZ2gZKg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: sJjn5ZThOKkuN7WzwOzBSF1e8BA=\r\n\r\n",
    "id": "1.1.7",
    "isServer": true,
    "localCloseCode": 1000,
@@ -56,7 +56,7 @@
       "178": 1,
       "65536": 1
    },
-   "started": "2026-01-10T01:47:23.267Z",
+   "started": "2026-01-10T03:32:18.904Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -118,14 +118,14 @@
          "RO",
          [
             65536,
-            "81ff00000000000100003013dd701a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39f75a1a39 ..."
+            "81ff000000000001000037ecffbf1dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6d5951dc6 ..."
          ]
       ],
       [
          "RO",
          [
             14,
-            "f75a1a39f75a1a39f75a1a39f75a"
+            "d5951dc6d5951dc6d5951dc6d595"
          ]
       ],
       [
@@ -138,7 +138,7 @@
          true,
          0,
          true,
-         "3013dd70"
+         "37ecffbf"
       ],
       [
          "TF",
@@ -166,7 +166,7 @@
          "RO",
          [
             8,
-            "88829c55c35b9fbd"
+            "8882b8ddd7aebb35"
          ]
       ],
       [
@@ -179,7 +179,7 @@
          true,
          0,
          true,
-         "9c55c35b"
+         "b8ddd7ae"
       ]
    ]
 }

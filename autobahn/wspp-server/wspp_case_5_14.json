@@ -21,8 +21,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: xTzNYW+SXP2vJK6hrSfztQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: lr9r+zvRl8ti4a5H+twfErnT0ws=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: 1TJ0J2f200izb3EECyi26Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: uBGuQBWrbaJ1CI1XD9wWu5dV/IE=\r\n\r\n",
    "id": "5.14",
    "isServer": false,
    "localCloseCode": 1000,
@@ -41,7 +41,7 @@
       "4": 1,
       "129": 1
    },
-   "started": "2026-01-10T01:47:06.132Z",
+   "started": "2026-01-10T03:32:01.747Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 1,
@@ -82,7 +82,7 @@
          0,
          false,
          0,
-         "978285b8",
+         "aa15d926",
          null,
          1,
          false
@@ -104,7 +104,7 @@
          1,
          true,
          0,
-         "01e1c9f3",
+         "4a06a001",
          null,
          1,
          false
@@ -125,7 +125,7 @@
          "TO",
          [
             1,
-            "97"
+            "aa"
          ],
          true
       ],
@@ -133,111 +133,7 @@
          "TO",
          [
             1,
-            "82"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "85"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "b8"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "f9"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "ed"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "eb"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "95"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "f4"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "ed"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "eb"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "cc"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "fe"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "ec"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "f0"
+            "15"
          ],
          true
       ],
@@ -253,7 +149,7 @@
          "TO",
          [
             1,
-            "e3"
+            "26"
          ],
          true
       ],
@@ -261,7 +157,7 @@
          "TO",
          [
             1,
-            "eb"
+            "c4"
          ],
          true
       ],
@@ -269,15 +165,7 @@
          "TO",
          [
             1,
-            "ea"
-         ],
-         true
-      ],
-      [
-         "TO",
-         [
-            1,
-            "d6"
+            "7a"
          ],
          true
       ],
@@ -293,7 +181,7 @@
          "TO",
          [
             1,
-            "f2"
+            "0b"
          ],
          true
       ],
@@ -301,7 +189,7 @@
          "TO",
          [
             1,
-            "e4"
+            "c9"
          ],
          true
       ],
@@ -309,7 +197,7 @@
          "TO",
          [
             1,
-            "c1"
+            "7a"
          ],
          true
       ],
@@ -317,7 +205,7 @@
          "TO",
          [
             1,
-            "fb"
+            "b7"
          ],
          true
       ],
@@ -325,7 +213,7 @@
          "TO",
          [
             1,
-            "ed"
+            "52"
          ],
          true
       ],
@@ -333,7 +221,7 @@
          "TO",
          [
             1,
-            "e4"
+            "c3"
          ],
          true
       ],
@@ -341,7 +229,119 @@
          "TO",
          [
             1,
-            "dc"
+            "7b"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "ac"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "47"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "de"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "7c"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "b6"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "48"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "8a"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "65"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "b8"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "5f"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "c6"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "7a"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "b8"
+         ],
+         true
+      ],
+      [
+         "TO",
+         [
+            1,
+            "42"
          ],
          true
       ],
@@ -381,7 +381,7 @@
          8,
          true,
          0,
-         "36399be7",
+         "de0ccb15",
          null,
          null,
          false

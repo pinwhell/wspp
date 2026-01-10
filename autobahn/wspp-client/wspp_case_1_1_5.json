@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=5&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: ZAqx7Q6VA+elpnNBx7VYGg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: VeE+6P9lh8MalKMEXgEUH06xBoA=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=5&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: CfJDNlenTRcQGejbROSA1g==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: Poczlzh12EanNsw32IgMy3OEjAo=\r\n\r\n",
    "id": "1.1.5",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "136": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:47:23.261Z",
+   "started": "2026-01-10T03:32:18.897Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             136,
-            "81fe00806348addb496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1496287f1 ..."
+            "81fe0080c222cf37e808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51de808e51d ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "6348addb"
+         "c222cf37"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "88820a9d4f630975"
+            "8882860750f185ef"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "0a9d4f63"
+         "860750f1"
       ]
    ]
 }

@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=3&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: mVlVdtjue3WTCeEcbHWutw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: AE2HRiWxyGEdsBfHxw14HhwYPNI=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=3&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: nQ1m4P7G8WnHHsKb5XK8vw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: yB4UQ3F8vkHTHdSExylZxIYo+cM=\r\n\r\n",
    "id": "1.1.3",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "134": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:47:23.257Z",
+   "started": "2026-01-10T03:32:18.892Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             134,
-            "81fe007e97f8b040bdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6abdd29a6a ..."
+            "81fe007ea792e1838db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba98db8cba9 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "97f8b040"
+         "a792e183"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882fc0cb0c8ffe4"
+            "8882e84fada5eba7"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "fc0cb0c8"
+         "e84fada5"
       ]
    ]
 }

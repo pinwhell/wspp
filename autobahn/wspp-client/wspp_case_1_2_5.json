@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=13&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: DJPkv9hdLUqJUTRtwpLsEw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: vj8c5jYwy8gNfj9z2teNp6gIySg=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=13&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: VotGdFs/slkOuX+9uXoNCg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: nHu5OpYFZSgn9c/CLkKuwYppFt0=\r\n\r\n",
    "id": "1.2.5",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "136": 1,
       "179": 1
    },
-   "started": "2026-01-10T01:47:23.284Z",
+   "started": "2026-01-10T03:32:18.922Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             136,
-            "82fe008022e40189dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77dc1aff77 ..."
+            "82fe0080f274eeab0c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a10550c8a1055 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "22e40189"
+         "f274eeab"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "88822d8e14702e66"
+            "8882c514c6f4c6fc"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "2d8e1470"
+         "c514c6f4"
       ]
    ]
 }

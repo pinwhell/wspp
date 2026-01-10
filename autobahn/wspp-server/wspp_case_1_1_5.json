@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: M+f8w2WGoDMW5Xz+UrXm9Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 13vtbQ/VABz9Px+Tyq2R1mJdDlg=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: cxsZZfz0prtrc83Xiww79A==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: DTI/QTiJQKvrOZDWwjgMqlYoTMQ=\r\n\r\n",
    "id": "1.1.5",
    "isServer": false,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "129": 1,
       "132": 1
    },
-   "started": "2026-01-10T01:47:05.942Z",
+   "started": "2026-01-10T03:32:01.549Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -96,7 +96,7 @@
          1,
          true,
          0,
-         "80b135f7",
+         "1f3660ac",
          null,
          null,
          false
@@ -105,7 +105,7 @@
          "TO",
          [
             136,
-            "81fe008080b135f7aa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fddaa9b1fdd ..."
+            "81fe00801f3660ac351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86351c4a86 ..."
          ],
          false
       ],
@@ -141,7 +141,7 @@
          8,
          true,
          0,
-         "d0e84842",
+         "cca78b05",
          null,
          null,
          false
@@ -150,7 +150,7 @@
          "TO",
          [
             8,
-            "8882d0e84842d300"
+            "8882cca78b05cf4f"
          ],
          false
       ],

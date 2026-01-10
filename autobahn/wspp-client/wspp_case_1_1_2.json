@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=2&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: dn9hVqjYmmGdSqwCnnYGHQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: RuLp4D049vXEsBe3VwppTbTk6gE=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=2&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: O0idcB/Je/VK8wTzE7TMeQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: o54ZPYGBgmAfWf7ImWOCqFJLEXY=\r\n\r\n",
    "id": "1.1.2",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "131": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:47:23.256Z",
+   "started": "2026-01-10T03:32:18.890Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             131,
-            "81fd88f2e745a2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8cd6fa2d8 ..."
+            "81fd0202661728284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d28284c3d2828 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "88f2e745"
+         "02026617"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "888223935232207b"
+            "8882b831a814bbd9"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "23935232"
+         "b831a814"
       ]
    ]
 }

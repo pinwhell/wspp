@@ -22,8 +22,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: j6UtsE97/lx+b28p9rYr+w==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ZtSXmHbHbiHnUwtiFiJ0Acc9Z5A=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: NkFjqizinLxM2z9pmC+AHw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: 8juLygVb9WkErgfhYiaOqXJmxOk=\r\n\r\n",
    "id": "6.13.1",
    "isServer": false,
    "localCloseCode": 1000,
@@ -42,7 +42,7 @@
       "4": 1,
       "129": 1
    },
-   "started": "2026-01-10T01:47:15.279Z",
+   "started": "2026-01-10T03:32:10.894Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -83,7 +83,7 @@
          1,
          true,
          0,
-         "797b7047",
+         "3fd36288",
          null,
          null,
          false
@@ -92,7 +92,7 @@
          "TO",
          [
             68,
-            "81be797b7047b95bb167bb5bb367bd5bb567bf5bb767b15bb967b35bbb67b55bbd67b75bbf67a95ba167ab5ba367ad5ba567af5ba767a15ba967a35bab67a55b ..."
+            "81be3fd36288fff3a3a8fdf3a1a8fbf3a7a8f9f3a5a8f7f3aba8f5f3a9a8f3f3afa8f1f3ada8eff3b3a8edf3b1a8ebf3b7a8e9f3b5a8e7f3bba8e5f3b9a8e3f3 ..."
          ],
          false
       ],
@@ -128,7 +128,7 @@
          8,
          true,
          0,
-         "eb3352b1",
+         "25967979",
          null,
          null,
          false
@@ -137,7 +137,7 @@
          "TO",
          [
             8,
-            "8882eb3352b1e8db"
+            "888225967979267e"
          ],
          false
       ]
