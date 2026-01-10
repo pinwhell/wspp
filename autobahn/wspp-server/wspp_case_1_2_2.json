@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: XZaLQ1dR3T233TJsBp+7Dw==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: Huner1DzU5OXo6u66eG1cPS0SXM=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: B83siT5ryqvnS5DDaEso0Q==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: PPY0S5bY1kBVQ8Id+VfGvrdfvb4=\r\n\r\n",
    "id": "1.2.2",
    "isServer": false,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "127": 1,
       "129": 1
    },
-   "started": "2026-01-10T01:43:27.075Z",
+   "started": "2026-01-10T01:47:05.965Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -96,7 +96,7 @@
          2,
          true,
          0,
-         "1d443428",
+         "24424e3e",
          null,
          null,
          false
@@ -105,7 +105,7 @@
          "TO",
          [
             131,
-            "82fd1d443428e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3bacad6e3ba ..."
+            "82fd24424e3edabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabcb0c0dabc ..."
          ],
          false
       ],
@@ -141,7 +141,7 @@
          8,
          true,
          0,
-         "1560059e",
+         "1fb1260f",
          null,
          null,
          false
@@ -150,7 +150,7 @@
          "TO",
          [
             8,
-            "88821560059e1688"
+            "88821fb1260f1c59"
          ],
          false
       ],

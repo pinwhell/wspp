@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=4&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: ABtSyPiRusBkaeaf+QOVZQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: +TXC8RODTQ8K4NOdxpTWOMCG6Fc=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=4&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: 0idshKqO/iRIo1l2Bm1NTA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: YgnakbzuGVShgiNiiB8rEsQeRCY=\r\n\r\n",
    "id": "1.1.4",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "135": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:43:44.417Z",
+   "started": "2026-01-10T01:47:23.259Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             135,
-            "81fe007f867cab92ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8ac5681b8 ..."
+            "81fe007fc0794c6eea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644ea536644 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "867cab92"
+         "c0794c6e"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "8882151780b816ff"
+            "88829232f8d191da"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "151780b8"
+         "9232f8d1"
       ]
    ]
 }

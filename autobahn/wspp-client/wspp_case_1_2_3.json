@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=11&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: tSENUV64EwDhBjpNgjJbCg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: j9r5Q8mwAuUuicJ89zZn2A28I40=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=11&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: amd9Lj3qsRrECTneFosvgg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: CxMU5glLSYoSLmAYjR1KcvtUtqs=\r\n\r\n",
    "id": "1.2.3",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "134": 1,
       "179": 1
    },
-   "started": "2026-01-10T01:43:44.441Z",
+   "started": "2026-01-10T01:47:23.281Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             134,
-            "82fe007e308c3cb5ce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24bce72c24b ..."
+            "82fe007e369d1d86c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378c863e378 ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "308c3cb5"
+         "369d1d86"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "88827e205d2f7dc8"
+            "88823e0286243dea"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "7e205d2f"
+         "3e028624"
       ]
    ]
 }

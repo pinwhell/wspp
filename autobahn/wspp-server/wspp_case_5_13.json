@@ -21,8 +21,8 @@
       "requireClean": false
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: z6pcx5uB94nEkzD3Z4qtAQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: k/tY5S0A+lC0mCklAvMuQphjvfc=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: X0dAVTaMLBfSJW+Kwg50wg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: geLKN2WUz1H235/6xmpyz3Ho210=\r\n\r\n",
    "id": "5.13",
    "isServer": false,
    "localCloseCode": 1000,
@@ -41,7 +41,7 @@
       "4": 1,
       "129": 1
    },
-   "started": "2026-01-10T01:43:27.237Z",
+   "started": "2026-01-10T01:47:06.131Z",
    "trafficStats": null,
    "txFrameStats": {
       "0": 1,
@@ -84,7 +84,7 @@
          0,
          false,
          0,
-         "db5e320b",
+         "af7fa09f",
          null,
          null,
          true
@@ -93,7 +93,7 @@
          "TO",
          [
             30,
-            "0098db5e320bb5315c26b8315c7fb230476aaf375d65fb2e5372b731536f"
+            "0098af7fa09fc110ceb2cc10ceebc611d5fedb16cff18f0fc1e6c310c1fb"
          ],
          true
       ],
@@ -106,7 +106,7 @@
          1,
          true,
          0,
-         "c112fa67",
+         "b1677107",
          null,
          null,
          true
@@ -119,7 +119,7 @@
          "TO",
          [
             19,
-            "818dc112fa678977960bae3eda10ae609603e0"
+            "818db1677107f9021d6bde4b5170de151d6390"
          ],
          true
       ],
@@ -151,7 +151,7 @@
          8,
          true,
          0,
-         "0fa9f7f6",
+         "9b2ee389",
          null,
          null,
          false
@@ -160,7 +160,7 @@
          "TO",
          [
             8,
-            "88820fa9f7f60c41"
+            "88829b2ee38998c6"
          ],
          false
       ]

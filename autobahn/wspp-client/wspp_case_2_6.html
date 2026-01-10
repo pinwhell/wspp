@@ -202,7 +202,7 @@ pre.wirelog_tcp_closed_by_peer {color: #fff; margin: 0; background-color: #000; 
       <center><a href="https://autobahn-testsuite.readthedocs.io/" title="Autobahn WebSocket Testsuite"><img src="https://autobahn-testsuite.readthedocs.io/en/latest/_static/img/ws_protocol_test_report.png"          border="0" width="820" height="46" alt="Autobahn WebSocket Testsuite Report"></img></a></center>
       <center><a href="https://autobahn-testsuite.readthedocs.io/"           title="Autobahn WebSocket">          <img src="https://autobahn-testsuite.readthedocs.io/en/latest/_static/img/ws_protocol_test_report_autobahn.png" border="0" width="300" height="68" alt="Autobahn WebSocket">                 </img></a></center>
       <br/>
-      <p class="case case_ok">wspp - <span style="font-size: 1.3em;"><b>Case 2.6</b></span> : Pass - <span style="font-size: 0.9em;"><b>19</b> ms @ 2026-01-10T01:43:44.478Z</a></p>
+      <p class="case case_ok">wspp - <span style="font-size: 1.3em;"><b>Case 2.6</b></span> : Pass - <span style="font-size: 0.9em;"><b>19</b> ms @ 2026-01-10T01:47:23.319Z</a></p>
       <p class="case_text_block case_desc"><b>Case Description</b><br/><br/>Send ping with binary payload of 125 octets, send in octet-wise chops.</p>
       <p class="case_text_block case_expect"><b>Case Expectation</b><br/><br/>Pong with payload echo'ed is sent in reply to Ping. Implementations must be TCP clean. Clean close with normal code.</p>
 
@@ -218,14 +218,14 @@ pre.wirelog_tcp_closed_by_peer {color: #fff; margin: 0; background-color: #000; 
 Host: 127.0.0.1:9001
 Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Key: gZz6Qr1+xTYio+NQOx5/zw==
+Sec-WebSocket-Key: nt74v5ax36aD06fEKa+I5Q==
 Sec-WebSocket-Version: 13</pre>
       <pre class="http_dump">HTTP/1.1 101 Switching Protocols
 Server: AutobahnTestSuite/25.10.1-0.10.9
 X-Powered-By: AutobahnPython/0.10.9
 Upgrade: WebSocket
 Connection: Upgrade
-Sec-WebSocket-Accept: d1oVK8OdIlyCyUIomLu+wtchjek=</pre>
+Sec-WebSocket-Accept: nTE9Zy3EJmZ9cW2vPL/oAe57zCA=</pre>
       <br/><hr/>
       <h2>Closing Behavior</h2>
       <table>
@@ -413,16 +413,16 @@ Sec-WebSocket-Accept: d1oVK8OdIlyCyUIomLu+wtchjek=</pre>
          <pre class="wirelog_tx_octets_sync">128 TX OCTETS: fe</pre>
          <pre class="wirelog_tx_octets_sync">129 TX OCTETS: fe</pre>
          <pre class="wirelog_tx_octets_sync">130 TX OCTETS: fe</pre>
-         <pre class="wirelog_rx_octets">131 RX OCTETS: 8afd0d37350ff3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1f3c9cbf1</pre>
-         <pre class="wirelog_rx_octets">               f3c9cbf1f3c9cbf1f3c9cbf1f3c9 ...</pre>
-         <pre class="wirelog_rx_frame">132 RX FRAME : OPCODE=10, FIN=True, RSV=0, PAYLOAD-LEN=125, MASKED=True, MASK=3064333733353066</pre>
+         <pre class="wirelog_rx_octets">131 RX OCTETS: 8afd4ac3a20cb43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2b43d5cf2</pre>
+         <pre class="wirelog_rx_octets">               b43d5cf2b43d5cf2b43d5cf2b43d ...</pre>
+         <pre class="wirelog_rx_frame">132 RX FRAME : OPCODE=10, FIN=True, RSV=0, PAYLOAD-LEN=125, MASKED=True, MASK=3461633361323063</pre>
          <pre class="wirelog_rx_frame">               0xfefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefe</pre>
          <pre class="wirelog_rx_frame">               fefefefefefefefefefefefefefefe ...</pre>
          <pre class="wirelog_tx_frame">133 TX FRAME : OPCODE=8, FIN=True, RSV=0, PAYLOAD-LEN=2, MASK=None, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
          <pre class="wirelog_tx_frame">               0x03e8</pre>
          <pre class="wirelog_tx_octets">134 TX OCTETS: 880203e8</pre>
-         <pre class="wirelog_rx_octets">135 RX OCTETS: 88826baf04076847</pre>
-         <pre class="wirelog_rx_frame">136 RX FRAME : OPCODE=8, FIN=True, RSV=0, PAYLOAD-LEN=2, MASKED=True, MASK=3662616630343037</pre>
+         <pre class="wirelog_rx_octets">135 RX OCTETS: 88820a7976300991</pre>
+         <pre class="wirelog_rx_frame">136 RX FRAME : OPCODE=8, FIN=True, RSV=0, PAYLOAD-LEN=2, MASKED=True, MASK=3061373937363330</pre>
          <pre class="wirelog_rx_frame">               0x03e8</pre>
          <pre class="wirelog_tcp_closed_by_me">137 TCP DROPPED BY ME</pre>
       </div>
