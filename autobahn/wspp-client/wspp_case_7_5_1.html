@@ -202,7 +202,7 @@ pre.wirelog_tcp_closed_by_peer {color: #fff; margin: 0; background-color: #000; 
       <center><a href="https://autobahn-testsuite.readthedocs.io/" title="Autobahn WebSocket Testsuite"><img src="https://autobahn-testsuite.readthedocs.io/en/latest/_static/img/ws_protocol_test_report.png"          border="0" width="820" height="46" alt="Autobahn WebSocket Testsuite Report"></img></a></center>
       <center><a href="https://autobahn-testsuite.readthedocs.io/"           title="Autobahn WebSocket">          <img src="https://autobahn-testsuite.readthedocs.io/en/latest/_static/img/ws_protocol_test_report_autobahn.png" border="0" width="300" height="68" alt="Autobahn WebSocket">                 </img></a></center>
       <br/>
-      <p class="case case_ok">wspp - <span style="font-size: 1.3em;"><b>Case 7.5.1</b></span> : Pass - <span style="font-size: 0.9em;"><b>1</b> ms @ 2026-01-10T01:27:05.064Z</a></p>
+      <p class="case case_ok">wspp - <span style="font-size: 1.3em;"><b>Case 7.5.1</b></span> : Pass - <span style="font-size: 0.9em;"><b>0</b> ms @ 2026-01-10T01:28:42.824Z</a></p>
       <p class="case_text_block case_desc"><b>Case Description</b><br/><br/>Send a close frame with invalid UTF8 payload</p>
       <p class="case_text_block case_expect"><b>Case Expectation</b><br/><br/>Clean close with protocol error or invalid utf8 code or dropped TCP.</p>
 
@@ -218,14 +218,14 @@ pre.wirelog_tcp_closed_by_peer {color: #fff; margin: 0; background-color: #000; 
 Host: 127.0.0.1:9001
 Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Key: 7tNmF+cq5P9zt3nxRL/k5Q==
+Sec-WebSocket-Key: qjo35lNPEtGr7HIkp2DcVQ==
 Sec-WebSocket-Version: 13</pre>
       <pre class="http_dump">HTTP/1.1 101 Switching Protocols
 Server: AutobahnTestSuite/25.10.1-0.10.9
 X-Powered-By: AutobahnPython/0.10.9
 Upgrade: WebSocket
 Connection: Upgrade
-Sec-WebSocket-Accept: Vgc1XnePz6Fqbe4r1sJg2dwmjyY=</pre>
+Sec-WebSocket-Accept: zWEpA5ylGMb3KWIrzxPxLna2Ugk=</pre>
       <br/><hr/>
       <h2>Closing Behavior</h2>
       <table>
@@ -282,8 +282,8 @@ Sec-WebSocket-Accept: Vgc1XnePz6Fqbe4r1sJg2dwmjyY=</pre>
          <pre class="wirelog_tx_frame">               0x03e8cebae1bdb9cf83cebcceb5eda080656469746564</pre>
          <pre class="wirelog_tx_octets">003 TX OCTETS: 881603e8cebae1bdb9cf83cebcceb5eda080656469746564</pre>
          <pre class="wirelog_kill_after">004 FAIL CONNECTION AFTER 1.000000 sec</pre>
-         <pre class="wirelog_rx_octets">005 RX OCTETS: 888278489b2b7ba7</pre>
-         <pre class="wirelog_rx_frame">006 RX FRAME : OPCODE=8, FIN=True, RSV=0, PAYLOAD-LEN=2, MASKED=True, MASK=3738343839623262</pre>
+         <pre class="wirelog_rx_octets">005 RX OCTETS: 8882586dd9765b82</pre>
+         <pre class="wirelog_rx_frame">006 RX FRAME : OPCODE=8, FIN=True, RSV=0, PAYLOAD-LEN=2, MASKED=True, MASK=3538366464393736</pre>
          <pre class="wirelog_rx_frame">               0x03ef</pre>
          <pre class="wirelog_tcp_closed_by_me">007 TCP DROPPED BY ME</pre>
       </div>

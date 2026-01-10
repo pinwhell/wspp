@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: +0BMCuswjLD2iUG2ggLObA==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: R3wVXS5kWwqAoGbkHrTywk4Ptn0=\r\n\r\n",
+   "httpRequest": "GET / HTTP/1.1\r\nUser-Agent: AutobahnTestSuite/25.10.1-0.10.9\r\nHost: 127.0.0.1:9002\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nPragma: no-cache\r\nCache-Control: no-cache\r\nSec-WebSocket-Key: 79ZlL0e1E0BhdUkQWlDnUg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: jnMSN0Fjh3hyqTF3TOdNb6r94Ac=\r\n\r\n",
    "id": "1.2.2",
    "isServer": false,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "127": 1,
       "129": 1
    },
-   "started": "2026-01-10T01:26:38.455Z",
+   "started": "2026-01-10T01:28:16.218Z",
    "trafficStats": null,
    "txFrameStats": {
       "2": 1,
@@ -96,7 +96,7 @@
          2,
          true,
          0,
-         "99cd6a3b",
+         "9071718c",
          null,
          null,
          false
@@ -105,7 +105,7 @@
          "TO",
          [
             131,
-            "82fd99cd6a3b673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c5673394c56733 ..."
+            "82fd9071718c6e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f8f726e8f ..."
          ],
          false
       ],
@@ -141,7 +141,7 @@
          8,
          true,
          0,
-         "4fdfa5b5",
+         "cb4c719d",
          null,
          null,
          false
@@ -150,7 +150,7 @@
          "TO",
          [
             8,
-            "88824fdfa5b54c37"
+            "8882cb4c719dc8a4"
          ],
          false
       ],

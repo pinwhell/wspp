@@ -27,8 +27,8 @@
       "requireClean": true
    },
    "failedByMe": false,
-   "httpRequest": "GET /runCase?case=3&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: iWXEOH4HNj8L+jUb/Lbspg==\r\nSec-WebSocket-Version: 13\r\n\r\n",
-   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: e5/H4lnufX6yD++RrXNaP4KDC2A=\r\n\r\n",
+   "httpRequest": "GET /runCase?case=3&agent=wspp HTTP/1.1\r\nHost: 127.0.0.1:9001\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: kiC8kftdTxJhzjQUnxYQnQ==\r\nSec-WebSocket-Version: 13\r\n\r\n",
+   "httpResponse": "HTTP/1.1 101 Switching Protocols\r\nServer: AutobahnTestSuite/25.10.1-0.10.9\r\nX-Powered-By: AutobahnPython/0.10.9\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: RT0XBRVOnrFdmHSs+X3mcRPVnsI=\r\n\r\n",
    "id": "1.1.3",
    "isServer": true,
    "localCloseCode": 1000,
@@ -55,7 +55,7 @@
       "134": 1,
       "178": 1
    },
-   "started": "2026-01-10T01:26:55.596Z",
+   "started": "2026-01-10T01:28:33.347Z",
    "trafficStats": null,
    "txFrameStats": {
       "1": 1,
@@ -117,7 +117,7 @@
          "RO",
          [
             134,
-            "81fe007ea3210a07890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d890b202d ..."
+            "81fe007ec59e9d66efb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74cefb4b74c ..."
          ]
       ],
       [
@@ -130,7 +130,7 @@
          true,
          0,
          true,
-         "a3210a07"
+         "c59e9d66"
       ],
       [
          "TF",
@@ -158,7 +158,7 @@
          "RO",
          [
             8,
-            "888281a093c58248"
+            "8882527cd8945194"
          ]
       ],
       [
@@ -171,7 +171,7 @@
          true,
          0,
          true,
-         "81a093c5"
+         "527cd894"
       ]
    ]
 }

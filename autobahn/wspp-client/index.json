@@ -122,7 +122,7 @@
       "12.1.1": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_1_1.json"
       },
@@ -136,7 +136,7 @@
       "12.1.11": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_1_11.json"
       },
@@ -199,7 +199,7 @@
       "12.1.3": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_1_3.json"
       },
@@ -409,7 +409,7 @@
       "12.3.14": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_3_14.json"
       },
@@ -451,7 +451,7 @@
       "12.3.3": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_3_3.json"
       },
@@ -472,7 +472,7 @@
       "12.3.6": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 2,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_3_6.json"
       },
@@ -507,14 +507,14 @@
       "12.4.10": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 7,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_4_10.json"
       },
       "12.4.11": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 2,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_4_11.json"
       },
@@ -542,7 +542,7 @@
       "12.4.15": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_4_15.json"
       },
@@ -556,7 +556,7 @@
       "12.4.17": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 2,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_4_17.json"
       },
@@ -584,7 +584,7 @@
       "12.4.4": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_4_4.json"
       },
@@ -612,7 +612,7 @@
       "12.4.8": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 6,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_4_8.json"
       },
@@ -661,7 +661,7 @@
       "12.5.14": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 2,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_5_14.json"
       },
@@ -675,14 +675,14 @@
       "12.5.16": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_5_16.json"
       },
       "12.5.17": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 2,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_12_5_17.json"
       },
@@ -794,7 +794,7 @@
       "13.1.15": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_1_15.json"
       },
@@ -808,7 +808,7 @@
       "13.1.17": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_1_17.json"
       },
@@ -969,7 +969,7 @@
       "13.2.5": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_2_5.json"
       },
@@ -1011,7 +1011,7 @@
       "13.3.10": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_3_10.json"
       },
@@ -1032,14 +1032,14 @@
       "13.3.13": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_3_13.json"
       },
       "13.3.14": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_3_14.json"
       },
@@ -1116,7 +1116,7 @@
       "13.3.8": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_3_8.json"
       },
@@ -1130,7 +1130,7 @@
       "13.4.1": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_4_1.json"
       },
@@ -1158,7 +1158,7 @@
       "13.4.13": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_4_13.json"
       },
@@ -1179,7 +1179,7 @@
       "13.4.16": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_4_16.json"
       },
@@ -1193,7 +1193,7 @@
       "13.4.18": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_4_18.json"
       },
@@ -1235,7 +1235,7 @@
       "13.4.7": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_4_7.json"
       },
@@ -1291,7 +1291,7 @@
       "13.5.14": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_5_14.json"
       },
@@ -1312,14 +1312,14 @@
       "13.5.17": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_5_17.json"
       },
       "13.5.18": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_5_18.json"
       },
@@ -1361,7 +1361,7 @@
       "13.5.7": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_5_7.json"
       },
@@ -1438,14 +1438,14 @@
       "13.6.17": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 2,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_6_17.json"
       },
       "13.6.18": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_6_18.json"
       },
@@ -1473,7 +1473,7 @@
       "13.6.5": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_6_5.json"
       },
@@ -1508,7 +1508,7 @@
       "13.7.1": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_7_1.json"
       },
@@ -1522,21 +1522,21 @@
       "13.7.11": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 3,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_7_11.json"
       },
       "13.7.12": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 3,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_7_12.json"
       },
       "13.7.13": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_7_13.json"
       },
@@ -1620,7 +1620,7 @@
       "13.7.9": {
          "behavior": "UNIMPLEMENTED",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_13_7_9.json"
       },
@@ -1634,14 +1634,14 @@
       "2.10": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 3,
+         "duration": 4,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_2_10.json"
       },
       "2.11": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 17,
+         "duration": 16,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_2_11.json"
       },
@@ -1704,7 +1704,7 @@
       "3.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1002,
          "reportfile": "wspp_case_3_1.json"
       },
@@ -1788,7 +1788,7 @@
       "4.2.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 4,
+         "duration": 1,
          "remoteCloseCode": 1002,
          "reportfile": "wspp_case_4_2_1.json"
       },
@@ -1816,7 +1816,7 @@
       "4.2.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 5,
+         "duration": 3,
          "remoteCloseCode": 1002,
          "reportfile": "wspp_case_4_2_5.json"
       },
@@ -1900,7 +1900,7 @@
       "5.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1002,
          "reportfile": "wspp_case_5_2.json"
       },
@@ -1935,7 +1935,7 @@
       "5.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 4,
+         "duration": 5,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_5_6.json"
       },
@@ -1991,14 +1991,14 @@
       "6.10.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_10_2.json"
       },
       "6.10.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_10_3.json"
       },
@@ -2047,21 +2047,21 @@
       "6.12.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_12_2.json"
       },
       "6.12.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_12_3.json"
       },
       "6.12.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_12_4.json"
       },
@@ -2124,14 +2124,14 @@
       "6.13.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_13_5.json"
       },
       "6.14.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_14_1.json"
       },
@@ -2145,7 +2145,7 @@
       "6.14.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_14_2.json"
       },
@@ -2159,14 +2159,14 @@
       "6.14.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_14_4.json"
       },
       "6.14.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_14_5.json"
       },
@@ -2194,7 +2194,7 @@
       "6.14.9": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_14_9.json"
       },
@@ -2215,7 +2215,7 @@
       "6.16.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_16_2.json"
       },
@@ -2257,7 +2257,7 @@
       "6.17.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_17_5.json"
       },
@@ -2271,14 +2271,14 @@
       "6.18.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_18_2.json"
       },
       "6.18.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_18_3.json"
       },
@@ -2292,7 +2292,7 @@
       "6.18.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_18_5.json"
       },
@@ -2306,14 +2306,14 @@
       "6.19.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_19_2.json"
       },
       "6.19.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_19_3.json"
       },
@@ -2369,21 +2369,21 @@
       "6.20.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_20_2.json"
       },
       "6.20.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_20_3.json"
       },
       "6.20.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_20_4.json"
       },
@@ -2404,14 +2404,14 @@
       "6.20.7": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_20_7.json"
       },
       "6.21.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_21_1.json"
       },
@@ -2432,14 +2432,14 @@
       "6.21.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_21_4.json"
       },
       "6.21.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_21_5.json"
       },
@@ -2460,7 +2460,7 @@
       "6.21.8": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_21_8.json"
       },
@@ -2593,21 +2593,21 @@
       "6.22.26": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 10,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_6_22_26.json"
       },
       "6.22.27": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 6,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_6_22_27.json"
       },
       "6.22.28": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 7,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_6_22_28.json"
       },
@@ -2838,7 +2838,7 @@
       "6.6.10": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_6_10.json"
       },
@@ -2859,14 +2859,14 @@
       "6.6.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_6_3.json"
       },
       "6.6.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_6_4.json"
       },
@@ -2894,7 +2894,7 @@
       "6.6.8": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_6_6_8.json"
       },
@@ -2992,14 +2992,14 @@
       "7.1.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_1_3.json"
       },
       "7.1.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_1_4.json"
       },
@@ -3020,7 +3020,7 @@
       "7.13.1": {
          "behavior": "INFORMATIONAL",
          "behaviorClose": "INFORMATIONAL",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_13_1.json"
       },
@@ -3048,7 +3048,7 @@
       "7.3.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_3_3.json"
       },
@@ -3069,14 +3069,14 @@
       "7.3.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1002,
          "reportfile": "wspp_case_7_3_6.json"
       },
       "7.5.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1007,
          "reportfile": "wspp_case_7_5_1.json"
       },
@@ -3111,21 +3111,21 @@
       "7.7.13": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_7_13.json"
       },
       "7.7.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_7_2.json"
       },
       "7.7.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 0,
+         "duration": 1,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_7_7_3.json"
       },
@@ -3209,7 +3209,7 @@
       "7.9.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 0,
          "remoteCloseCode": 1002,
          "reportfile": "wspp_case_7_9_6.json"
       },
@@ -3244,42 +3244,42 @@
       "9.1.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 4,
+         "duration": 14,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_1_2.json"
       },
       "9.1.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 39,
+         "duration": 28,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_1_3.json"
       },
       "9.1.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 112,
+         "duration": 114,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_1_4.json"
       },
       "9.1.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 114,
+         "duration": 92,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_1_5.json"
       },
       "9.1.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 198,
+         "duration": 242,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_1_6.json"
       },
       "9.2.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 1,
+         "duration": 2,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_2_1.json"
       },
@@ -3300,42 +3300,42 @@
       "9.2.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 29,
+         "duration": 31,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_2_4.json"
       },
       "9.2.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 92,
+         "duration": 81,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_2_5.json"
       },
       "9.2.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 175,
+         "duration": 204,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_2_6.json"
       },
       "9.3.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 352,
+         "duration": 350,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_3_1.json"
       },
       "9.3.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 136,
+         "duration": 140,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_3_2.json"
       },
       "9.3.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 51,
+         "duration": 52,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_3_3.json"
       },
@@ -3349,7 +3349,7 @@
       "9.3.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 50,
+         "duration": 52,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_3_5.json"
       },
@@ -3370,56 +3370,56 @@
       "9.3.8": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 33,
+         "duration": 34,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_3_8.json"
       },
       "9.3.9": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 46,
+         "duration": 55,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_3_9.json"
       },
       "9.4.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 309,
+         "duration": 307,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_1.json"
       },
       "9.4.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 89,
+         "duration": 93,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_2.json"
       },
       "9.4.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 38,
+         "duration": 37,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_3.json"
       },
       "9.4.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 43,
+         "duration": 47,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_4.json"
       },
       "9.4.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 23,
+         "duration": 21,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_5.json"
       },
       "9.4.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 19,
+         "duration": 18,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_6.json"
       },
@@ -3433,7 +3433,7 @@
       "9.4.8": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 19,
+         "duration": 20,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_4_8.json"
       },
@@ -3447,7 +3447,7 @@
       "9.5.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 339,
+         "duration": 342,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_5_1.json"
       },
@@ -3489,28 +3489,28 @@
       "9.6.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 254,
+         "duration": 242,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_6_1.json"
       },
       "9.6.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 108,
+         "duration": 102,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_6_2.json"
       },
       "9.6.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 55,
+         "duration": 54,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_6_3.json"
       },
       "9.6.4": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 33,
+         "duration": 31,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_6_4.json"
       },
@@ -3531,21 +3531,21 @@
       "9.7.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 149,
+         "duration": 151,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_7_1.json"
       },
       "9.7.2": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 82,
+         "duration": 80,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_7_2.json"
       },
       "9.7.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 43,
+         "duration": 42,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_7_3.json"
       },
@@ -3566,14 +3566,14 @@
       "9.7.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 112,
+         "duration": 111,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_7_6.json"
       },
       "9.8.1": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 72,
+         "duration": 73,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_8_1.json"
       },
@@ -3587,7 +3587,7 @@
       "9.8.3": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 42,
+         "duration": 43,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_8_3.json"
       },
@@ -3601,14 +3601,14 @@
       "9.8.5": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 55,
+         "duration": 54,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_8_5.json"
       },
       "9.8.6": {
          "behavior": "OK",
          "behaviorClose": "OK",
-         "duration": 98,
+         "duration": 97,
          "remoteCloseCode": 1000,
          "reportfile": "wspp_case_9_8_6.json"
       }
